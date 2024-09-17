@@ -1,0 +1,8 @@
+node_modules
+documentation
+dist
+yarn.lock
+data
+package-lock.json
+/.env
+dump
