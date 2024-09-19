@@ -12,7 +12,6 @@ import { AuthProvider } from "./auth.model";
 import { AuthService } from "./auth.service";
 import { JwtStrategy } from "./jwt.strategy";
 import { LocalStrategy } from "./local.strategy";
-
 import * as APP_CONFIG from "@app/app.config";
 import { UserProvider } from "../user/entities/user.entity";
 import { UserService } from "../user/user.service";

@@ -34,6 +34,8 @@ import { MediaModule } from "./modules/media/media.module";
 import { SettingModule } from "./modules/settting/setting.module";
 import { FormModule } from "./modules/form/form.module";
 import { FeedbackModule } from "./modules/feedback/feedback.module";
+import { QuestionModule } from "./modules/question/question.module";
+import { StatisticModule } from "./modules/statistic/statistic.module";
 
 @Module({
   imports: [
@@ -57,6 +59,8 @@ import { FeedbackModule } from "./modules/feedback/feedback.module";
     SettingModule,
     FormModule,
     FeedbackModule,
+    QuestionModule,
+    StatisticModule,
   ],
   controllers: [AppController],
   providers: [

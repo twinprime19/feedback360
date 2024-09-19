@@ -33,6 +33,12 @@ export enum PublicState {
   Secret = -1,
 }
 
+// Question type state
+export enum QuestionTypeState {
+  POINT = 0,
+  TEXT = 1,
+}
+
 // comment user state
 export enum UserState {
   TRASH = -1,
@@ -58,6 +64,14 @@ export enum TypeState {
   Image = 0,
   Pdf = 1,
   Signature = 2,
+}
+
+// mối quan hệ
+export enum RelationshipState {
+  SELF = 0,
+  PEER = 1,
+  SUBORDINATE = 2,
+  SENIOR = 3,
 }
 
 export const UPLOAD = {

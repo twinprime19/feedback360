@@ -17,6 +17,8 @@ export class UserSeed {
     const hashPassword = await this.userService.hashPassword("123456");
     const CreateSuperAdminDto: CreateSuperAdminDto = {
       userName: "supperAdmin@gmail.com",
+      emailAddress: "supperAdmin@gmail.com",
+      fullname: "Super Admin",
       password: hashPassword,
       isSuperAdmin: true,
       status: UserStatus.ONLINE,

@@ -21,8 +21,12 @@ export class CreateSuperAdminDto {
 
   @IsString()
   @IsEmail()
-  @IsOptional()
-  email?: string;
+  @IsNotEmpty()
+  emailAddress: string;
+
+  @IsString()
+  @IsNotEmpty()
+  fullname: string;
 
   @IsString()
   @IsOptional()

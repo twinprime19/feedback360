@@ -11,8 +11,14 @@ import {
   IsEmail,
 } from "class-validator";
 
-export class CreateUserDto {
+export class UsersDTO {
+  @ArrayUnique()
+  @ArrayNotEmpty()
+  @IsArray()
+  userIds: string[];
+}
 
+export class CreateUserDto {
   @IsNotEmpty({ message: "username?" })
   @IsDefined()
   @IsString()
@@ -24,13 +30,17 @@ export class CreateUserDto {
   password: string;
 
   @IsString()
-  @IsOptional()
-  fullName: string;
+  @IsNotEmpty()
+  fullname: string;
 
   @IsString()
   @IsEmail()
   @IsOptional()
-  email: string;
+  emailAddress: string;
+
+  @IsString()
+  @IsOptional()
+  position: string;
 
   @IsString()
   @IsOptional()
@@ -41,11 +51,4 @@ export class CreateUserDto {
 
   @IsInt()
   status: number = 1;
-}
-
-export class UsersDTO {
-  @ArrayUnique()
-  @ArrayNotEmpty()
-  @IsArray()
-  userIds: string[];
 }

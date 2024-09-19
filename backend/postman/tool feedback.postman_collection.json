@@ -1,0 +1,1039 @@
+{
+	"info": {
+		"_postman_id": "820b48e4-975e-4f36-bc59-7dbcc0221275",
+		"name": "tool feedback",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16812875"
+	},
+	"item": [
+		{
+			"name": "LOGIN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.clearEnvironmentVariable(\"TOKENFEEDBACK\");\r",
+							"postman.setEnvironmentVariable(\"TOKENFEEDBACK\", data.result.access_token);\r",
+							"pm.environment.unset(\"TOKENFEEDBACK\");\r",
+							"pm.environment.set(\"TOKENFEEDBACK\", data.result.access_token);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"demodemo\",\r\n    \"password\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/auth/login",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CHANGE PASSWORD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"newPassword\":\"123456\",\r\n    \"password\":\"1234567\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/auth/change-password",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"auth",
+						"change-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AUTH TOKEN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/auth/auth-token",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"auth",
+						"auth-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER GET ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_feedback}}/user/63bedf7be1a3720ed20c0893",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"user",
+						"63bedf7be1a3720ed20c0893"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER GET LIST",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_feedback}}/user",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER ADD",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"userName\": \"validator007\",\r\n \"password\": \"123456\",\r\n \"email\": \"timh@gmail.com\",\r\n \"phone\" : \"0987654327\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/user",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER EDIT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fullName\": \"ductai\",\r\n    \"password\": \"123456\",\r\n    \"status\": 1,\r\n    \"email\": \"thaile@gmail.com\",\r\n    \"phone\": \"0987654327\",\r\n    \"avatar\": \"6549b2ce80c213d0efb3c59e\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/user/6549c9a904b4aa3a49870289",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"user",
+						"6549c9a904b4aa3a49870289"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER EDIT STATUS",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"userName\": \"validator2\",\r\n \"password\": \"123456\",\r\n \"isSuperAdmin\" : false,\r\n \"status\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/user/63abe914ca78b6018d729198",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"user",
+						"63abe914ca78b6018d729198"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER DELETE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url_feedback}}/user/63a12bcf2d0bfdc1192aed81",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"user",
+						"63a12bcf2d0bfdc1192aed81"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER DELETE MANY",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"categoryIds\": [\"64e80de881e7beb62135d181\", \"64e80ca81d090f54b5a43c33\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/user",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SETTTING GET",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/setting",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"setting"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SETTTING EDIT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"web\": [\r\n        {\r\n            \"name\": \"page_size\",\r\n            \"value\": \"90\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/setting",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"setting"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET LIST PDF",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_feedback}}/media/manager",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"media",
+						"manager"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "Luong-2023",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET LIST SIGNATURE PDF",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_feedback}}/media/manager/signature",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"media",
+						"manager",
+						"signature"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MEDIA GET ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_feedback}}/media/manager/654c5b5e83dc02b50d6f5675",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"media",
+						"manager",
+						"654c5b5e83dc02b50d6f5675"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPLOAD AVATAR",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "thumbnail",
+							"type": "file",
+							"src": "image/GOGO.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url_feedback}}/media",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"media"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPLOAD SIGNATURE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "thumbnail",
+							"type": "file",
+							"src": "image/UTH.TV.Logo.png"
+						},
+						{
+							"key": "id",
+							"value": "655f0894689a795619b50bd2",
+							"type": "text"
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "signed",
+							"value": "false",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url_feedback}}/media/signature",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"media",
+						"signature"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPLOAD PDF",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "zinisoft/Luong-2023-DevBackend.pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url_feedback}}/media/pdf",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"media",
+						"pdf"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPLOAD PDF HOME",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "zinisoft/Luong-2023-DevBackend.pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url_feedback}}/media/upload",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"media",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPLOAD MEDIA MULTIPLE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "thumbnail",
+							"type": "file",
+							"src": [
+								"image/m10.jpg",
+								"image/UTH.TV.Logo.png"
+							]
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url_feedback}}/media/multiple",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"media",
+						"multiple"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MEDIA EDIT PDF SIGNED",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "CV/QuangHuy-CV-VI.pdf"
+						},
+						{
+							"key": "signedBy",
+							"value": "647d70a57a80a288a9d3e3bf",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url_feedback}}/media/pdf/654b4ed5f14b261f8ff22801",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"media",
+						"pdf",
+						"654b4ed5f14b261f8ff22801"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MEDIA EDIT SIGNATURE",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "thumbnail",
+							"type": "file",
+							"src": "TAI/img/3b72599e2d94e1cab885.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url_feedback}}/media/signature/6552050a4205dc5338ff6355",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"media",
+						"signature",
+						"6552050a4205dc5338ff6355"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MEDIA DELETE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_feedback}}/media/manager/6549bf8be555418d3bc9832e",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"media",
+						"manager",
+						"6549bf8be555418d3bc9832e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MEDIA DELETE MANY",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"categoryIds\": [\"64e80de881e7beb62135d181\", \"64e80ca81d090f54b5a43c33\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/media/manager",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"media",
+						"manager"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "TOKEN",
+			"value": ""
+		}
+	]
+}

@@ -1,16 +1,32 @@
 /**
- * @file Feedback model
- * @module module/feedback/model
+ * @file Statistic model
+ * @module module/Statistic/model
  */
 
 import { AutoIncrementID } from "@typegoose/auto-increment";
 import { prop, plugin, modelOptions, Ref } from "@typegoose/typegoose";
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import {
+  IsDefined,
+  IsIn,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from "class-validator";
 import { generalAutoIncrementIDConfig } from "@app/constants/increment.constant";
 import { getProviderByTypegooseClass } from "@app/transformers/model.transformer";
 import { mongoosePaginate } from "@app/utils/paginate";
 import { User } from "../user/entities/user.entity";
 import { Form } from "../form/form.model";
+import { Feedback } from "../feedback/feedback.model";
+import { RelationshipState } from "@app/constants/biz.constant";
+
+export const RELATIONSHIP_STATES = [
+  RelationshipState.SELF,
+  RelationshipState.PEER,
+  RelationshipState.SUBORDINATE,
+  RelationshipState.SENIOR,
+] as const;
 
 @plugin(mongoosePaginate)
 @plugin(AutoIncrementID, generalAutoIncrementIDConfig)
@@ -22,9 +38,12 @@ import { Form } from "../form/form.model";
     },
   },
 })
-export class Feedback {
+export class Statistic {
   @prop({ unique: true })
   id: number;
+
+  @prop({ ref: () => Feedback, required: true })
+  feedback: Ref<Feedback>; // mẫu feedback
 
   @prop({ ref: () => Form, required: true })
   form: Ref<Form>; // mẫu form
@@ -33,13 +52,36 @@ export class Feedback {
   user: Ref<User>; // nhân viên được đánh giá
 
   @IsOptional()
-  @prop({ default: [] })
-  assessors: any; // dánh sách người đánh giá
+  @prop({ required: false, default: null })
+  assessor: Ref<User>; // người đánh giá
 
   @IsString()
   @IsNotEmpty()
   @prop({ required: true })
-  time: string; // thời gian tạo form
+  time: string; // thời gian phản hồi
+
+  @IsString()
+  @IsNotEmpty()
+  @prop({ required: true })
+  fullname: string; // họ tên
+
+  @IsString()
+  @IsNotEmpty()
+  @prop({ required: true })
+  position: string; // chức vụ
+
+  @IsIn(RELATIONSHIP_STATES)
+  @IsInt()
+  @IsDefined()
+  @prop({
+    enum: RelationshipState,
+    default: RelationshipState.SELF,
+    index: true,
+  })
+  relationship: RelationshipState;
+
+  @prop({ required: true })
+  result: any; // kêt quả của người đánh giá
 
   @prop({ default: Date.now, immutable: true })
   createdAt?: Date;
@@ -60,7 +102,7 @@ export class Feedback {
   deletedBy: Ref<User>;
 
   // for article aggregate
-  feedbackCount?: number;
+  statisticCount?: number;
 }
 
-export const FeedbackProvider = getProviderByTypegooseClass(Feedback);
+export const StatisticProvider = getProviderByTypegooseClass(Statistic);

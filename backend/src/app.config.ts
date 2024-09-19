@@ -19,8 +19,8 @@ export const APP = {
   URL: "127.0.0.1",
   ADMIN_EMAIL: argv.admin_email || "admin email, e.g. admin@example.com",
   FE_NAME: "Tool feedback",
-  FE_URL: "http://tool-feedback-api.test.zinisoft.net",
-  STATIC_URL: "http://tool-feedback-api.test.zinisoft.net",
+  FE_URL: "http://feedback-api.test.zinisoft.net",
+  STATIC_URL: "http://feedback-api.test.zinisoft.net",
 };
 
 export const PROJECT = {
@@ -37,8 +37,8 @@ export const CROSS_DOMAIN = {
     "http://localhost",
     "http://localhost:5173",
     "http://localhost:3000",
-    "http://tool-feedback.test.zinisoft.net",
-    "http://tool-feedback-api.test.zinisoft.net",
+    "http://feedback.test.zinisoft.net",
+    "http://feedback-api.test.zinisoft.net",
   ],
   allowedReferer: ["zinisoft.net"],
 };

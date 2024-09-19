@@ -1,6 +1,6 @@
 /**
- * @file Feedback dto
- * @module module/Feedback/dto
+ * @file Form dto
+ * @module module/form/dto
  */
 import { IntersectionType } from "@nestjs/mapped-types";
 import {
@@ -12,7 +12,6 @@ import {
   IsNotEmpty,
   IsOptional,
   IsIn,
-  IsNumber,
 } from "class-validator";
 import { Transform } from "class-transformer";
 import { SortType } from "@app/constants/biz.constant";
@@ -20,13 +19,13 @@ import { PaginateOptionDTO } from "@app/models/paginate.model";
 import { KeywordQueryDTO, StatusQueryDTO } from "@app/models/query.model";
 import { unknownToNumber } from "@app/transformers/value.transformer";
 
-export class FeedbackPaginateQueryDTO extends IntersectionType(
+export class FormPaginateQueryDTO extends IntersectionType(
   PaginateOptionDTO,
   KeywordQueryDTO,
   StatusQueryDTO
 ) {
   @IsString()
-  field?: string = "createdAt";
+  field?: string = "updatedAt";
 
   @IsIn([SortType.Asc, SortType.Desc])
   @IsInt()
@@ -36,19 +35,23 @@ export class FeedbackPaginateQueryDTO extends IntersectionType(
   order?: SortType.Asc | SortType.Desc;
 }
 
-export class FeedbacksDTO {
+export class FormsDTO {
   @ArrayUnique()
   @ArrayNotEmpty()
   @IsArray()
-  FeedbackIds: string[];
+  formIds: string[];
 }
 
-export class FeedbackDTO {
+export class FormDTO {
+  @IsString()
   @IsNotEmpty()
-  form: import("mongoose").Types.ObjectId;
+  title: string;
 
-  @IsNotEmpty()
-  user: import("mongoose").Types.ObjectId;
+  @IsOptional()
+  template: any;
 
   createdBy: import("mongoose").Types.ObjectId;
+
+  @IsOptional()
+  updatedBy: import("mongoose").Types.ObjectId;
 }

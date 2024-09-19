@@ -113,8 +113,8 @@ export class UserService {
     if (existedUserName)
       throw `Username "${createUserDto.userName}" is existed!`;
 
-    createUserDto.fullName = createUserDto.fullName
-      ? createUserDto.fullName
+    createUserDto.fullname = createUserDto.fullname
+      ? createUserDto.fullname
       : createUserDto.userName;
 
     let user = await this.userModel.create(createUserDto);
@@ -299,10 +299,10 @@ export class UserService {
 
       user.Password = await this.hashPassword(user.Password);
       let data = {
-        fullName: user.FullName ? user.FullName : user.UserName,
+        fullname: user.FullName ? user.FullName : user.UserName,
         userName: user.UserName,
         password: user.Password,
-        email: user.Email ? user.Email : null,
+        emailAddress: user.Email ? user.Email : null,
         phone: user.Phone ? user.Phone : null,
         status: user.Status ? user.Status : 0,
         createdBy: userInfo._id,

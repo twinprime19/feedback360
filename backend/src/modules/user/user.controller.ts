@@ -71,10 +71,10 @@ export class UserController {
       const trimmed = lodash.trim(filters.keyword);
       const keywordRegExp = new RegExp(trimmed, "i");
       paginateQuery.$or = [
-        { fullName: keywordRegExp },
+        { fullname: keywordRegExp },
         { userName: keywordRegExp },
         { phone: keywordRegExp },
-        { email: keywordRegExp },
+        { emailAddress: keywordRegExp },
       ];
     }
     // status
@@ -126,10 +126,10 @@ export class UserController {
       const trimmed = lodash.trim(filters.keyword);
       const keywordRegExp = new RegExp(trimmed, "i");
       paginateQuery.$or = [
-        { fullName: keywordRegExp },
+        { fullname: keywordRegExp },
         { userName: keywordRegExp },
         { phone: keywordRegExp },
-        { email: keywordRegExp },
+        { emailAddress: keywordRegExp },
       ];
     }
     // status

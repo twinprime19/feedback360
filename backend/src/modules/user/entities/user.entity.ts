@@ -52,11 +52,11 @@ export const SEX_STATES = [
 export class User {
   @IsString()
   @IsNotEmpty()
-  @prop({ required: true, unique: true, index: true })
+  @prop({ required: true, unique: true })
   userName: string;
 
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   @prop({ required: false })
   fullname: string;
 
@@ -67,13 +67,18 @@ export class User {
 
   @IsString()
   @IsEmail()
-  @IsOptional()
-  @prop({ required: false })
+  @IsNotEmpty()
+  @prop({ required: true })
   emailAddress: string;
 
   @IsString()
   @IsOptional()
-  @prop({ required: false })
+  @prop({ required: false, default: "" })
+  position: string;
+
+  @IsString()
+  @IsOptional()
+  @prop({ required: false, default: "" })
   phone: string;
 
   @IsString()

@@ -4,12 +4,13 @@ import {
   IsInt,
   IsOptional,
   IsEmail,
+  IsNotEmpty,
 } from "class-validator";
 
 export class UpdateUserDto {
   @IsString()
-  @IsOptional()
-  fullName: string;
+  @IsNotEmpty()
+  fullname: string;
 
   @IsString()
   @IsOptional()
@@ -17,8 +18,12 @@ export class UpdateUserDto {
 
   @IsString()
   @IsEmail()
+  @IsNotEmpty()
+  emailAddress: string;
+
+  @IsString()
   @IsOptional()
-  email: string;
+  position: string;
 
   @IsString()
   @IsOptional()

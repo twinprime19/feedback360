@@ -7,12 +7,6 @@ import { SexState } from "@app/constants/biz.constant";
 import { IsString, IsNotEmpty } from "class-validator";
 import { User } from "@app/modules/user/entities/user.entity";
 
-export const SEX_STATES = [
-  SexState.FEMALE,
-  SexState.MALE,
-  SexState.ORTHER,
-] as const;
-
 @plugin(mongoosePaginate)
 @modelOptions({
   schemaOptions: {
@@ -33,8 +27,12 @@ export const SEX_STATES = [
 export class Form {
   @IsString()
   @IsNotEmpty()
-  @prop({ required: true, unique: true, index: true })
-  template_id: string;
+  @prop({ required: true })
+  title: string;
+
+  @IsNotEmpty()
+  @prop({ required: true })
+  template: any;
 
   @prop({ default: Date.now, immutable: true })
   createdAt?: Date;
