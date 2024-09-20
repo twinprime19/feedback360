@@ -48,16 +48,16 @@ export class QuestionController {
 
   // get list questions
   @Get()
- // @UseGuards(AdminMaybeGuard)
+  // @UseGuards(AdminMaybeGuard)
   @Responser.paginate()
   @Responser.handle("Get questions")
   async find(
     @Req() req: any,
     @Query(PermissionPipe, ExposePipe) query: QuestionPaginateQueryDTO
   ): Promise<PaginateResult<Question>> {
-    let { page, page_size, field, order, status, ...filters } = query;
+    let { page, page_size, field, order, status, type, ...filters } = query;
     console.log("QUERYDATA", query);
-    let user = await this.userService.findByUserName(req.user.userName);
+    //let user = await this.userService.findByUserName(req.user.userName);
     let setting = await this.settingService.getSetting();
     let pageSize = setting.web.find((item) => item.name === "page_size");
     page_size = Number(pageSize?.value) ?? 100;
@@ -72,6 +72,8 @@ export class QuestionController {
         { description: keywordRegExp },
       ];
     }
+    //filter type point/text
+    if (type) paginateQuery.type = Number(type);
     //filter question have deletedBy = null
     paginateQuery.deletedBy = null;
     // status
@@ -105,7 +107,7 @@ export class QuestionController {
 
   // create question
   @Post()
- // @UseGuards(AdminOnlyGuard)
+  // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Create question")
   createQuestion(
     @Req() req: any,
@@ -116,7 +118,7 @@ export class QuestionController {
 
   // update question
   @Put(":id")
- // @UseGuards(AdminOnlyGuard)
+  // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Update question")
   updateQuestion(
     @Req() req: any,
@@ -128,7 +130,7 @@ export class QuestionController {
 
   // update status question
   @Patch(":id")
- // @UseGuards(AdminOnlyGuard)
+  // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Update question status")
   updateStatus(
     @Req() req: any,
@@ -144,7 +146,7 @@ export class QuestionController {
 
   // delete one question
   @Delete(":id")
- // @UseGuards(AdminOnlyGuard)
+  // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Delete question")
   delQuestion(
     @Req() req: any,
@@ -155,7 +157,7 @@ export class QuestionController {
 
   // delete many questions
   @Delete()
- // @UseGuards(AdminOnlyGuard)
+  // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Delete questions")
   delQuestions(@Req() req: any, @Body() body: QuestionsDTO) {
     return this.questionService.batchDelete(body.questionIds, req.user);

@@ -53,7 +53,7 @@ export class FeedbackController {
   ): Promise<PaginateResult<Feedback>> {
     let { page, page_size, field, order, status, ...filters } = query;
     console.log("QUERYDATA", query);
-    let user = await this.userService.findByUserName(req.user.userName);
+    //let user = await this.userService.findByUserName(req.user.userName);
     let setting = await this.settingService.getSetting();
     let pageSize = setting.web.find((item) => item.name === "page_size");
     page_size = Number(pageSize?.value) ?? 100;

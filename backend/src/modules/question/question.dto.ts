@@ -17,13 +17,18 @@ import {
 import { Transform } from "class-transformer";
 import { SortType } from "@app/constants/biz.constant";
 import { PaginateOptionDTO } from "@app/models/paginate.model";
-import { KeywordQueryDTO, StatusQueryDTO } from "@app/models/query.model";
+import {
+  KeywordQueryDTO,
+  StatusQueryDTO,
+  TypeQueryDTO,
+} from "@app/models/query.model";
 import { unknownToNumber } from "@app/transformers/value.transformer";
 
 export class QuestionPaginateQueryDTO extends IntersectionType(
   PaginateOptionDTO,
   KeywordQueryDTO,
-  StatusQueryDTO
+  StatusQueryDTO,
+  TypeQueryDTO
 ) {
   @IsString()
   field?: string = "updatedAt";
