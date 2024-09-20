@@ -41,7 +41,7 @@ export class StatisticController {
 
   // get list statistics
   @Get()
-  @UseGuards(AdminMaybeGuard)
+ // @UseGuards(AdminMaybeGuard)
   @Responser.paginate()
   @Responser.handle("Get statistics")
   async find(
@@ -98,7 +98,7 @@ export class StatisticController {
 
   // create statistic
   @Post()
-  @UseGuards(AdminOnlyGuard)
+  //@UseGuards(AdminOnlyGuard)
   @Responser.handle("Create statistic")
   createStatistic(
     @Req() req: any,

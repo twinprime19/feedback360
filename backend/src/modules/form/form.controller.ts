@@ -38,7 +38,7 @@ export class FormController {
 
   // get list forms
   @Get()
-  @UseGuards(AdminMaybeGuard)
+ // @UseGuards(AdminMaybeGuard)
   @Responser.paginate()
   @Responser.handle("Get forms")
   async find(
@@ -85,14 +85,14 @@ export class FormController {
 
   // get form
   @Get(":id")
-  @Responser.handle("Get form")
+  //@Responser.handle("Get form")
   findOne(@Param("id") formID: string): Promise<MongooseDoc<Form>> {
     return this.formService.findOne(formID);
   }
 
   // create form
   @Post()
-  @UseGuards(AdminOnlyGuard)
+  //@UseGuards(AdminOnlyGuard)
   @Responser.handle("Create form")
   createForm(@Req() req: any, @Body() form: FormDTO): Promise<Form> {
     return this.formService.create(form, req.user);
@@ -100,7 +100,7 @@ export class FormController {
 
   // update form
   @Put(":id")
-  @UseGuards(AdminOnlyGuard)
+ // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Update form")
   updateForm(
     @Req() req: any,
@@ -112,7 +112,7 @@ export class FormController {
 
   // update status form
   @Patch(":id")
-  @UseGuards(AdminOnlyGuard)
+  //@UseGuards(AdminOnlyGuard)
   @Responser.handle("Update form status")
   updateStatus(
     @Req() req: any,
@@ -124,7 +124,7 @@ export class FormController {
 
   // delete one form
   @Delete(":id")
-  @UseGuards(AdminOnlyGuard)
+ // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Delete form")
   delForm(
     @Req() req: any,
@@ -135,7 +135,7 @@ export class FormController {
 
   // delete many forms
   @Delete()
-  @UseGuards(AdminOnlyGuard)
+ // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Delete forms")
   delForms(@Req() req: any, @Body() body: FormsDTO) {
     return this.formService.batchDelete(body.formIds, req.user);

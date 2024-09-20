@@ -44,7 +44,7 @@ export class FeedbackController {
 
   // get list feedbacks
   @Get()
-  @UseGuards(AdminMaybeGuard)
+  // @UseGuards(AdminMaybeGuard)
   @Responser.paginate()
   @Responser.handle("Get feedbacks")
   async find(
@@ -98,7 +98,7 @@ export class FeedbackController {
 
   // create feedback
   @Post()
-  @UseGuards(AdminOnlyGuard)
+  // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Create feedback")
   createFeedback(
     @Req() req: any,
