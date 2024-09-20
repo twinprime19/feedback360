@@ -16,7 +16,8 @@ import {
 import { FeedbackDTO } from "./feedback.dto";
 import { AuthPayload } from "../auth/auth.interface";
 import {
-  FontCustom,
+  FontCustomRobotoBold,
+  FontCustomRobotoNormal,
   PublishState,
   QuestionTypeState,
 } from "@app/constants/biz.constant";
@@ -41,6 +42,75 @@ export class FeedbackService {
     private readonly statisticModel: MongooseModel<Statistic>,
     private readonly userService: UserService
   ) {}
+
+  // get list feedbacks
+  public async paginator(
+    query: PaginateQuery<Feedback>,
+    options: PaginateOptions
+  ): Promise<PaginateResult<Feedback>> {
+    return await this.feedbackModel.paginate(query, {
+      ...options,
+      lean: true,
+    });
+  }
+
+  // get list feedbacks
+  async listFeedbacks(): Promise<Feedback[]> {
+    let feedbacks = await this.feedbackModel
+      .find({ status: PublishState.Published, deletedBy: null })
+      .exec()
+      .then((result) => (result.length ? result : []));
+
+    return feedbacks;
+  }
+
+  // create feedback
+  public async create(
+    feedbackDTO: FeedbackDTO,
+    user: AuthPayload
+  ): Promise<Feedback> {
+    // let userInfo = await this.userService.findByUserName(user.userName);
+
+    let time = moment().format("YYYY-MM-DDTHH:mm:ss");
+    let dataDTO = {
+      form: feedbackDTO.form,
+      user: feedbackDTO.user,
+      time: time,
+      // createdBy: userInfo._id,
+    };
+    return await this.feedbackModel.create(dataDTO);
+  }
+
+  // get feedback by id
+  async findOne(feedbackID: string): Promise<MongooseDoc<Feedback>> {
+    let feedback = await this.feedbackModel
+      .findOne({ _id: feedbackID, deletedBy: null })
+      .populate([{ path: "form" }, { path: "user" }])
+      .exec()
+      .then(
+        (result) =>
+          result ||
+          Promise.reject(`Phân loại có ID "${feedbackID}" không được tìm thấy.`)
+      );
+
+    let reviewQuestions = (feedback?.form as any).template?.reviewQuestions;
+    let newReviewQuestions: any = [];
+    for (let questionID of reviewQuestions) {
+      let questionObj = await this.questionModel.findById(questionID);
+      newReviewQuestions.push(questionObj);
+    }
+    (feedback?.form as any).template.reviewQuestions = newReviewQuestions;
+
+    let answerQuestions = (feedback?.form as any).template?.answerQuestions;
+    let newAnswerQuestions: any = [];
+    for (let questionID of answerQuestions) {
+      let questionObj = await this.questionModel.findById(questionID);
+      newAnswerQuestions.push(questionObj);
+    }
+    (feedback?.form as any).template.answerQuestions = newAnswerQuestions;
+
+    return feedback;
+  }
 
   public async generatePdfFile(feedbackID: string) {
     let feedbackInfo = await this.feedbackModel.findById(feedbackID);
@@ -128,9 +198,12 @@ export class FeedbackService {
     });
 
     // add the font to jsPDF
-    doc.addFileToVFS("MyFont.ttf", FontCustom);
-    doc.addFont("MyFont.ttf", "MyFont", "normal");
-    doc.setFont("MyFont");
+    doc.addFileToVFS("Roboto.ttf", FontCustomRobotoNormal);
+    doc.addFont("Roboto.ttf", "Roboto", "normal");
+    doc.addFileToVFS("Roboto1.ttf", FontCustomRobotoBold);
+    doc.addFont("Roboto1.ttf", "Roboto", "bold");
+
+    doc.setFont("Roboto", "bold");
 
     // Add Title
     doc.setFontSize(14);
@@ -138,11 +211,13 @@ export class FeedbackService {
     doc.text("BÁO CÁO KẾT QUẢ PHẢN HỒI 360°", 135, 20, { align: "center" });
     doc.text("Anh …… – Giám Đốc ……", 135, 30, { align: "center" });
 
+    doc.setFont("Roboto", "normal");
+
     doc.setFontSize(12);
     // Add first section (with yellow highlight)
-    doc.setFont("MyFont");
+    doc.setFont("Roboto", "normal");
     doc.text("I. QUY ĐỊNH VỀ BẢO MẬT", 15, 47);
-    doc.setFont("MyFont");
+    doc.setFont("Roboto", "normal");
     doc.text(
       "- Báo cáo này chỉ được đọc bởi: Ban Tổng giám đốc, phòng Nhân sự và Người được phản hồi (NĐPH),",
       15,
@@ -155,9 +230,9 @@ export class FeedbackService {
     );
 
     // Add second section
-    doc.setFont("MyFont");
+    doc.setFont("Roboto", "normal");
     doc.text("II. MỤC TIÊU CỦA VIỆC PHẢN HỒI NÀY", 15, 75);
-    doc.setFont("MyFont");
+    doc.setFont("Roboto", "normal");
     doc.text("- Nhằm giúp NĐPH biết được ý kiến góp ý xây dựng của:", 15, 85);
     doc.text(
       "✓ Cấp trên: Ghi nhận những nỗ lực đóng góp cũng như những điểm cần phát huy hay cần hoàn thiện của NĐPH.",
@@ -193,9 +268,9 @@ export class FeedbackService {
     );
 
     // Add third section
-    doc.setFont("MyFont");
+    doc.setFont("Roboto", "normal");
     doc.text("III. KẾT QUẢ", 15, 140);
-    doc.setFont("MyFont");
+    doc.setFont("Roboto", "normal");
     doc.text(
       "- Nhận xét của cấp trên gồm: Quản lý trực tiếp và gián tiếp (nếu có).",
       15,
@@ -860,7 +935,7 @@ export class FeedbackService {
       startY: 320,
       styles: {
         fontSize: 12,
-        font: "MyFont", // Use the custom font for the table
+        font: "Roboto", // Use the custom font for the table
         fillColor: [255, 255, 255], // Set header background color
         textColor: [0, 0, 0], // Set header text color
         halign: "center", // Center-align table text
@@ -899,78 +974,9 @@ export class FeedbackService {
     }
 
     // Save the file to disk
-    const filePath = "/mnt/data/output.pdf";
+    const filePath = "/mnt/data/report.pdf";
     fs.writeFileSync(filePath, doc.output());
 
     return filePath;
-  }
-
-  // get list feedbacks
-  public async paginator(
-    query: PaginateQuery<Feedback>,
-    options: PaginateOptions
-  ): Promise<PaginateResult<Feedback>> {
-    return await this.feedbackModel.paginate(query, {
-      ...options,
-      lean: true,
-    });
-  }
-
-  // get list feedbacks
-  async listFeedbacks(): Promise<Feedback[]> {
-    let feedbacks = await this.feedbackModel
-      .find({ status: PublishState.Published, deletedBy: null })
-      .exec()
-      .then((result) => (result.length ? result : []));
-
-    return feedbacks;
-  }
-
-  // create feedback
-  public async create(
-    feedbackDTO: FeedbackDTO,
-    user: AuthPayload
-  ): Promise<Feedback> {
-    // let userInfo = await this.userService.findByUserName(user.userName);
-
-    let time = moment().format("YYYY-MM-DDTHH:mm:ss");
-    let dataDTO = {
-      form: feedbackDTO.form,
-      user: feedbackDTO.user,
-      time: time,
-      // createdBy: userInfo._id,
-    };
-    return await this.feedbackModel.create(dataDTO);
-  }
-
-  // get feedback by id
-  async findOne(feedbackID: string): Promise<MongooseDoc<Feedback>> {
-    let feedback = await this.feedbackModel
-      .findOne({ _id: feedbackID, deletedBy: null })
-      .populate([{ path: "form" }, { path: "user" }])
-      .exec()
-      .then(
-        (result) =>
-          result ||
-          Promise.reject(`Phân loại có ID "${feedbackID}" không được tìm thấy.`)
-      );
-
-    let reviewQuestions = (feedback?.form as any).template?.reviewQuestions;
-    let newReviewQuestions: any = [];
-    for (let questionID of reviewQuestions) {
-      let questionObj = await this.questionModel.findById(questionID);
-      newReviewQuestions.push(questionObj);
-    }
-    (feedback?.form as any).template.reviewQuestions = newReviewQuestions;
-
-    let answerQuestions = (feedback?.form as any).template?.answerQuestions;
-    let newAnswerQuestions: any = [];
-    for (let questionID of answerQuestions) {
-      let questionObj = await this.questionModel.findById(questionID);
-      newAnswerQuestions.push(questionObj);
-    }
-    (feedback?.form as any).template.answerQuestions = newAnswerQuestions;
-
-    return feedback;
   }
 }
