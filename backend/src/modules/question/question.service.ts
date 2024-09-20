@@ -56,8 +56,8 @@ export class QuestionService {
     questionDTO: QuestionDTO,
     user: AuthPayload
   ): Promise<Question> {
-    let userInfo = await this.userService.findByUserName(user.userName);
-    questionDTO.createdBy = userInfo._id;
+    //let userInfo = await this.userService.findByUserName(user.userName);
+    //questionDTO.createdBy = userInfo._id;
     return await this.questionModel.create(questionDTO);
   }
 
@@ -80,8 +80,8 @@ export class QuestionService {
     questionDTO: Question,
     user: AuthPayload
   ): Promise<MongooseDoc<Question>> {
-    let userInfo = await this.userService.findByUserName(user.userName);
-    questionDTO.updatedBy = userInfo._id;
+   // let userInfo = await this.userService.findByUserName(user.userName);
+   // questionDTO.updatedBy = userInfo._id;
 
     const question = await this.questionModel
       .findByIdAndUpdate(questionID, questionDTO, { new: true })

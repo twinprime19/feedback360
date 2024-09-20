@@ -13,6 +13,8 @@ import { SettingService } from "../settting/setting.service";
 import { MediaProvider } from "../media/media.model";
 import { StatisticService } from "./statistic.service";
 import { FeedbackProvider } from "../feedback/feedback.model";
+import { FormProvider } from "../form/form.model";
+import { QuestionProvider } from "../question/question.model";
 
 @Module({
   imports: [],
@@ -26,6 +28,8 @@ import { FeedbackProvider } from "../feedback/feedback.model";
     SettingService,
     MediaProvider,
     FeedbackProvider,
+    FormProvider,
+    QuestionProvider,
   ],
   exports: [StatisticService],
 })

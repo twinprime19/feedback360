@@ -83,6 +83,10 @@ export class Statistic {
   @prop({ required: true })
   result: any; // kêt quả của người đánh giá
 
+  
+  @prop({ required: true })
+  statisticData: any; // kêt quả phân tích của người đánh giá
+
   @prop({ default: Date.now, immutable: true })
   createdAt?: Date;
 

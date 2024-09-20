@@ -12,6 +12,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsIn,
+  IsNumber,
 } from "class-validator";
 import { Transform } from "class-transformer";
 import { SortType } from "@app/constants/biz.constant";
@@ -51,6 +52,10 @@ export class StatisticDTO {
   @IsNotEmpty()
   position: string;
 
+  
+  @IsNumber()
+  relationship: number;
+  
   @IsNotEmpty()
   feedback: import("mongoose").Types.ObjectId;
 

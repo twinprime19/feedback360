@@ -109,8 +109,8 @@ export class FeedbackController {
 
   // export list products
   @Get("/download/:id")
-  async downloadPdf(@Res() res: Response) {
-    const filePath = await this.feedbackService.generatePdfFile();
+  async downloadPdf(@Param("id") feedbackID: string, @Res() res: Response) {
+    const filePath = await this.feedbackService.generatePdfFile(feedbackID);
     res.download(filePath);
   }
 }

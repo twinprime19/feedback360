@@ -48,8 +48,8 @@ export class FormService {
 
   // create form
   public async create(formDTO: FormDTO, user: AuthPayload): Promise<Form> {
-    let userInfo = await this.userService.findByUserName(user.userName);
-    formDTO.createdBy = userInfo._id;
+    //let userInfo = await this.userService.findByUserName(user.userName);
+   // formDTO.createdBy = userInfo._id;
     return await this.formModel.create(formDTO);
   }
 
@@ -72,8 +72,8 @@ export class FormService {
     formDTO: Form,
     user: AuthPayload
   ): Promise<MongooseDoc<Form>> {
-    let userInfo = await this.userService.findByUserName(user.userName);
-    formDTO.updatedBy = userInfo._id;
+   // let userInfo = await this.userService.findByUserName(user.userName);
+   // formDTO.updatedBy = userInfo._id;
 
     const form = await this.formModel
       .findByIdAndUpdate(formID, formDTO, { new: true })
