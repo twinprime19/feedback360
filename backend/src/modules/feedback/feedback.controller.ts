@@ -114,7 +114,7 @@ export class FeedbackController {
 
     res.set({
       "Content-Type": "application/pdf",
-      "Content-Disposition": 'attachment; filename="document.pdf"',
+      "Content-Disposition": 'attachment; filename="report.pdf"',
     });
 
     res.send(buffer);
