@@ -20,7 +20,7 @@ const log = logger.scope("ExpansionDBBackup");
 
 const UP_FAILED_TIMEOUT = 1000 * 60 * 5;
 const UPLOAD_INTERVAL = "0 0 3 * * *";
-const BACKUP_FILE_NAME = "insta.zip";
+const BACKUP_FILE_NAME = "feedback.zip";
 const BACKUP_DIR_PATH = path.join(APP.ROOT_PATH, "dbbackup");
 
 @Injectable()
@@ -92,7 +92,7 @@ export class DBBackupService {
             `zip -r -P ${DB_BACKUP.password} ${BACKUP_FILE_NAME} ./backup`
           );
           const fileDate = moment(new Date()).format("YYYY-MM-DD-HH:mm");
-          const fileName = `insta-mongodb/backup-${fileDate}.zip`;
+          const fileName = `feedback-mongodb/backup-${fileDate}.zip`;
           const filePath = path.join(BACKUP_DIR_PATH, BACKUP_FILE_NAME);
           log.info("uploading: " + fileName);
           log.info("file source: " + filePath);

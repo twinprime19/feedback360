@@ -17,7 +17,7 @@ export const APP = {
   MASTER: "Tool feedback",
   NAME: "Tool feedback",
   URL: "127.0.0.1",
-  ADMIN_EMAIL: argv.admin_email || "admin email, e.g. admin@example.com",
+  ADMIN_EMAIL: argv.admin_email || "admin@example.com",
   FE_NAME: "Tool feedback",
   FE_URL: "http://feedback-api.test.zinisoft.net",
   STATIC_URL: "http://feedback-api.test.zinisoft.net",

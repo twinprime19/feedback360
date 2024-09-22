@@ -6,3 +6,6 @@ data
 package-lock.json
 /.env
 dump
+backup
+backup.prev
+assets
