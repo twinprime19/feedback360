@@ -89,12 +89,12 @@ export class TemplateService {
     status: number,
     user: AuthPayload
   ): Promise<MongooseDoc<Template>> {
-    let userInfo = await this.userService.findByUserName(user.userName);
+   // let userInfo = await this.userService.findByUserName(user.userName);
 
     const template = await this.templateModel
       .findByIdAndUpdate(
         templateID,
-        { status: status, updatedBy: userInfo._id },
+        { status: status, /* updatedBy: userInfo._id */ },
         { new: true }
       )
       .exec();
@@ -108,13 +108,13 @@ export class TemplateService {
     templateID: MongooseID,
     user: AuthPayload
   ): Promise<MongooseDoc<Template>> {
-    let userInfo = await this.userService.findByUserName(user.userName);
+   // let userInfo = await this.userService.findByUserName(user.userName);
 
     const template = await this.templateModel
       .findByIdAndUpdate(
         templateID,
         {
-          deletedBy: userInfo._id,
+          /* deletedBy: userInfo._id, */
           deletedAt: moment(),
         },
         { new: true }
@@ -127,7 +127,7 @@ export class TemplateService {
 
   // delete templates
   public async batchDelete(templateIDs: MongooseID[], user: AuthPayload) {
-    let userInfo = await this.userService.findByUserName(user.userName);
+   // let userInfo = await this.userService.findByUserName(user.userName);
 
     const templates = await this.templateModel.find({ _id: { $in: templateIDs } }).exec();
     if (!templates) throw `Templates không được tìm thấy.`;
@@ -135,7 +135,7 @@ export class TemplateService {
     return await this.templateModel
       .updateMany(
         { _id: { $in: templateIDs } },
-        { deletedBy: userInfo._id, deletedAt: moment() },
+        { /* deletedBy: userInfo._id, */ deletedAt: moment() },
         { new: true }
       )
       .exec();

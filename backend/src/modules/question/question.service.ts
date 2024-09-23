@@ -97,12 +97,12 @@ export class QuestionService {
     status: number,
     user: AuthPayload
   ): Promise<MongooseDoc<Question>> {
-    let userInfo = await this.userService.findByUserName(user.userName);
+    // let userInfo = await this.userService.findByUserName(user.userName);
 
     const question = await this.questionModel
       .findByIdAndUpdate(
         questionID,
-        { status: status, updatedBy: userInfo._id },
+        { status: status, /* updatedBy: userInfo._id */ },
         { new: true }
       )
       .exec();
@@ -116,13 +116,13 @@ export class QuestionService {
     questionID: MongooseID,
     user: AuthPayload
   ): Promise<MongooseDoc<Question>> {
-    let userInfo = await this.userService.findByUserName(user.userName);
+    // let userInfo = await this.userService.findByUserName(user.userName);
 
     const question = await this.questionModel
       .findByIdAndUpdate(
         questionID,
         {
-          deletedBy: userInfo._id,
+          /* deletedBy: userInfo._id, */
           deletedAt: moment(),
         },
         { new: true }
@@ -135,7 +135,7 @@ export class QuestionService {
 
   // delete questions
   public async batchDelete(questionIDs: MongooseID[], user: AuthPayload) {
-    let userInfo = await this.userService.findByUserName(user.userName);
+    //let userInfo = await this.userService.findByUserName(user.userName);
 
     const questions = await this.questionModel
       .find({ _id: { $in: questionIDs } })
@@ -145,7 +145,7 @@ export class QuestionService {
     return await this.questionModel
       .updateMany(
         { _id: { $in: questionIDs } },
-        { deletedBy: userInfo._id, deletedAt: moment() },
+        { /* deletedBy: userInfo._id, */ deletedAt: moment() },
         { new: true }
       )
       .exec();
