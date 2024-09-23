@@ -58,9 +58,7 @@ export class QuestionController {
     let { page, page_size, field, order, status, type, ...filters } = query;
     console.log("QUERYDATA", query);
     //let user = await this.userService.findByUserName(req.user.userName);
-    let setting = await this.settingService.getSetting();
-    let pageSize = setting.web.find((item) => item.name === "page_size");
-    page_size = Number(pageSize?.value) ?? 100;
+    page_size = page_size ?? 100;
 
     const paginateQuery: PaginateQuery<Question> = {};
     // search
@@ -69,7 +67,7 @@ export class QuestionController {
       const keywordRegExp = new RegExp(trimmed, "i");
       paginateQuery.$or = [
         { title: keywordRegExp },
-        { description: keywordRegExp },
+        { content: keywordRegExp },
       ];
     }
     //filter type point/text
