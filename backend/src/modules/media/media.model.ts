@@ -20,7 +20,7 @@ import { getProviderByTypegooseClass } from "@app/transformers/model.transformer
 import { mongoosePaginate } from "@app/utils/paginate";
 import { PublishState, TypeState } from "@app/constants/biz.constant";
 import { User } from "../user/entities/user.entity";
-import { SignatureDTO } from "./media.dto";
+
 
 export const PUBLISH_STATES = [
   PublishState.Draft,
@@ -30,7 +30,7 @@ export const PUBLISH_STATES = [
 export const TYPE_STATES = [
   TypeState.Image,
   TypeState.Pdf,
-  TypeState.Signature,
+
 ] as const;
 
 @plugin(mongoosePaginate)
@@ -63,14 +63,6 @@ export class Media {
   @IsString()
   @prop({ default: null })
   pdf: string;
-
-  @IsArray()
-  @IsOptional()
-  @prop({ default: [] })
-  signatures: SignatureDTO[]
-
-  @prop({ ref: () => User })
-  signedBy: Ref<User>[];
 
   @IsIn(TYPE_STATES)
   @IsInt()

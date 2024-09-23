@@ -48,34 +48,3 @@ export class MediasDTO {
   @IsArray()
   mediaIds: string[];
 }
-
-export class SignatureDTO {
-  @IsString()
-  id: string;
-
-  @IsString()
-  name: string;
-
-  @IsNumber()
-  x: number;
-
-  @IsNumber()
-  y: number;
-
-  @IsString()
-  url: string;
-
-  @IsNumber()
-  page: number;
-
-  ref: any;
-
-  @IsString()
-  idSign: string
-
-  @IsBoolean()
-  signed: boolean = false;
-
-  @IsString()
-  createdBy: string;
-}

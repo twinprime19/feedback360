@@ -63,7 +63,6 @@ export enum SexState {
 export enum TypeState {
   Image = 0,
   Pdf = 1,
-  Signature = 2,
 }
 
 // mối quan hệ
@@ -124,23 +123,9 @@ export const UPLOAD = {
 };
 
 export const DEFAULT_SETTING = [
-  { name: "logo", value: "/uploads/2023/01/zz1673255257804_origin.jpg" },
-  { name: "title", value: "insta" },
-  { name: "subtitle", value: "QUICK SIGN RESTFULL API" },
-  {
-    name: "siteUrl",
-    value: "https://gitlab.zinisoft.net/web-2023/instaautoapi",
-  },
-  { name: "siteEmail", value: "admin@example.com" },
-  { name: "currency", value: "euro" },
-  { name: "currencyPosition", value: "right" },
-  { name: "thousandSeparator", value: "." },
-  { name: "decimalSeparator", value: "." },
-  { name: "numberOfDecimal", value: 1 },
-  { name: "gptType", value: "sandbox" },
-  { name: "gptKey", value: "" },
-  { name: "gptTemperature", value: 0.5 },
-  { name: "gptAccurate", value: 0.8 },
+  { name: "logo", value: "" },
+  { name: "title", value: "Tool feedback" },
+  { name: "subtitle", value: "Tool feedback" },
 ];
 
 export const FontCustomRobotoNormal =

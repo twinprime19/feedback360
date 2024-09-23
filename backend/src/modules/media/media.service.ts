@@ -35,7 +35,7 @@ export class MediaService {
   ): Promise<PaginateResult<Media>> {
     return await this.mediaModel.paginate(query, {
       ...options,
-      populate: [{ path: "createdBy" }, { path: "signedBy" }],
+      populate: [{ path: "createdBy" }],
     });
   }
 
@@ -43,23 +43,12 @@ export class MediaService {
   async findOne(mediaID: string): Promise<MongooseDoc<Media>> {
     return await this.mediaModel
       .findOne({ _id: mediaID, deletedAt: null })
-      .populate(["createdBy", "signedBy"])
+      .populate(["createdBy"])
       .exec()
       .then(
         (result) =>
           result || Promise.reject(`Media id "${mediaID}" isn't found!`)
       );
-  }
-
-  // get signatures of file Pdf
-  async getSignaturePdf(): Promise<MongooseDoc<Media>[]> {
-    return await this.mediaModel
-      .find({
-        type: TypeState.Signature,
-        deletedAt: null,
-      })
-      .exec()
-      .then((result) => result || Promise.reject(`Signature isn't found!`));
   }
 
   // create media
@@ -128,76 +117,6 @@ export class MediaService {
 
     let mediaObj = await this.mediaModel.create(dataMedia);
     return await this.findOne(String(mediaObj._id));
-  }
-
-  // upload signature
-  public async uploadSignature(
-    file: any,
-    data: Partial<Media>
-  ): Promise<MongooseDoc<Media>> {
-    let media = await uploadThumbnail(file);
-
-    let dataMedia = {
-      title: data.title ?? media.fileName,
-      caption: data.caption ?? media.fileName,
-      thumbnail: media.thumbnail,
-      type: TypeState.Signature,
-      status: PublishState.Published,
-    };
-
-    let mediaObj = await this.mediaModel.create(dataMedia);
-    return await this.findOne(String(mediaObj._id));
-  }
-
-  // upload pdf signed
-  public async updatePdfSigned(
-    mediaID: string,
-    file: any,
-    data: Partial<Media>
-  ): Promise<MongooseDoc<Media>> {
-    let existedMedia: any = await this.mediaModel
-      .findOne({ _id: mediaID, type: TypeState.Pdf, deletedAt: null })
-      .exec();
-    if (!existedMedia) throw `Media id "${mediaID}" isn't found!`;
-
-    if (data.signedBy && !existedMedia.signedBy.includes(data.signedBy)) {
-      existedMedia.signedBy.push(data.signedBy);
-    }
-
-    let media: any = "";
-    if (file) media = await uploadPdf(file);
-    else media = existedMedia
-
-
-    data.pdf = media.pdf;
-    data.signedBy = existedMedia.signedBy;
-    if (!data.signatures) data.signatures = [];
-
-    await this.mediaModel
-      .findByIdAndUpdate(mediaID, data, { new: true })
-      .exec();
-
-    return await this.findOne(String(mediaID));
-  }
-
-  // upload signature
-  public async updateSignature(
-    mediaID: string,
-    file: any
-  ): Promise<MongooseDoc<Media>> {
-    let existedMedia: any = await this.mediaModel
-      .findOne({ _id: mediaID, type: TypeState.Signature, deletedAt: null })
-      .exec();
-    if (!existedMedia) throw `Media id "${mediaID}" isn't found!`;
-
-    let media = await uploadThumbnail(file);
-    let thumbnail = media.thumbnail;
-
-    await this.mediaModel
-      .findByIdAndUpdate(mediaID, { thumbnail: thumbnail }, { new: true })
-      .exec();
-
-    return await this.findOne(String(mediaID));
   }
 
   // update media

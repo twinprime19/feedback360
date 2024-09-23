@@ -79,32 +79,7 @@ export class MediaController {
     return await this.mediaService.uploadPdf(file);
   }
 
-  // upload file pdf home
-  @Post("/upload")
-  @Responser.handle("Upload pdf home")
-  @UseInterceptors(FileInterceptor("file", { fileFilter: pdfFileFilter }))
-  public async uploadPdfHome(@UploadedFile() file: Express.Multer.File) {
-    if (!file)
-      throw new BadRequestException("File is not pdf or no file attached");
 
-    return await this.mediaService.uploadPdfHome(file);
-  }
-
-  // upload file signature
-  @Post("/signature")
-  @Responser.handle("Upload signature")
-  @UseInterceptors(
-    FileInterceptor("thumbnail", { fileFilter: imageFileFilter })
-  )
-  public async uploadSignature(
-    @UploadedFile() file: Express.Multer.File,
-    @Body() media: Partial<Media>
-  ) {
-    if (!file)
-      throw new BadRequestException("File is not image or no file attached");
-
-    return await this.mediaService.uploadSignature(file, media);
-  }
 
   // get list file pdf
   @Get("/manager")
@@ -142,13 +117,6 @@ export class MediaController {
     return this.mediaService.paginator(paginateQuery, paginateOptions);
   }
 
-  // get signatures of file Pdf
-  @Get("/manager/signature")
-  @Responser.handle("Get signatures of pdf")
-  public async getSignaturePdf(): Promise<MongooseDoc<Media>[]> {
-    return this.mediaService.getSignaturePdf();
-  }
-
   // get media
   @Get("/manager/:id")
   @Responser.handle("Get pdf")
@@ -156,32 +124,7 @@ export class MediaController {
     return this.mediaService.findOne(mediaID);
   }
 
-  // update pdf signed
-  @Put("pdf/:id")
-  @Responser.handle("Update pdf signed")
-  @UseInterceptors(FileInterceptor("file", { fileFilter: pdfFileFilter }))
-  public async updatePdfSigned(
-    @UploadedFile() file: Express.Multer.File,
-    @QueryParams() { params }: QueryParamsResult,
-    @Body() media: Partial<Media>
-  ): Promise<MongooseDoc<Media>> {
-    return this.mediaService.updatePdfSigned(params.id, file, media);
-  }
 
-  // update signature
-  @Put("signature/:id")
-  @Responser.handle("Update signature")
-  @UseInterceptors(
-    FileInterceptor("thumbnail", { fileFilter: imageFileFilter })
-  )
-  public async updateSignature(
-    @UploadedFile() file: Express.Multer.File,
-    @QueryParams() { params }: QueryParamsResult
-  ): Promise<MongooseDoc<Media>> {
-    if (!file)
-      throw new BadRequestException("File is not pdf or no file attached");
-    return this.mediaService.updateSignature(params.id, file);
-  }
 
   // update media
   @Put("manager/:id")

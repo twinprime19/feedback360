@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "820b48e4-975e-4f36-bc59-7dbcc0221275",
+		"_postman_id": "4c434c19-94c7-4575-a808-b7620f5acd77",
 		"name": "tool feedback",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "16812875"
@@ -223,7 +223,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n \"userName\": \"validator007\",\r\n \"password\": \"123456\",\r\n \"email\": \"timh@gmail.com\",\r\n \"phone\" : \"0987654327\"\r\n}",
+					"raw": "{\r\n    \"userName\": \"user05\",\r\n    \"password\": \"123456\",\r\n    \"fullname\": \"Lê Hồng Tuyết\",\r\n    \"emailAddress\": \"user05@gmail.com\",\r\n    \"position\": \"Trưởng phòng kinh doanh\",\r\n    \"phone\": \"\",\r\n    \"avatar\": null,\r\n    \"status\": 1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -539,41 +539,6 @@
 			"response": []
 		},
 		{
-			"name": "GET LIST SIGNATURE PDF",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer  {{TOKENFEEDBACK}}",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "{{url_feedback}}/media/manager/signature",
-					"host": [
-						"{{url_feedback}}"
-					],
-					"path": [
-						"media",
-						"manager",
-						"signature"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "MEDIA GET ID",
 			"event": [
 				{
@@ -663,65 +628,6 @@
 			"response": []
 		},
 		{
-			"name": "UPLOAD SIGNATURE",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer  {{TOKENFEEDBACK}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "thumbnail",
-							"type": "file",
-							"src": "image/UTH.TV.Logo.png"
-						},
-						{
-							"key": "id",
-							"value": "655f0894689a795619b50bd2",
-							"type": "text"
-						},
-						{
-							"key": "page",
-							"value": "1",
-							"type": "text"
-						},
-						{
-							"key": "signed",
-							"value": "false",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{url_feedback}}/media/signature",
-					"host": [
-						"{{url_feedback}}"
-					],
-					"path": [
-						"media",
-						"signature"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "UPLOAD PDF",
 			"request": {
 				"auth": {
@@ -760,50 +666,6 @@
 					"path": [
 						"media",
 						"pdf"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "UPLOAD PDF HOME",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer  {{TOKENFEEDBACK}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "file",
-							"type": "file",
-							"src": "zinisoft/Luong-2023-DevBackend.pdf"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{url_feedback}}/media/upload",
-					"host": [
-						"{{url_feedback}}"
-					],
-					"path": [
-						"media",
-						"upload"
 					]
 				}
 			},
@@ -851,81 +713,6 @@
 					"path": [
 						"media",
 						"multiple"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "MEDIA EDIT PDF SIGNED",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer  {{TOKENFEEDBACK}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "file",
-							"type": "file",
-							"src": "CV/QuangHuy-CV-VI.pdf"
-						},
-						{
-							"key": "signedBy",
-							"value": "647d70a57a80a288a9d3e3bf",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{url_feedback}}/media/pdf/654b4ed5f14b261f8ff22801",
-					"host": [
-						"{{url_feedback}}"
-					],
-					"path": [
-						"media",
-						"pdf",
-						"654b4ed5f14b261f8ff22801"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "MEDIA EDIT SIGNATURE",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer  {{TOKENFEEDBACK}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "thumbnail",
-							"type": "file",
-							"src": "TAI/img/3b72599e2d94e1cab885.jpg"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{url_feedback}}/media/signature/6552050a4205dc5338ff6355",
-					"host": [
-						"{{url_feedback}}"
-					],
-					"path": [
-						"media",
-						"signature",
-						"6552050a4205dc5338ff6355"
 					]
 				}
 			},
@@ -1004,6 +791,549 @@
 					"path": [
 						"media",
 						"manager"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QUESTION GET LIST PAGINATION",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}"
+					}
+				],
+				"url": {
+					"raw": "{{url_feedback}}/question/getAll",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"question",
+						"getAll"
+					],
+					"query": [
+						{
+							"key": "keyword",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QUESTION GET ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}"
+					}
+				],
+				"url": {
+					"raw": "{{url_feedback}}/question/get/66eaa501d998406674a97b02",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"question",
+						"get",
+						"66eaa501d998406674a97b02"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QUESTION ADD",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Lời khuyên của anh/ chị dành cho NĐPH\",\r\n    \"content\": \"\",\r\n    \"type\": 1,\r\n    \"status\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/question/add",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"question",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QUESTION EDIT",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Sản phẩm mới - bạc 24K\",\r\n    \"motto\": \"Ngày 30-4, chúng tôi ra mắt sản phẩm mới\",\r\n    \"description\": \"Ngày 30-4, chúng tôi ra mắt sản phẩm mới\",\r\n    \"metaKeyword\": \"\",\r\n    \"metaTitle\": \"\",\r\n    \"metaDescription\": \"\",\r\n    \"thumbnail\": \"6615f42487fd857317308fef\",\r\n    \"category\": \"65f5b121f76c224fd50617ce\",\r\n    \"tags\": [\"65f5b13cf76c224fd50617d6\"],\r\n    \"status\": 1,\r\n    \"extends\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/question/edit/661609b45171852938012d7b",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"question",
+						"edit",
+						"661609b45171852938012d7b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QUESTION PATCH",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/question/edit/65360e252549e2b99e150920",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"question",
+						"edit",
+						"65360e252549e2b99e150920"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QUESTION DELETE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url_feedback}}/question/delete/63a58703fc89ecb2604c23dd",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"question",
+						"delete",
+						"63a58703fc89ecb2604c23dd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QUESTION DELETE MANY",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"newsIds\": [\r\n        \"64e80de881e7beb62135d181\",\r\n        \"64e80ca81d090f54b5a43c33\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/question/delete",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"question",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TEMPLATE ADD",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Biểu mẫu khảo sát 1\",\r\n    \"template\": {\r\n        \"reviewQuestions\": [\r\n            \"66eaa501d998406674a97b02\",\r\n            \"66eaed06da1266f7b50521b3\",\r\n            \"66eaed7cda1266f7b50521b9\",\r\n            \"66eaed8bda1266f7b50521bd\",\r\n            \"66eaedddda1266f7b50521c1\",\r\n            \"66eaedefda1266f7b50521c5\",\r\n            \"66eaefcdda1266f7b50521c9\",\r\n            \"66eaefdfda1266f7b50521cd\"\r\n        ],\r\n        \"answerQuestions\": [\r\n            \"66eaeff9da1266f7b50521d1\",\r\n            \"66eaf00bda1266f7b50521d5\",\r\n            \"66eaf075da1266f7b50521d9\",\r\n            \"66eaf902da1266f7b50521dd\"\r\n        ]\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/template/add",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"template",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TEMPLATE EDIT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Biểu mẫu khảo sát 2\",\r\n    \"template\": {\r\n        \"reviewQuestions\": [\r\n            \"66eaa501d998406674a97b02\",\r\n            \"66eaed06da1266f7b50521b3\",\r\n            \"66eaed7cda1266f7b50521b9\",\r\n            \"66eaed8bda1266f7b50521bd\",\r\n            \"66eaedddda1266f7b50521c1\",\r\n            \"66eaedefda1266f7b50521c5\",\r\n            \"66eaefcdda1266f7b50521c9\",\r\n            \"66eaefdfda1266f7b50521cd\"\r\n        ],\r\n        \"answerQuestions\": [\r\n            \"66eaeff9da1266f7b50521d1\",\r\n            \"66eaf00bda1266f7b50521d5\",\r\n            \"66eaf075da1266f7b50521d9\",\r\n            \"66eaf902da1266f7b50521dd\"\r\n        ]\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/template/edit/66f0e0fcae2716747b0cc972",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"template",
+						"edit",
+						"66f0e0fcae2716747b0cc972"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FORM ADD",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"template\": \"66f0e0fcae2716747b0cc972\",\r\n    \"user\": \"66ebc87f49aa0c90c42a469b\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/form/add",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"form",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FORM GET BY ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/form/66f0e2247795ae536c2a4215",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"form",
+						"66f0e2247795ae536c2a4215"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FEEDBACK ADD",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"form\": \"66f0e2247795ae536c2a4215\",\r\n    \"fullname\": \"Nguyễn Ngọc Quang\",\r\n    \"position\": \"Nhân viên kinh doanh\",\r\n    \"relationship\": 1,\r\n    \"result\": [\r\n        {\r\n            \"question\": \"66eaa501d998406674a97b02\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaed06da1266f7b50521b3\",\r\n            \"type\": 0,\r\n            \"point\": 2,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaed7cda1266f7b50521b9\",\r\n            \"type\": 0,\r\n            \"point\": 1,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaed8bda1266f7b50521bd\",\r\n            \"type\": 0,\r\n            \"point\": 4,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaedddda1266f7b50521c1\",\r\n            \"type\": 0,\r\n            \"point\": 5,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaedefda1266f7b50521c5\",\r\n            \"type\": 0,\r\n            \"point\": 4,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaefcdda1266f7b50521c9\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaefdfda1266f7b50521cd\",\r\n            \"type\": 0,\r\n            \"point\": 2,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaeff9da1266f7b50521d1\",\r\n            \"type\": 0,\r\n            \"point\": 1,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaf00bda1266f7b50521d5\",\r\n            \"type\": 1,\r\n            \"point\": 0,\r\n            \"answer\": \"Câu trả lời 1\"\r\n        },\r\n        {\r\n            \"question\": \"66eaf075da1266f7b50521d9\",\r\n            \"type\": 1,\r\n            \"point\": 0,\r\n            \"answer\": \"Câu trả lời 2\"\r\n        },\r\n        {\r\n            \"question\": \"66eaf902da1266f7b50521dd\",\r\n            \"type\": 1,\r\n            \"point\": 0,\r\n            \"answer\": \"Câu trả lời 3\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/feedback/add",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"feedback",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET STATISTICS FORM PDF",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:1353/v1.0/form/statistic/66f0e2247795ae536c2a4215",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1353",
+					"path": [
+						"v1.0",
+						"form",
+						"statistic",
+						"66f0e2247795ae536c2a4215"
 					]
 				}
 			},
