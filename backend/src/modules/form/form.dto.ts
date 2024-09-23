@@ -1,6 +1,6 @@
 /**
  * @file Form dto
- * @module module/form/dto
+ * @module module/Form/dto
  */
 import { IntersectionType } from "@nestjs/mapped-types";
 import {
@@ -12,6 +12,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsIn,
+  IsNumber,
 } from "class-validator";
 import { Transform } from "class-transformer";
 import { SortType } from "@app/constants/biz.constant";
@@ -25,7 +26,7 @@ export class FormPaginateQueryDTO extends IntersectionType(
   StatusQueryDTO
 ) {
   @IsString()
-  field?: string = "updatedAt";
+  field?: string = "createdAt";
 
   @IsIn([SortType.Asc, SortType.Desc])
   @IsInt()
@@ -39,19 +40,15 @@ export class FormsDTO {
   @ArrayUnique()
   @ArrayNotEmpty()
   @IsArray()
-  formIds: string[];
+  FormIds: string[];
 }
 
 export class FormDTO {
-  @IsString()
   @IsNotEmpty()
-  title: string;
+  template: import("mongoose").Types.ObjectId;
 
-  @IsOptional()
-  template: any;
+  @IsNotEmpty()
+  user: import("mongoose").Types.ObjectId;
 
   createdBy: import("mongoose").Types.ObjectId;
-
-  @IsOptional()
-  updatedBy: import("mongoose").Types.ObjectId;
 }

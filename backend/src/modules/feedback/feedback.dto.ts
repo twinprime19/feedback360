@@ -40,15 +40,24 @@ export class FeedbacksDTO {
   @ArrayUnique()
   @ArrayNotEmpty()
   @IsArray()
-  FeedbackIds: string[];
+  feedbackIds: string[];
 }
 
 export class FeedbackDTO {
+  @IsString()
+  @IsNotEmpty()
+  fullname: string;
+
+  @IsString()
+  @IsNotEmpty()
+  position: string;
+
+  @IsNumber()
+  relationship: number;
+
   @IsNotEmpty()
   form: import("mongoose").Types.ObjectId;
 
   @IsNotEmpty()
-  user: import("mongoose").Types.ObjectId;
-
-  createdBy: import("mongoose").Types.ObjectId;
+  result: any;
 }

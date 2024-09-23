@@ -12,27 +12,24 @@ import {
   Param,
   Post,
   Body,
-  Res,
-  StreamableFile,
 } from "@nestjs/common";
-import { FeedbackService } from "./feedback.service";
-import { UserService } from "../user/user.service";
-import { SettingService } from "../settting/setting.service";
 import { AdminMaybeGuard } from "@app/guards/admin-maybe.guard";
-import { Responser } from "@app/decorators/responser.decorator";
 import { PermissionPipe } from "@app/pipes/permission.pipe";
 import { ExposePipe } from "@app/pipes/expose.pipe";
-import { FeedbackDTO, FeedbackPaginateQueryDTO } from "./feedback.dto";
-import { Feedback } from "./feedback.model";
+import { Responser } from "@app/decorators/responser.decorator";
 import {
   PaginateOptions,
   PaginateQuery,
   PaginateResult,
 } from "@app/utils/paginate";
-import lodash from "lodash";
-import { MongooseDoc } from "@app/interfaces/mongoose.interface";
+import { SettingService } from "../settting/setting.service";
 import { AdminOnlyGuard } from "@app/guards/admin-only.guard";
-import type { Response } from "express";
+import { MongooseDoc } from "@app/interfaces/mongoose.interface";
+import { UserService } from "../user/user.service";
+import { FeedbackDTO, FeedbackPaginateQueryDTO } from "./feedback.dto";
+import { FeedbackService } from "./feedback.service";
+import { Feedback } from "./feedback.model";
+import lodash from "lodash";
 
 @Controller("feedback")
 export class FeedbackController {
@@ -43,7 +40,7 @@ export class FeedbackController {
   ) {}
 
   // get list feedbacks
-  @Get()
+  @Get("/getAll")
   // @UseGuards(AdminMaybeGuard)
   @Responser.paginate()
   @Responser.handle("Get feedbacks")
@@ -63,7 +60,10 @@ export class FeedbackController {
     if (filters.keyword) {
       const trimmed = lodash.trim(filters.keyword);
       const keywordRegExp = new RegExp(trimmed, "i");
-      paginateQuery.$or = [{ title: keywordRegExp }];
+      paginateQuery.$or = [
+        { title: keywordRegExp },
+        { description: keywordRegExp },
+      ];
     }
     //filter feedback have deletedBy = null
     paginateQuery.deletedBy = null;
@@ -90,33 +90,20 @@ export class FeedbackController {
   }
 
   // get feedback
-  @Get(":id")
+  @Get("/get/:id")
   @Responser.handle("Get feedback")
   findOne(@Param("id") feedbackID: string): Promise<MongooseDoc<Feedback>> {
     return this.feedbackService.findOne(feedbackID);
   }
 
   // create feedback
-  @Post()
-  // @UseGuards(AdminOnlyGuard)
+  @Post("/add")
+  //@UseGuards(AdminOnlyGuard)
   @Responser.handle("Create feedback")
   createFeedback(
     @Req() req: any,
     @Body() feedback: FeedbackDTO
   ): Promise<Feedback> {
     return this.feedbackService.create(feedback, req.user);
-  }
-
-  // export list products
-  @Get("/download/:id")
-  async downloadPdf(@Param("id") feedbackID: string, @Res() res: Response) {
-    const buffer = await this.feedbackService.generatePdfFile(feedbackID);
-
-    res.set({
-      "Content-Type": "application/pdf",
-      "Content-Disposition": 'attachment; filename="report.pdf"',
-    });
-
-    res.send(buffer);
   }
 }

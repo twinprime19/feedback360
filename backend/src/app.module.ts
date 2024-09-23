@@ -32,10 +32,10 @@ import { RoleModule } from "./modules/role/role.module";
 import { PermissionModule } from "./modules/permission/permission.module";
 import { MediaModule } from "./modules/media/media.module";
 import { SettingModule } from "./modules/settting/setting.module";
+import { TemplateModule } from "./modules/template/template.module";
 import { FormModule } from "./modules/form/form.module";
-import { FeedbackModule } from "./modules/feedback/feedback.module";
 import { QuestionModule } from "./modules/question/question.module";
-import { StatisticModule } from "./modules/statistic/statistic.module";
+import { FeedbackModule } from "./modules/feedback/feedback.module";
 
 @Module({
   imports: [
@@ -57,10 +57,10 @@ import { StatisticModule } from "./modules/statistic/statistic.module";
     SeedsModule,
     MediaModule,
     SettingModule,
+    TemplateModule,
     FormModule,
-    FeedbackModule,
     QuestionModule,
-    StatisticModule,
+    FeedbackModule,
   ],
   controllers: [AppController],
   providers: [

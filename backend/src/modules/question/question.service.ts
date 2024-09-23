@@ -69,7 +69,7 @@ export class QuestionService {
       .then(
         (result) =>
           result ||
-          Promise.reject(`Phân loại có ID "${questionID}" không được tìm thấy.`)
+          Promise.reject(`Câu hỏi có ID "${questionID}" không được tìm thấy.`)
       );
     return question;
   }
@@ -86,7 +86,7 @@ export class QuestionService {
     const question = await this.questionModel
       .findByIdAndUpdate(questionID, questionDTO, { new: true })
       .exec();
-    if (!question) throw `Phân loại có ID "${questionID}" không được tìm thấy.`;
+    if (!question) throw `Câu hỏi có ID "${questionID}" không được tìm thấy.`;
 
     return question;
   }
@@ -106,7 +106,7 @@ export class QuestionService {
         { new: true }
       )
       .exec();
-    if (!question) throw `Phân loại có ID "${questionID}" không được tìm thấy.`;
+    if (!question) throw `Câu hỏi có ID "${questionID}" không được tìm thấy.`;
 
     return question;
   }
@@ -128,7 +128,7 @@ export class QuestionService {
         { new: true }
       )
       .exec();
-    if (!question) throw `Phân loại có ID "${questionID}" không được tìm thấy.`;
+    if (!question) throw `Câu hỏi có ID "${questionID}" không được tìm thấy.`;
 
     return question;
   }

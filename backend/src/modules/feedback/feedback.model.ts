@@ -1,16 +1,32 @@
 /**
  * @file Feedback model
- * @module module/feedback/model
+ * @module module/Feedback/model
  */
 
 import { AutoIncrementID } from "@typegoose/auto-increment";
 import { prop, plugin, modelOptions, Ref } from "@typegoose/typegoose";
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import {
+  IsDefined,
+  IsIn,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from "class-validator";
 import { generalAutoIncrementIDConfig } from "@app/constants/increment.constant";
 import { getProviderByTypegooseClass } from "@app/transformers/model.transformer";
 import { mongoosePaginate } from "@app/utils/paginate";
 import { User } from "../user/entities/user.entity";
+import { Template } from "../template/template.model";
 import { Form } from "../form/form.model";
+import { RelationshipState } from "@app/constants/biz.constant";
+
+export const RELATIONSHIP_STATES = [
+  RelationshipState.SELF,
+  RelationshipState.PEER,
+  RelationshipState.SUBORDINATE,
+  RelationshipState.SENIOR,
+] as const;
 
 @plugin(mongoosePaginate)
 @plugin(AutoIncrementID, generalAutoIncrementIDConfig)
@@ -29,17 +45,47 @@ export class Feedback {
   @prop({ ref: () => Form, required: true })
   form: Ref<Form>; // mẫu form
 
+  @prop({ ref: () => Template, required: true })
+  template: Ref<Template>; // mẫu template
+
   @prop({ ref: () => User, default: true })
   user: Ref<User>; // nhân viên được đánh giá
 
   @IsOptional()
-  @prop({ default: [] })
-  assessors: any; // dánh sách người đánh giá
+  @prop({ required: false, default: null })
+  assessor: Ref<User>; // người đánh giá
 
   @IsString()
   @IsNotEmpty()
   @prop({ required: true })
-  time: string; // thời gian tạo form
+  time: string; // thời gian phản hồi
+
+  @IsString()
+  @IsNotEmpty()
+  @prop({ required: true })
+  fullname: string; // họ tên
+
+  @IsString()
+  @IsNotEmpty()
+  @prop({ required: true })
+  position: string; // chức vụ
+
+  @IsIn(RELATIONSHIP_STATES)
+  @IsInt()
+  @IsDefined()
+  @prop({
+    enum: RelationshipState,
+    default: RelationshipState.SELF,
+    index: true,
+  })
+  relationship: RelationshipState;
+
+  @prop({ required: true })
+  result: any; // kêt quả của người đánh giá
+
+  
+  @prop({ required: true })
+  feedbackData: any; // kêt quả phân tích của người đánh giá
 
   @prop({ default: Date.now, immutable: true })
   createdAt?: Date;

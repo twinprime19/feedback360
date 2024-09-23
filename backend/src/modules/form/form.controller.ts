@@ -1,44 +1,48 @@
+/**
+ * @file Form controller
+ * @module module/form/controller
+ */
+
 import {
   Controller,
-  UseGuards,
   Get,
   Query,
   Req,
   Param,
-  Delete,
   Post,
   Body,
-  Put,
-  Patch,
+  Res,
 } from "@nestjs/common";
 import { FormService } from "./form.service";
+import { UserService } from "../user/user.service";
+import { SettingService } from "../settting/setting.service";
 import { AdminMaybeGuard } from "@app/guards/admin-maybe.guard";
+import { Responser } from "@app/decorators/responser.decorator";
 import { PermissionPipe } from "@app/pipes/permission.pipe";
 import { ExposePipe } from "@app/pipes/expose.pipe";
-import { Responser } from "@app/decorators/responser.decorator";
+import { FormDTO, FormPaginateQueryDTO } from "./form.dto";
+import { Form } from "./form.model";
 import {
   PaginateOptions,
   PaginateQuery,
   PaginateResult,
 } from "@app/utils/paginate";
-import { UserService } from "../user/user.service";
-import { FormDTO, FormPaginateQueryDTO, FormsDTO } from "./form.dto";
-import { SettingService } from "../settting/setting.service";
-import { AdminOnlyGuard } from "@app/guards/admin-only.guard";
-import { MongooseDoc } from "@app/interfaces/mongoose.interface";
-import { Form } from "./form.model";
 import lodash from "lodash";
+import { MongooseDoc } from "@app/interfaces/mongoose.interface";
+import { AdminOnlyGuard } from "@app/guards/admin-only.guard";
+import type { Response } from "express";
+
 @Controller("form")
 export class FormController {
   constructor(
-    private readonly userService: UserService,
     private readonly formService: FormService,
+    private readonly userService: UserService,
     private readonly settingService: SettingService
   ) {}
 
   // get list forms
-  @Get()
- // @UseGuards(AdminMaybeGuard)
+  @Get("/getAll")
+  // @UseGuards(AdminMaybeGuard)
   @Responser.paginate()
   @Responser.handle("Get forms")
   async find(
@@ -84,60 +88,30 @@ export class FormController {
   }
 
   // get form
-  @Get(":id")
-  //@Responser.handle("Get form")
+  @Get("/get/:id")
+  @Responser.handle("Get form")
   findOne(@Param("id") formID: string): Promise<MongooseDoc<Form>> {
     return this.formService.findOne(formID);
   }
 
   // create form
-  @Post()
-  //@UseGuards(AdminOnlyGuard)
+  @Post("/add")
+  // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Create form")
   createForm(@Req() req: any, @Body() form: FormDTO): Promise<Form> {
     return this.formService.create(form, req.user);
   }
 
-  // update form
-  @Put(":id")
- // @UseGuards(AdminOnlyGuard)
-  @Responser.handle("Update form")
-  updateForm(
-    @Req() req: any,
-    @Param("id") formID: string,
-    @Body() form: Form
-  ): Promise<MongooseDoc<Form>> {
-    return this.formService.update(formID, form, req.user);
-  }
+  // export result statistic of form
+  @Get("/statistic/:id")
+  async downloadPdf(@Param("id") formID: string, @Res() res: Response) {
+    const buffer = await this.formService.generatePdfFile(formID);
 
-  // update status form
-  @Patch(":id")
-  //@UseGuards(AdminOnlyGuard)
-  @Responser.handle("Update form status")
-  updateStatus(
-    @Req() req: any,
-    @Param("id") formID: string,
-    @Body() form: { status: number }
-  ): Promise<MongooseDoc<Form>> {
-    return this.formService.updateStatus(formID, form.status, req.user);
-  }
+    res.set({
+      "Content-Type": "application/pdf",
+      "Content-Disposition": 'attachment; filename="report.pdf"',
+    });
 
-  // delete one form
-  @Delete(":id")
- // @UseGuards(AdminOnlyGuard)
-  @Responser.handle("Delete form")
-  delForm(
-    @Req() req: any,
-    @Param("id") formID: string
-  ): Promise<MongooseDoc<Form>> {
-    return this.formService.delete(formID, req.user);
-  }
-
-  // delete many forms
-  @Delete()
- // @UseGuards(AdminOnlyGuard)
-  @Responser.handle("Delete forms")
-  delForms(@Req() req: any, @Body() body: FormsDTO) {
-    return this.formService.batchDelete(body.formIds, req.user);
+    res.send(buffer);
   }
 }

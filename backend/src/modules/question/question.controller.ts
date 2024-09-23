@@ -47,7 +47,7 @@ export class QuestionController {
   ) {}
 
   // get list questions
-  @Get()
+  @Get("/getAll")
   // @UseGuards(AdminMaybeGuard)
   @Responser.paginate()
   @Responser.handle("Get questions")
@@ -99,14 +99,14 @@ export class QuestionController {
   }
 
   // get question
-  @Get(":id")
+  @Get("/get/:id")
   @Responser.handle("Get question")
   findOne(@Param("id") questionID: string): Promise<MongooseDoc<Question>> {
     return this.questionService.findOne(questionID);
   }
 
   // create question
-  @Post()
+  @Post("/add")
   // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Create question")
   createQuestion(
@@ -117,7 +117,7 @@ export class QuestionController {
   }
 
   // update question
-  @Put(":id")
+  @Put("/edit/:id")
   // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Update question")
   updateQuestion(
@@ -129,7 +129,7 @@ export class QuestionController {
   }
 
   // update status question
-  @Patch(":id")
+  @Patch("/edit/:id")
   // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Update question status")
   updateStatus(
@@ -145,7 +145,7 @@ export class QuestionController {
   }
 
   // delete one question
-  @Delete(":id")
+  @Delete("/detete/:id")
   // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Delete question")
   delQuestion(
@@ -156,7 +156,7 @@ export class QuestionController {
   }
 
   // delete many questions
-  @Delete()
+  @Delete("/detete")
   // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Delete questions")
   delQuestions(@Req() req: any, @Body() body: QuestionsDTO) {

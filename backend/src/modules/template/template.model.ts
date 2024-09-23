@@ -1,45 +1,38 @@
-/**
- * @file Form model
- * @module module/form/model
- */
-
 import { AutoIncrementID } from "@typegoose/auto-increment";
 import { prop, plugin, modelOptions, Ref } from "@typegoose/typegoose";
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { generalAutoIncrementIDConfig } from "@app/constants/increment.constant";
 import { getProviderByTypegooseClass } from "@app/transformers/model.transformer";
 import { mongoosePaginate } from "@app/utils/paginate";
-import { User } from "../user/entities/user.entity";
-import { Template } from "../template/template.model";
+import { SexState } from "@app/constants/biz.constant";
+import { IsString, IsNotEmpty } from "class-validator";
+import { User } from "@app/modules/user/entities/user.entity";
 
 @plugin(mongoosePaginate)
-@plugin(AutoIncrementID, generalAutoIncrementIDConfig)
 @modelOptions({
   schemaOptions: {
     timestamps: {
       createdAt: "createdAt",
       updatedAt: "updatedAt",
     },
+    toJSON: {
+      virtuals: true,
+      transform: function (doc, ret) {
+        delete ret.password;
+        return ret;
+      },
+    },
+    toObject: { virtuals: true },
   },
 })
-export class Form {
-  @prop({ unique: true })
-  id: number;
-
-  @prop({ ref: () => Template, required: true })
-  template: Ref<Template>; // mẫu template
-
-  @prop({ ref: () => User, default: true })
-  user: Ref<User>; // nhân viên được đánh giá
-
-  @IsOptional()
-  @prop({ default: [] })
-  assessors: any; // dánh sách người đánh giá
-
+export class Template {
   @IsString()
   @IsNotEmpty()
   @prop({ required: true })
-  time: string; // thời gian tạo form
+  title: string;
+
+  @IsNotEmpty()
+  @prop({ required: true })
+  template: any;
 
   @prop({ default: Date.now, immutable: true })
   createdAt?: Date;
@@ -58,9 +51,5 @@ export class Form {
 
   @prop({ ref: () => User, default: null })
   deletedBy: Ref<User>;
-
-  // for article aggregate
-  formCount?: number;
 }
-
-export const FormProvider = getProviderByTypegooseClass(Form);
+export const TemplateProvider = getProviderByTypegooseClass(Template);

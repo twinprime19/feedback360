@@ -1,6 +1,6 @@
 /**
- * @file Statistic dto
- * @module module/Statistic/dto
+ * @file Template dto
+ * @module module/template/dto
  */
 import { IntersectionType } from "@nestjs/mapped-types";
 import {
@@ -12,7 +12,6 @@ import {
   IsNotEmpty,
   IsOptional,
   IsIn,
-  IsNumber,
 } from "class-validator";
 import { Transform } from "class-transformer";
 import { SortType } from "@app/constants/biz.constant";
@@ -20,13 +19,13 @@ import { PaginateOptionDTO } from "@app/models/paginate.model";
 import { KeywordQueryDTO, StatusQueryDTO } from "@app/models/query.model";
 import { unknownToNumber } from "@app/transformers/value.transformer";
 
-export class StatisticPaginateQueryDTO extends IntersectionType(
+export class TemplatePaginateQueryDTO extends IntersectionType(
   PaginateOptionDTO,
   KeywordQueryDTO,
   StatusQueryDTO
 ) {
   @IsString()
-  field?: string = "createdAt";
+  field?: string = "updatedAt";
 
   @IsIn([SortType.Asc, SortType.Desc])
   @IsInt()
@@ -36,29 +35,23 @@ export class StatisticPaginateQueryDTO extends IntersectionType(
   order?: SortType.Asc | SortType.Desc;
 }
 
-export class StatisticsDTO {
+export class TemplatesDTO {
   @ArrayUnique()
   @ArrayNotEmpty()
   @IsArray()
-  statisticIds: string[];
+  templateIds: string[];
 }
 
-export class StatisticDTO {
+export class TemplateDTO {
   @IsString()
   @IsNotEmpty()
-  fullname: string;
+  title: string;
 
-  @IsString()
-  @IsNotEmpty()
-  position: string;
+  @IsOptional()
+  template: any;
 
-  
-  @IsNumber()
-  relationship: number;
-  
-  @IsNotEmpty()
-  feedback: import("mongoose").Types.ObjectId;
+  createdBy: import("mongoose").Types.ObjectId;
 
-  @IsNotEmpty()
-  result: any;
+  @IsOptional()
+  updatedBy: import("mongoose").Types.ObjectId;
 }
