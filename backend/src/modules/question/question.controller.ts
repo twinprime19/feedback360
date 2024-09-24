@@ -143,7 +143,7 @@ export class QuestionController {
   }
 
   // delete one question
-  @Delete("/detete/:id")
+  @Delete("/delete/:id")
   // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Delete question")
   delQuestion(
@@ -154,7 +154,7 @@ export class QuestionController {
   }
 
   // delete many questions
-  @Delete("/detete")
+  @Delete("/delete")
   // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Delete questions")
   delQuestions(@Req() req: any, @Body() body: QuestionsDTO) {

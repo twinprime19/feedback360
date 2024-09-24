@@ -20,6 +20,7 @@ import {
   FontCustomRobotoNormal,
   PublishState,
   QuestionTypeState,
+  RelationshipState,
 } from "@app/constants/biz.constant";
 import { Template } from "../template/template.model";
 import { Question } from "../question/question.model";
@@ -125,68 +126,160 @@ export class FormService {
 
     let arrReviewQuestions: any = [];
     let arrAnswerQuestions: any = [];
-    let arrQuestions: any = [];
 
     for (let qid of reviewQuestions) {
       let question = await this.questionModel.findById(qid);
-      if (question && question.type === QuestionTypeState.POINT) {
+      if (question && question.type === QuestionTypeState.POINT)
         arrReviewQuestions.push(question);
-        arrQuestions.push(question);
-      }
+      else arrAnswerQuestions.push(question);
     }
 
     for (let qid of answerQuestions) {
       let question = await this.questionModel.findById(qid);
-      if (question && question.type === QuestionTypeState.POINT) {
-        arrAnswerQuestions.push(question);
-        arrQuestions.push(question);
-      }
+      if (question && question.type === QuestionTypeState.POINT)
+        arrReviewQuestions.push(question);
+      else arrAnswerQuestions.push(question);
     }
 
-    let answerFeedbacks = await this.feedbackModel.find({
+    let userFeedbacks = await this.feedbackModel.find({
       form: formID,
     });
-    console.log("answerFeedbacks", answerFeedbacks);
 
-    for (let questionObj of arrQuestions) {
-      let newQuestion = {
+    let statisticReviewQuestions: any = [];
+    for (let questionObj of arrReviewQuestions) {
+      let arrFeedbacks: any = [];
+      for (let feedback of userFeedbacks) {
+        let filterQuestion = feedback.feedbackData.find(
+          (ele) => ele.id === String(questionObj._id)
+        );
+        arrFeedbacks.push(filterQuestion);
+      }
+
+      console.log("arrFeedbacks", arrFeedbacks);
+
+      let selfPoint = 0;
+      let totalSeniorPoint = 0;
+      let totalPeerPoint = 0;
+      let totalSubordinatePoint = 0;
+
+      let countSeniorOne = 0;
+      let countSeniorTwo = 0;
+      let countSeniorThree = 0;
+      let countSeniorFour = 0;
+      let countSeniorFive = 0;
+      let countSeniorKO = 0;
+      let countSeniorTC = 0;
+
+      let countPeerOne = 0;
+      let countPeerTwo = 0;
+      let countPeerThree = 0;
+      let countPeerFour = 0;
+      let countPeerFive = 0;
+      let countPeerKO = 0;
+      let countPeerTC = 0;
+
+      let countSubordinateOne = 0;
+      let countSubordinateTwo = 0;
+      let countSubordinateThree = 0;
+      let countSubordinateFour = 0;
+      let countSubordinateFive = 0;
+      let countSubordinateKO = 0;
+      let countSubordinateTC = 0;
+
+      for (let feedback of arrFeedbacks) {
+        let relationship = feedback.relationship;
+
+        if (relationship === RelationshipState.SELF)
+          selfPoint = feedback.selfPoint;
+
+        if (relationship === RelationshipState.SENIOR) {
+          totalSeniorPoint += feedback.senior_detail.point;
+          countSeniorOne += feedback.senior_detail.one === true ? 1 : 0;
+          countSeniorTwo += feedback.senior_detail.two === true ? 1 : 0;
+          countSeniorThree += feedback.senior_detail.three === true ? 1 : 0;
+          countSeniorFour += feedback.senior_detail.four === true ? 1 : 0;
+          countSeniorFive += feedback.senior_detail.five === true ? 1 : 0;
+          countSeniorKO += feedback.senior_detail.ko === true ? 1 : 0;
+          countSeniorTC += feedback.senior_detail.tc === true ? 1 : 0;
+        }
+
+        if (relationship === RelationshipState.PEER) {
+          totalPeerPoint += feedback.peer_detail.point;
+          countPeerOne += feedback.peer_detail.one === true ? 1 : 0;
+          countPeerTwo += feedback.peer_detail.two === true ? 1 : 0;
+          countPeerThree += feedback.peer_detail.three === true ? 1 : 0;
+          countPeerFour += feedback.peer_detail.four === true ? 1 : 0;
+          countPeerFive += feedback.peer_detail.five === true ? 1 : 0;
+          countPeerKO += feedback.peer_detail.ko === true ? 1 : 0;
+          countPeerTC += feedback.peer_detail.tc === true ? 1 : 0;
+        }
+
+        if (relationship === RelationshipState.SUBORDINATE) {
+          totalSubordinatePoint += feedback.subordinate_detail.point;
+          countSubordinateOne +=
+            feedback.subordinate_detail.one === true ? 1 : 0;
+          countSubordinateTwo +=
+            feedback.subordinate_detail.two === true ? 1 : 0;
+          countSubordinateThree +=
+            feedback.subordinate_detail.three === true ? 1 : 0;
+          countSubordinateFour +=
+            feedback.subordinate_detail.four === true ? 1 : 0;
+          countSubordinateFive +=
+            feedback.subordinate_detail.five === true ? 1 : 0;
+          countSubordinateKO += feedback.subordinate_detail.ko === true ? 1 : 0;
+          countSubordinateTC += feedback.subordinate_detail.tc === true ? 1 : 0;
+        }
+      }
+
+      let avgSeniorPoint = totalSeniorPoint / countSeniorTC;
+      let avgPeerPoint = totalPeerPoint / countPeerTC;
+      let avgSubordinatePoint = totalSubordinatePoint / countSubordinateTC;
+
+      let statisticQuestion = {
         id: String(questionObj._id),
         title: questionObj.title,
         type: questionObj.type,
-        selfPoint: 0,
-        // senior: 0,
-        // peer: 0,
-        // subordinate: 0,
 
-        senior_detail: {
-          one: 0,
-          two: 0,
-          three: 0,
-          four: 0,
-          five: 0,
-          ko: false,
-          tc: true,
+        selfPoint: selfPoint,
+        avgSeniorPoint: avgSeniorPoint,
+        avgPeerPoint: avgPeerPoint,
+        avgSubordinatePoint: avgSubordinatePoint,
+
+        countSenior: {
+          one: countSeniorOne,
+          two: countSeniorTwo,
+          three: countSeniorThree,
+          four: countSeniorFour,
+          five: countSeniorFive,
+          ko: countSeniorKO,
+          tc: countSeniorTC,
         },
-        peer_detail: {
-          one: 0,
-          two: 0,
-          three: 0,
-          four: 0,
-          five: 0,
-          ko: false,
-          tc: true,
+
+        countPeer: {
+          one: countPeerOne,
+          two: countPeerTwo,
+          three: countPeerThree,
+          four: countPeerFour,
+          five: countPeerFive,
+          ko: countPeerKO,
+          tc: countPeerTC,
         },
-        subordinate_detail: {
-          one: 0,
-          two: 0,
-          three: 0,
-          four: 0,
-          five: 0,
-          ko: false,
-          tc: true,
+
+        countSubordinate: {
+          one: countSubordinateOne,
+          two: countSubordinateTwo,
+          three: countSubordinateThree,
+          four: countSubordinateFour,
+          five: countSubordinateFive,
+          ko: countSubordinateKO,
+          tc: countSubordinateTC,
         },
       };
+
+      statisticReviewQuestions.push(statisticQuestion)
     }
+
+    console.log("statisticReviewQuestions", statisticReviewQuestions);
 
     let rowDatas: any = [];
 

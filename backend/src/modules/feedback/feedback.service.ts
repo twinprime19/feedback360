@@ -79,7 +79,6 @@ export class FeedbackService {
 
     let arrReviewQuestions: any = [];
     let arrAnswerQuestions: any = [];
-    let arrQuestions: any = [];
 
     for (let qid of reviewQuestions) {
       let question = await this.questionModel.findById(qid);
@@ -103,35 +102,39 @@ export class FeedbackService {
         id: String(questionObj._id),
         title: questionObj.title,
         type: questionObj.type,
+        relationship: feedbackDTO.relationship,
         selfPoint: 0,
         // senior: 0,
         // peer: 0,
         // subordinate: 0,
 
         senior_detail: {
-          one: 0,
-          two: 0,
-          three: 0,
-          four: 0,
-          five: 0,
+          point: 0,
+          one: false,
+          two: false,
+          three: false,
+          four: false,
+          five: false,
           ko: false,
           tc: true,
         },
         peer_detail: {
-          one: 0,
-          two: 0,
-          three: 0,
-          four: 0,
-          five: 0,
+          point: 0,
+          one: false,
+          two: false,
+          three: false,
+          four: false,
+          five: false,
           ko: false,
           tc: true,
         },
         subordinate_detail: {
-          one: 0,
-          two: 0,
-          three: 0,
-          four: 0,
-          five: 0,
+          point: 0,
+          one: false,
+          two: false,
+          three: false,
+          four: false,
+          five: false,
           ko: false,
           tc: true,
         },
@@ -146,28 +149,39 @@ export class FeedbackService {
         }
         if (feedbackDTO.relationship === RelationshipState.PEER) {
           if (checkQuestion.point === 0) newQuestion.peer_detail.ko = true;
-          if (checkQuestion.point === 1) newQuestion.peer_detail.one = 1;
-          if (checkQuestion.point === 2) newQuestion.peer_detail.one = 2;
-          if (checkQuestion.point === 3) newQuestion.peer_detail.one = 3;
-          if (checkQuestion.point === 4) newQuestion.peer_detail.one = 4;
-          if (checkQuestion.point === 5) newQuestion.peer_detail.one = 5;
+          if (checkQuestion.point === 1) newQuestion.peer_detail.one = true;
+          if (checkQuestion.point === 2) newQuestion.peer_detail.two = true;
+          if (checkQuestion.point === 3) newQuestion.peer_detail.three = true;
+          if (checkQuestion.point === 4) newQuestion.peer_detail.four = true;
+          if (checkQuestion.point === 5) newQuestion.peer_detail.five = true;
+          if (checkQuestion.point >= 0 && checkQuestion.point <= 5)
+            newQuestion.peer_detail.point = checkQuestion.point;
         }
         if (feedbackDTO.relationship === RelationshipState.SENIOR) {
           if (checkQuestion.point === 0) newQuestion.senior_detail.ko = true;
-          if (checkQuestion.point === 1) newQuestion.senior_detail.one = 1;
-          if (checkQuestion.point === 2) newQuestion.senior_detail.one = 2;
-          if (checkQuestion.point === 3) newQuestion.senior_detail.one = 3;
-          if (checkQuestion.point === 4) newQuestion.senior_detail.one = 4;
-          if (checkQuestion.point === 5) newQuestion.senior_detail.one = 5;
+          if (checkQuestion.point === 1) newQuestion.senior_detail.one = true;
+          if (checkQuestion.point === 2) newQuestion.senior_detail.two = true;
+          if (checkQuestion.point === 3) newQuestion.senior_detail.three = true;
+          if (checkQuestion.point === 4) newQuestion.senior_detail.four = true;
+          if (checkQuestion.point === 5) newQuestion.senior_detail.five = true;
+          if (checkQuestion.point >= 0 && checkQuestion.point <= 5)
+            newQuestion.senior_detail.point = checkQuestion.point;
         }
         if (feedbackDTO.relationship === RelationshipState.SUBORDINATE) {
           if (checkQuestion.point === 0)
             newQuestion.subordinate_detail.ko = true;
-          if (checkQuestion.point === 1) newQuestion.subordinate_detail.one = 1;
-          if (checkQuestion.point === 2) newQuestion.subordinate_detail.one = 2;
-          if (checkQuestion.point === 3) newQuestion.subordinate_detail.one = 3;
-          if (checkQuestion.point === 4) newQuestion.subordinate_detail.one = 4;
-          if (checkQuestion.point === 5) newQuestion.subordinate_detail.one = 5;
+          if (checkQuestion.point === 1)
+            newQuestion.subordinate_detail.one = true;
+          if (checkQuestion.point === 2)
+            newQuestion.subordinate_detail.two = true;
+          if (checkQuestion.point === 3)
+            newQuestion.subordinate_detail.three = true;
+          if (checkQuestion.point === 4)
+            newQuestion.subordinate_detail.four = true;
+          if (checkQuestion.point === 5)
+            newQuestion.subordinate_detail.five = true;
+          if (checkQuestion.point >= 0 && checkQuestion.point <= 5)
+            newQuestion.subordinate_detail.point = checkQuestion.point;
         }
       }
 
@@ -179,6 +193,7 @@ export class FeedbackService {
         id: String(questionObj._id),
         title: questionObj.title,
         type: questionObj.type,
+        relationship: feedbackDTO.relationship,
         answer: "",
       };
 
