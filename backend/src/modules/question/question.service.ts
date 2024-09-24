@@ -140,7 +140,7 @@ export class QuestionService {
     const questions = await this.questionModel
       .find({ _id: { $in: questionIDs } })
       .exec();
-    if (!questions) throw `Questions không được tìm thấy.`;
+    if (!questions) throw `Câu hỏi không được tìm thấy.`;
 
     return await this.questionModel
       .updateMany(

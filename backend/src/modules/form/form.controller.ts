@@ -49,7 +49,7 @@ export class FormController {
     @Req() req: any,
     @Query(PermissionPipe, ExposePipe) query: FormPaginateQueryDTO
   ): Promise<PaginateResult<Form>> {
-    let { page, page_size, field, order, status, ...filters } = query;
+    let { page, page_size, field, order, status, user, ...filters } = query;
     console.log("QUERYDATA", query);
     //let user = await this.userService.findByUserName(req.user.userName);
     page_size = page_size ?? 100;
@@ -61,6 +61,8 @@ export class FormController {
       const keywordRegExp = new RegExp(trimmed, "i");
       paginateQuery.$or = [{ title: keywordRegExp }];
     }
+    // filter by user
+    if (user) paginateQuery.user = user;
     //filter form have deletedBy = null
     paginateQuery.deletedBy = null;
     // status

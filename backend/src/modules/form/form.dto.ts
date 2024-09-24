@@ -17,13 +17,18 @@ import {
 import { Transform } from "class-transformer";
 import { SortType } from "@app/constants/biz.constant";
 import { PaginateOptionDTO } from "@app/models/paginate.model";
-import { KeywordQueryDTO, StatusQueryDTO } from "@app/models/query.model";
+import {
+  KeywordQueryDTO,
+  StatusQueryDTO,
+  UserQueryDTO,
+} from "@app/models/query.model";
 import { unknownToNumber } from "@app/transformers/value.transformer";
 
 export class FormPaginateQueryDTO extends IntersectionType(
   PaginateOptionDTO,
   KeywordQueryDTO,
-  StatusQueryDTO
+  StatusQueryDTO,
+  UserQueryDTO
 ) {
   @IsString()
   field?: string = "createdAt";
@@ -40,7 +45,7 @@ export class FormsDTO {
   @ArrayUnique()
   @ArrayNotEmpty()
   @IsArray()
-  FormIds: string[];
+  formIds: string[];
 }
 
 export class FormDTO {

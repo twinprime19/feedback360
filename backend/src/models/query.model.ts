@@ -66,3 +66,6 @@ export class TypeQueryDTO {
   type?: string;
 }
 
+export class UserQueryDTO {
+  user?: string;
+}

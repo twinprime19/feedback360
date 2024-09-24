@@ -146,7 +146,10 @@ export class FormService {
     });
 
     let statisticReviewQuestions: any = [];
+    let indexQuestion = 0;
     for (let questionObj of arrReviewQuestions) {
+      indexQuestion = indexQuestion + 1;
+
       let arrFeedbacks: any = [];
       for (let feedback of userFeedbacks) {
         let filterQuestion = feedback.feedbackData.find(
@@ -154,8 +157,6 @@ export class FormService {
         );
         arrFeedbacks.push(filterQuestion);
       }
-
-      console.log("arrFeedbacks", arrFeedbacks);
 
       let selfPoint = 0;
       let totalSeniorPoint = 0;
@@ -231,154 +232,126 @@ export class FormService {
         }
       }
 
-      let avgSeniorPoint = totalSeniorPoint / countSeniorTC;
-      let avgPeerPoint = totalPeerPoint / countPeerTC;
-      let avgSubordinatePoint = totalSubordinatePoint / countSubordinateTC;
+      let avgSeniorPoint =
+        countSeniorTC > 0 ? totalSeniorPoint / countSeniorTC : 0;
+      let avgPeerPoint = countPeerTC > 0 ? totalPeerPoint / countPeerTC : 0;
+      let avgSubordinatePoint =
+        countSubordinateTC > 0 ? totalSubordinatePoint / countSubordinateTC : 0;
 
       let statisticQuestion = {
+        index: indexQuestion,
         id: String(questionObj._id),
         title: questionObj.title,
         type: questionObj.type,
-
         selfPoint: selfPoint,
         avgSeniorPoint: avgSeniorPoint,
         avgPeerPoint: avgPeerPoint,
         avgSubordinatePoint: avgSubordinatePoint,
 
         countSenior: {
-          one: countSeniorOne,
-          two: countSeniorTwo,
-          three: countSeniorThree,
-          four: countSeniorFour,
-          five: countSeniorFive,
-          ko: countSeniorKO,
-          tc: countSeniorTC,
+          one: countSeniorOne > 0 ? countSeniorOne : "",
+          two: countSeniorTwo > 0 ? countSeniorTwo : "",
+          three: countSeniorThree > 0 ? countSeniorThree : "",
+          four: countSeniorFour > 0 ? countSeniorFour : "",
+          five: countSeniorFive > 0 ? countSeniorFive : "",
+          ko: countSeniorKO > 0 ? countSeniorKO : "",
+          tc: countSeniorTC > 0 ? countSeniorTC : "",
         },
 
         countPeer: {
-          one: countPeerOne,
-          two: countPeerTwo,
-          three: countPeerThree,
-          four: countPeerFour,
-          five: countPeerFive,
-          ko: countPeerKO,
-          tc: countPeerTC,
+          one: countPeerOne > 0 ? countPeerOne : "",
+          two: countPeerTwo > 0 ? countPeerTwo : "",
+          three: countPeerThree > 0 ? countPeerThree : "",
+          four: countPeerFour > 0 ? countPeerFour : "",
+          five: countPeerFive > 0 ? countPeerFive : "",
+          ko: countPeerKO > 0 ? countPeerKO : "",
+          tc: countPeerTC > 0 ? countPeerTC : "",
         },
 
         countSubordinate: {
-          one: countSubordinateOne,
-          two: countSubordinateTwo,
-          three: countSubordinateThree,
-          four: countSubordinateFour,
-          five: countSubordinateFive,
-          ko: countSubordinateKO,
-          tc: countSubordinateTC,
+          one: countSubordinateOne > 0 ? countSubordinateOne : "",
+          two: countSubordinateTwo > 0 ? countSubordinateTwo : "",
+          three: countSubordinateThree > 0 ? countSubordinateThree : "",
+          four: countSubordinateFour > 0 ? countSubordinateFour : "",
+          five: countSubordinateFive > 0 ? countSubordinateFive : "",
+          ko: countSubordinateKO > 0 ? countSubordinateKO : "",
+          tc: countSubordinateTC > 0 ? countSubordinateTC : "",
         },
       };
 
-      statisticReviewQuestions.push(statisticQuestion)
+      statisticReviewQuestions.push(statisticQuestion);
     }
 
-    console.log("statisticReviewQuestions", statisticReviewQuestions);
-
     let rowDatas: any = [];
+    for (let record of statisticReviewQuestions) {
+      let rowData = [
+        record.index,
+        record.title,
+        record.selfPoint.toFixed(1),
+        record.avgSeniorPoint.toFixed(1),
+        record.avgPeerPoint.toFixed(1),
+        record.avgSubordinatePoint.toFixed(1),
 
-    const doc = new jsPDF({
-      orientation: "landscape",
-      unit: "mm",
-      format: "a4",
-    });
+        record.countSenior.one,
+        record.countSenior.two,
+        record.countSenior.three,
+        record.countSenior.four,
+        record.countSenior.five,
+        record.countSenior.ko,
+        record.countSenior.tc,
 
-    // add the font to jsPDF
-    doc.addFileToVFS("Roboto.ttf", FontCustomRobotoNormal);
-    doc.addFont("Roboto.ttf", "Roboto", "normal");
-    doc.addFileToVFS("Roboto1.ttf", FontCustomRobotoBold);
-    doc.addFont("Roboto1.ttf", "Roboto", "bold");
+        record.countPeer.one,
+        record.countPeer.two,
+        record.countPeer.three,
+        record.countPeer.four,
+        record.countPeer.five,
+        record.countPeer.ko,
+        record.countPeer.tc,
 
-    doc.setFontSize(16);
-    doc.setFont("Roboto", "bold");
+        record.countSubordinate.one,
+        record.countSubordinate.two,
+        record.countSubordinate.three,
+        record.countSubordinate.four,
+        record.countSubordinate.five,
+        record.countSubordinate.ko,
+        record.countSubordinate.tc,
+      ];
 
-    doc.text("BÁO CÁO KẾT QUẢ PHẢN HỒI 360°", 135, 20, { align: "center" });
-    doc.text("Anh …… – Giám Đốc ……", 135, 30, { align: "center" });
+      rowDatas.push(rowData);
+    }
 
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "bold");
-    doc.text("I. QUY ĐỊNH VỀ BẢO MẬT", 15, 45);
-    doc.setFont("Roboto", "normal");
-    doc.text(
-      "- Báo cáo này chỉ được đọc bởi: Ban Tổng giám đốc, phòng Nhân sự và Người được phản hồi (NĐPH),",
-      15,
-      55
-    );
-    doc.text(
-      "- Các vi phạm về bảo mật sẽ được xử lý kỹ luật theo nội quy công ty.",
-      15,
-      60
-    );
+    let statisticSelf: any = [];
+    let statisticSenior: any = [];
+    let statisticPeer: any = [];
+    let statisticSubordinate: any = [];
+    for (let record of statisticReviewQuestions) {
+      statisticSelf.push(record.selfPoint.toFixed(1));
+      statisticSenior.push(record.avgSeniorPoint.toFixed(1));
+      statisticPeer.push(record.avgPeerPoint.toFixed(1));
+      statisticSubordinate.push(record.avgSubordinatePoint.toFixed(1));
+    }
 
-    // Add second section
-    doc.setFont("Roboto", "bold");
-    doc.text("II. MỤC TIÊU CỦA VIỆC PHẢN HỒI NÀY", 15, 70);
-    doc.setFont("Roboto", "normal");
-    doc.text("- Nhằm giúp NĐPH biết được ý kiến góp ý xây dựng của:", 15, 80);
-    doc.text(
-      "✓Cấp trên: Ghi nhận những nỗ lực đóng góp cũng như những điểm cần phát huy hay cần hoàn thiện của NĐPH,",
-      20,
-      85
-    );
-    doc.text(
-      "✓Đồng cấp: Nhận xét của các đồng nghiệp cùng cấp trong quá trình phối hợp với NĐPH trong việc cùng hợp tác thực hiện mục tiêu của Công ty,",
-      20,
-      90
-    );
-    doc.text(
-      "✓Cấp dưới: Ghi nhận, cảm nhận và hiểu về NĐPH ở mức độ nào. Đồng thời thể hiện mong muốn NĐPH (Quản lý) của mình chú ý đến những vấn đề họ chưa cảm nhận được, chưa nắm rõ hoặc những góp ý xây dựng thêm. (Không nhằm mục tiêu nhận xét đúng sai).",
-      20,
-      95,
-      { maxWidth: 265 }
-    );
+    let statisticCriteria = [
+      {
+        title: "Tự đánh giá",
+        data: statisticSelf,
+      },
+      {
+        title: "Cấp trên",
+        data: statisticSenior,
+      },
+      {
+        title: "Ngang cấp",
+        data: statisticPeer,
+      },
+      {
+        title: "Cấp dưới",
+        data: statisticSubordinate,
+      },
+    ];
 
-    doc.text("- Kết quả phân tích của Báo cáo này làm cơ sở để NĐPH:", 15, 110);
-    doc.text("✓Duy trì và phát huy: những thế mạnh của mình,", 20, 115);
-    doc.text(
-      "✓Cải thiện: những điểm cần hoàn thiện của mình (nếu có),",
-      20,
-      120
-    );
-    doc.text(
-      "✓Điều chỉnh, lưu ý hoặc thay đổi phương pháp giao tiếp ứng xử, truyền đạt hiệu quả hơn.",
-      20,
-      125
-    );
-
-    // Add third section
-    doc.setFont("Roboto", "bold");
-    doc.text("III. KẾT QUẢ", 15, 135);
-    doc.setFont("Roboto", "normal");
-    doc.text(
-      "- Nhận xét của cấp trên gồm: Quản lý trực tiếp và gián tiếp (nếu có);",
-      15,
-      145
-    );
-    doc.text(
-      "- Nhận xét của đồng cấp gồm: Các đồng cấp thường xuyên phối hợp & một số vị trí tham chiếu thêm;",
-      15,
-      150
-    );
-    doc.text(
-      "- Nhận xét của cấp dưới gồm: Tất cả nhân viên thuộc bộ phận (trực tiếp và NV gián tiếp nếu có).",
-      15,
-      155
-    );
-
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "bold");
-    doc.text("1. Kết quả thống kê", 15, 20);
-    doc.setFont("Roboto", "normal");
-
-    // Define the table content
-    const tableColumn = [
+    // tạo bảng đầu tiên
+    const headRows1 = [
       [
         {
           content: "STT",
@@ -722,7 +695,7 @@ export class FormService {
       ],
     ];
 
-    const tableRows = [
+    const sampleBodyTable1 = [
       [
         "1",
         "Nỗ lực thực hiện hoàn thành mục tiêu của Phòng/bộ phận",
@@ -1015,10 +988,299 @@ export class FormService {
       ],
     ];
 
+    // Tạo bảng thứ 2
+    const headRows2 = [
+      [
+        {
+          content: "Tiêu Chí Số",
+          styles: {
+            halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
+          },
+        },
+        {
+          content: "1",
+          styles: {
+            halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
+          },
+        },
+        {
+          content: "2",
+          styles: {
+            halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
+          },
+        },
+        {
+          content: "3",
+          styles: {
+            halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
+          },
+        },
+        {
+          content: "4",
+          styles: {
+            halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
+          },
+        },
+        {
+          content: "5",
+          styles: {
+            halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
+          },
+        },
+        {
+          content: "6",
+          styles: {
+            halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
+          },
+        },
+        {
+          content: "7",
+          styles: {
+            halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
+          },
+        },
+        {
+          content: "8",
+          styles: {
+            halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
+          },
+        },
+        {
+          content: "9",
+          styles: {
+            halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
+          },
+        },
+      ],
+    ];
+
+    const sampleBodyTable2 = [
+      [
+        "Tự đánh giá",
+        "4.0",
+        "2.0",
+        "2.0",
+        "3.0",
+        "2.0",
+        "4.0",
+        "4.0",
+        "3.0",
+        "",
+      ],
+      [
+        "Cấp trên",
+        "4.5",
+        "3.0",
+        "2.5",
+        "2.5",
+        "2.5",
+        "3.5",
+        "4.0",
+        "3.0",
+        "4.0",
+      ],
+      [
+        "Ngang cấp",
+        "4.4",
+        "3.8",
+        "3.3",
+        "3.8",
+        "3.3",
+        "4.0",
+        "3.6",
+        "4.2",
+        "4.0",
+      ],
+      [
+        "Cấp dưới",
+        "5.0",
+        "4.5",
+        "4.0",
+        "4.0",
+        "3.5",
+        "4.0",
+        "4.5",
+        "4.5",
+        "4.0",
+      ],
+    ];
+
+    let bodyTable2: any = [];
+    for (let record of statisticCriteria) {
+      bodyTable2.push([record.title, ...record.data]);
+    }
+
+    // tạo bảng thứ 3
+    const headRows3 = [
+      [
+        {
+          content: "STT",
+          styles: {
+            halign: "center",
+            valign: "middle",
+            fillColor: [255, 192, 0],
+            textColor: [255, 255, 255],
+          },
+        },
+        {
+          content: "Nội dung tiêu chí",
+          styles: {
+            halign: "center",
+            valign: "middle",
+            fillColor: [255, 192, 0],
+            textColor: [255, 255, 255],
+          },
+        },
+      ],
+    ];
+
+    const sampleBodyTable3 = [
+      ["1", "Nỗ lực thực hiện hoàn thành mục tiêu của Phòng/bộ phận"],
+      [
+        "2",
+        "Luôn hợp tác, hay khuyến khích sự hợp tác để hoàn thành mục tiêu chung của Công ty",
+      ],
+      ["3", "Lắng nghe tích cực, sẵn sàng trao đổi dựa trên sự thấu hiểu"],
+      [
+        "4",
+        "Luôn tạo cơ hội, khuyến khích người khác/ nhân viên đóng góp ý kiến trong công việc",
+      ],
+      [
+        "5",
+        "Truyền cảm hứng cho người khác/ nv thông qua việc công nhận/tưởng thưởng kết quả đóng góp/làm việc của họ",
+      ],
+      ["6", "Phân công công việc một cách hiệu quả"],
+      ["7", "Thể hiện tính cương quyết, không chần chừ, dám nhận trách nhiệm"],
+      [
+        "8",
+        "Luôn cải tiến, động viên và thúc đẩy sự thay đổi trong công việc để đạt hiệu quả cao hơn",
+      ],
+      ["9", "Mức độ hứng khởi của anh/ chị khi làm việc với người này"],
+    ];
+
+    let bodyTable3: any = [];
+    for (let record of statisticReviewQuestions) {
+      bodyTable3.push([record.index, record.title]);
+    }
+
+    const doc = new jsPDF({
+      orientation: "landscape",
+      unit: "mm",
+      format: "a4",
+    });
+
+    // add the font to jsPDF
+    doc.addFileToVFS("Roboto.ttf", FontCustomRobotoNormal);
+    doc.addFont("Roboto.ttf", "Roboto", "normal");
+    doc.addFileToVFS("Roboto1.ttf", FontCustomRobotoBold);
+    doc.addFont("Roboto1.ttf", "Roboto", "bold");
+
+    doc.setFontSize(16);
+    doc.setFont("Roboto", "bold");
+
+    doc.text("BÁO CÁO KẾT QUẢ PHẢN HỒI 360°", 135, 20, { align: "center" });
+    doc.text("Anh …… – Giám Đốc ……", 135, 30, { align: "center" });
+
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    doc.text("I. QUY ĐỊNH VỀ BẢO MẬT", 15, 45);
+    doc.setFont("Roboto", "normal");
+    doc.text(
+      "- Báo cáo này chỉ được đọc bởi: Ban Tổng giám đốc, phòng Nhân sự và Người được phản hồi (NĐPH),",
+      15,
+      55
+    );
+    doc.text(
+      "- Các vi phạm về bảo mật sẽ được xử lý kỹ luật theo nội quy công ty.",
+      15,
+      60
+    );
+
+    // Add second section
+    doc.setFont("Roboto", "bold");
+    doc.text("II. MỤC TIÊU CỦA VIỆC PHẢN HỒI NÀY", 15, 70);
+    doc.setFont("Roboto", "normal");
+    doc.text("- Nhằm giúp NĐPH biết được ý kiến góp ý xây dựng của:", 15, 80);
+    doc.text(
+      "✓Cấp trên: Ghi nhận những nỗ lực đóng góp cũng như những điểm cần phát huy hay cần hoàn thiện của NĐPH,",
+      20,
+      85
+    );
+    doc.text(
+      "✓Đồng cấp: Nhận xét của các đồng nghiệp cùng cấp trong quá trình phối hợp với NĐPH trong việc cùng hợp tác thực hiện mục tiêu của Công ty,",
+      20,
+      90
+    );
+    doc.text(
+      "✓Cấp dưới: Ghi nhận, cảm nhận và hiểu về NĐPH ở mức độ nào. Đồng thời thể hiện mong muốn NĐPH (Quản lý) của mình chú ý đến những vấn đề họ chưa cảm nhận được, chưa nắm rõ hoặc những góp ý xây dựng thêm. (Không nhằm mục tiêu nhận xét đúng sai).",
+      20,
+      95,
+      { maxWidth: 265 }
+    );
+
+    doc.text("- Kết quả phân tích của Báo cáo này làm cơ sở để NĐPH:", 15, 110);
+    doc.text("✓Duy trì và phát huy: những thế mạnh của mình,", 20, 115);
+    doc.text(
+      "✓Cải thiện: những điểm cần hoàn thiện của mình (nếu có),",
+      20,
+      120
+    );
+    doc.text(
+      "✓Điều chỉnh, lưu ý hoặc thay đổi phương pháp giao tiếp ứng xử, truyền đạt hiệu quả hơn.",
+      20,
+      125
+    );
+
+    // Add third section
+    doc.setFont("Roboto", "bold");
+    doc.text("III. KẾT QUẢ", 15, 135);
+    doc.setFont("Roboto", "normal");
+    doc.text(
+      "- Nhận xét của cấp trên gồm: Quản lý trực tiếp và gián tiếp (nếu có);",
+      15,
+      145
+    );
+    doc.text(
+      "- Nhận xét của đồng cấp gồm: Các đồng cấp thường xuyên phối hợp & một số vị trí tham chiếu thêm;",
+      15,
+      150
+    );
+    doc.text(
+      "- Nhận xét của cấp dưới gồm: Tất cả nhân viên thuộc bộ phận (trực tiếp và NV gián tiếp nếu có).",
+      15,
+      155
+    );
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    doc.text("1. Kết quả thống kê", 15, 20);
+    doc.setFont("Roboto", "normal");
+
     // Add a table to the PDF using autoTable plugin
     (doc as any).autoTable({
-      head: tableColumn,
-      body: tableRows,
+      head: headRows1,
+      body: rowDatas,
       startY: 25,
       styles: {
         fontSize: 10,
@@ -1194,148 +1456,10 @@ export class FormService {
     doc.text("Giám đốc ......", 50, 90);
     doc.setFont("Roboto", "normal");
 
-    // Tạo bảng với tiêu đề và màu sắc
-    const head2Rows = [
-      [
-        {
-          content: "Tiêu Chí Số",
-          styles: {
-            halign: "center",
-            fillColor: [255, 0, 0],
-            textColor: [255, 255, 255],
-          },
-        },
-        {
-          content: "1",
-          styles: {
-            halign: "center",
-            fillColor: [255, 0, 0],
-            textColor: [255, 255, 255],
-          },
-        },
-        {
-          content: "2",
-          styles: {
-            halign: "center",
-            fillColor: [255, 0, 0],
-            textColor: [255, 255, 255],
-          },
-        },
-        {
-          content: "3",
-          styles: {
-            halign: "center",
-            fillColor: [255, 0, 0],
-            textColor: [255, 255, 255],
-          },
-        },
-        {
-          content: "4",
-          styles: {
-            halign: "center",
-            fillColor: [255, 0, 0],
-            textColor: [255, 255, 255],
-          },
-        },
-        {
-          content: "5",
-          styles: {
-            halign: "center",
-            fillColor: [255, 0, 0],
-            textColor: [255, 255, 255],
-          },
-        },
-        {
-          content: "6",
-          styles: {
-            halign: "center",
-            fillColor: [255, 0, 0],
-            textColor: [255, 255, 255],
-          },
-        },
-        {
-          content: "7",
-          styles: {
-            halign: "center",
-            fillColor: [255, 0, 0],
-            textColor: [255, 255, 255],
-          },
-        },
-        {
-          content: "8",
-          styles: {
-            halign: "center",
-            fillColor: [255, 0, 0],
-            textColor: [255, 255, 255],
-          },
-        },
-        {
-          content: "9",
-          styles: {
-            halign: "center",
-            fillColor: [255, 0, 0],
-            textColor: [255, 255, 255],
-          },
-        },
-      ],
-      // Thêm các hàng khác giống như trong hình ảnh
-    ];
-
-    const table2Rows = [
-      [
-        "Tự đánh giá",
-        "4.0",
-        "2.0",
-        "2.0",
-        "3.0",
-        "2.0",
-        "4.0",
-        "4.0",
-        "3.0",
-        "",
-      ],
-      [
-        "Cấp trên",
-        "4.5",
-        "3.0",
-        "2.5",
-        "2.5",
-        "2.5",
-        "3.5",
-        "4.0",
-        "3.0",
-        "4.0",
-      ],
-      [
-        "Ngang cấp",
-        "4.4",
-        "3.8",
-        "3.3",
-        "3.8",
-        "3.3",
-        "4.0",
-        "3.6",
-        "4.2",
-        "4.0",
-      ],
-      [
-        "Cấp dưới",
-        "5.0",
-        "4.5",
-        "4.0",
-        "4.0",
-        "3.5",
-        "4.0",
-        "4.5",
-        "4.5",
-        "4.0",
-      ],
-    ];
-
     // Thêm bảng vào PDF
     (doc as any).autoTable({
-      head: head2Rows,
-      body: table2Rows,
+      head: headRows2,
+      body: bodyTable2,
       startY: 95,
       styles: {
         fontSize: 10,
@@ -1375,36 +1499,73 @@ export class FormService {
 
     // chèn biểu đồ từ hình ảnh
     // Cấu hình yêu cầu API QuickChart
+    let datasetsChart: any = [];
+    for (let record of statisticCriteria) {
+      if (record.title === "Tự đánh giá") {
+        datasetsChart.push({
+          label: "Tự đánh giá",
+          data: record.data,
+          borderColor: "rgb(146, 208, 80)",
+          fill: false,
+        });
+      }
+      if (record.title === "Cấp trên") {
+        datasetsChart.push({
+          label: "Cấp trên",
+          data: record.data,
+          borderColor: "rgb(0, 176, 80)",
+          fill: false,
+        });
+      }
+      if (record.title === "Ngang cấp") {
+        datasetsChart.push({
+          label: "Ngang cấp",
+          data: record.data,
+          borderColor: "rgb(255, 255, 0)",
+          fill: false,
+        });
+      }
+      if (record.title === "Cấp dưới") {
+        datasetsChart.push({
+          label: "Cấp dưới",
+          data: record.data,
+          borderColor: "rgb(0, 176, 240)",
+          fill: false,
+        });
+      }
+    }
+
     const chartConfig = {
       type: "line",
       data: {
         labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
-        datasets: [
-          {
-            label: "Tự đánh giá",
-            data: [4.0, 2.0, 2.0, 3.0, 2.0, 4.0, 4.0, 3.0, 0],
-            borderColor: "rgb(146, 208, 80)",
-            fill: false,
-          },
-          {
-            label: "Cấp trên",
-            data: [4.5, 3.0, 2.5, 2.5, 2.5, 3.5, 4.0, 3.0, 4.0],
-            borderColor: "rgb(0, 176, 80)",
-            fill: false,
-          },
-          {
-            label: "Ngang cấp",
-            data: [4.4, 3.8, 3.3, 3.8, 3.3, 4.0, 3.6, 4.2, 4.0],
-            borderColor: "rgb(255, 255, 0)",
-            fill: false,
-          },
-          {
-            label: "Cấp dưới",
-            data: [5.0, 4.5, 4.0, 4.0, 3.5, 4.0, 4.5, 4.5, 4.0],
-            borderColor: "rgb(0, 176, 240)",
-            fill: false,
-          },
-        ],
+        // datasets: [
+        //   {
+        //     label: "Tự đánh giá",
+        //     data: [4.0, 2.0, 2.0, 3.0, 2.0, 4.0, 4.0, 3.0, 0],
+        //     borderColor: "rgb(146, 208, 80)",
+        //     fill: false,
+        //   },
+        //   {
+        //     label: "Cấp trên",
+        //     data: [4.5, 3.0, 2.5, 2.5, 2.5, 3.5, 4.0, 3.0, 4.0],
+        //     borderColor: "rgb(0, 176, 80)",
+        //     fill: false,
+        //   },
+        //   {
+        //     label: "Ngang cấp",
+        //     data: [4.4, 3.8, 3.3, 3.8, 3.3, 4.0, 3.6, 4.2, 4.0],
+        //     borderColor: "rgb(255, 255, 0)",
+        //     fill: false,
+        //   },
+        //   {
+        //     label: "Cấp dưới",
+        //     data: [5.0, 4.5, 4.0, 4.0, 3.5, 4.0, 4.5, 4.5, 4.0],
+        //     borderColor: "rgb(0, 176, 240)",
+        //     fill: false,
+        //   },
+        // ],
+        datasets: datasetsChart,
       },
     };
 
@@ -1441,63 +1602,14 @@ export class FormService {
       100
     );
 
-    // Tạo bảng với tiêu đề và màu sắc
-    const head3Rows = [
-      [
-        {
-          content: "STT",
-          styles: {
-            halign: "center",
-            valign: "middle",
-            fillColor: [255, 192, 0],
-            textColor: [255, 255, 255],
-          },
-        },
-        {
-          content: "Nội dung tiêu chí",
-          styles: {
-            halign: "center",
-            valign: "middle",
-            fillColor: [255, 192, 0],
-            textColor: [255, 255, 255],
-          },
-        },
-      ],
-      // Thêm các hàng khác giống như trong hình ảnh
-    ];
-
-    const table3Rows = [
-      ["1", "Nỗ lực thực hiện hoàn thành mục tiêu của Phòng/bộ phận"],
-      [
-        "2",
-        "Luôn hợp tác, hay khuyến khích sự hợp tác để hoàn thành mục tiêu chung của Công ty",
-      ],
-      ["3", "Lắng nghe tích cực, sẵn sàng trao đổi dựa trên sự thấu hiểu"],
-      [
-        "4",
-        "Luôn tạo cơ hội, khuyến khích người khác/ nhân viên đóng góp ý kiến trong công việc",
-      ],
-      [
-        "5",
-        "Truyền cảm hứng cho người khác/ nv thông qua việc công nhận/tưởng thưởng kết quả đóng góp/làm việc của họ",
-      ],
-      ["6", "Phân công công việc một cách hiệu quả"],
-      ["7", "Thể hiện tính cương quyết, không chần chừ, dám nhận trách nhiệm"],
-      [
-        "8",
-        "Luôn cải tiến, động viên và thúc đẩy sự thay đổi trong công việc để đạt hiệu quả cao hơn",
-      ],
-      ["9", "Mức độ hứng khởi của anh/ chị khi làm việc với người này"],
-    ];
-
     doc.addPage("a4", "l");
     doc.setFontSize(12);
     doc.setFont("Roboto", "normal");
 
     // Thêm bảng vào PDF
     (doc as any).autoTable({
-      head: head3Rows,
-      body: table3Rows,
+      head: headRows3,
+      body: bodyTable3,
       startY: 20,
       styles: {
         fontSize: 10,
