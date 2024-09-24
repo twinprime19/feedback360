@@ -38,6 +38,7 @@ import {
 import { MongooseDoc } from "@app/interfaces/mongoose.interface";
 import { FileInterceptor } from "@nestjs/platform-express";
 import type { Response } from "express";
+import { PoliciesGuard } from "@app/guards/policies.guard";
 
 @Controller("user")
 export class UserController {
@@ -208,7 +209,7 @@ export class UserController {
 
   // delete user
   @Delete(":id")
-  // @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   remove(
     @Req() req: any,
     @QueryParams() { params }: QueryParamsResult
