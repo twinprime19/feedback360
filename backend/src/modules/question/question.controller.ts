@@ -144,7 +144,7 @@ export class QuestionController {
 
   // delete one question
   @Delete("/delete/:id")
-  // @UseGuards(AdminOnlyGuard)
+  @UseGuards(AdminOnlyGuard)
   @Responser.handle("Delete question")
   delQuestion(
     @Req() req: any,
@@ -155,7 +155,7 @@ export class QuestionController {
 
   // delete many questions
   @Delete("/delete")
-  // @UseGuards(AdminOnlyGuard)
+  @UseGuards(AdminOnlyGuard)
   @Responser.handle("Delete questions")
   delQuestions(@Req() req: any, @Body() body: QuestionsDTO) {
     return this.questionService.batchDelete(body.questionIds, req.user);
