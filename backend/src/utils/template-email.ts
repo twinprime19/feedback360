@@ -223,7 +223,7 @@ export const sendForm = (fullname: string, url: string) => {
                 <tr align="center">
                   <td>
                     <a href="${APP_CONFIG.APP.FE_URL}" target="_blank">
-                      <img src="https://feedback.test.zinisoft.net/images/logo.png" width="252px" height="96px" alt="WKEY"> 
+                      <img src="https://feedback.test.zinisoft.net/images/logo.png" width="90px" height="55px" alt="TP"> 
                     </a>
                   </td>
                 </tr>
