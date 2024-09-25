@@ -42,7 +42,6 @@ export class EmailService {
         this.clientIsValid = false
         setTimeout(this.verifyClient.bind(this), 1000 * 60 * 30)
         log.error(`client init failed! retry when after 30 mins,`, getMessageFromNormalError(error))
-        this.clientIsValid = true
       } else {
         this.clientIsValid = true
         log.info('client init succeed.')
