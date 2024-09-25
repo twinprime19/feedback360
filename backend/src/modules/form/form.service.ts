@@ -31,6 +31,7 @@ import "jspdf-autotable"; // Import the autoTable plugin
 import { Feedback } from "../feedback/feedback.model";
 import * as path from "path";
 import axios from "axios";
+import { User } from "../user/entities/user.entity";
 
 @Injectable()
 export class FormService {
@@ -113,7 +114,7 @@ export class FormService {
   }
 
   public async generatePdfFile(formID: string) {
-    let formInfo = await this.formModel.findById(formID);
+    let formInfo = await this.formModel.findById(formID).populate("user");
     if (!formInfo) throw `Không tìm thấy form.`;
 
     let templateInfo = await this.templateModel.findById(formInfo.template);
@@ -145,6 +146,7 @@ export class FormService {
       form: formID,
     });
 
+    // câu hỏi chấm điểm
     let statisticReviewQuestions: any = [];
     let indexQuestion = 0;
     for (let questionObj of arrReviewQuestions) {
@@ -349,6 +351,55 @@ export class FormService {
         data: statisticSubordinate,
       },
     ];
+
+    // câu hỏi góp ý
+    let statisticAnswerQuestions: any = [];
+    let indexAnswerQuestion = 1;
+    for (let questionObj of arrAnswerQuestions) {
+      indexQuestion = indexQuestion + 1;
+
+      let arrFeedbacks: any = [];
+      for (let feedback of userFeedbacks) {
+        let filterQuestion = feedback.feedbackData.find(
+          (ele) => ele.id === String(questionObj._id)
+        );
+        arrFeedbacks.push(filterQuestion);
+      }
+
+      let stringSeniors: string[] = [];
+      let stringPeers: string[] = [];
+      let stringSubordinates: string[] = [];
+
+      for (let feedback of arrFeedbacks) {
+        let relationship = feedback.relationship;
+
+        if (relationship === RelationshipState.SENIOR) {
+          stringSeniors.push(feedback.answer);
+        }
+
+        if (relationship === RelationshipState.PEER) {
+          stringPeers.push(feedback.answer);
+        }
+
+        if (relationship === RelationshipState.SUBORDINATE) {
+          stringSubordinates.push(feedback.answer);
+        }
+      }
+
+      let statisticQuestion = {
+        index: indexAnswerQuestion,
+        id: String(questionObj._id),
+        title: questionObj.title,
+        type: questionObj.type,
+        stringSeniors: stringSeniors,
+        stringPeers: stringPeers,
+        stringSubordinates: stringSubordinates,
+      };
+
+      statisticAnswerQuestions.push(statisticQuestion);
+    }
+
+    console.log("statisticAnswerQuestions", statisticAnswerQuestions);
 
     // tạo bảng đầu tiên
     const headRows1 = [
@@ -688,7 +739,7 @@ export class FormService {
       ],
       [
         {
-          content: "NGUYỄN ĐÌNH TRƯỜNG",
+          content: (formInfo.user as User).fullname,
           colSpan: 27,
           styles: { halign: "left", valign: "middle" },
         },
@@ -1188,6 +1239,7 @@ export class FormService {
       unit: "mm",
       format: "a4",
     });
+    const maxWidth = 265; // chiều rộng tối đa chứa 1 dòng text trên trang a4
 
     // add the font to jsPDF
     doc.addFileToVFS("Roboto.ttf", FontCustomRobotoNormal);
@@ -1352,72 +1404,233 @@ export class FormService {
     doc.addPage("a4", "l");
     doc.setFontSize(12);
 
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("2. Những điểm mạnh nổi bật của NĐPN", 15, 20);
+    //   doc.text("a/ Nhận xét của cấp trên:", 20, 25);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text("- Thông minh, nhanh,", 20, 30);
+    //   doc.text("- Có nhiều kiến thức chuyên môn,", 20, 35);
+    //   doc.text("- Có những mối quan hệ trong lĩnh vực phụ trách.", 20, 40);
+
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, 45);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text(
+    //     "- Khả năng phân tích nắm bắt nhanh thị trường, nhiều kinh nghiệm,",
+    //     20,
+    //     50
+    //   );
+    //   doc.text("- Xử lý công việc nhanh,", 20, 55);
+    //   doc.text(
+    //     "- Nhanh nhẹn, tích cực đóng góp ý kiến xây dựng (2 ý kiến),",
+    //     20,
+    //     60
+    //   );
+    //   doc.text("- Năng động, tự tin, thông minh,", 20, 65);
+    //   doc.text(
+    //     "- Nắm rõ hoạt động đầu tư, quy trình, chính sách của cty.",
+    //     20,
+    //     70
+    //   );
+
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("c/ Nhận xét của cấp dưới:", 20, 75);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text("- Luôn nỗ lực hoàn thành mục tiêu được giao,", 20, 80);
+    //   doc.text("- Tinh thần trách nhiệm cao, ", 20, 85);
+    //   doc.text("- Quyết liệt trong công việc,", 20, 90);
+    //   doc.text("- Thông minh, giỏi kiến thức,", 20, 95);
+    //   doc.text("- Hòa đồng với nhân viên.", 20, 100);
+
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("3. Vấn đề mà NĐPH cần hoàn thiện ngay", 15, 110);
+    //   doc.text("a/ Nhận xét của cấp trên:", 20, 115);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text("- Tập trung hơn trong cuộc họp (bớt xem điện thoại),", 20, 120);
+    //   doc.text("- Cư xử với mọi người điềm đạm hơn,", 20, 125);
+    //   doc.text("- Lắng nghe tích cực,", 20, 130);
+    //   doc.text("- Giảm cân.", 20, 135);
+
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, 140);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text(
+    //     "- Giảm bớt việc công bố thông tin ngoài lề của các phòng ban khác,",
+    //     20,
+    //     145
+    //   );
+    //   doc.text("- Tránh cá nhân hóa các sự việc chung,", 20, 150);
+    //   doc.text(
+    //     "- Cần bình tĩnh, không nôn nóng thúc giục giải quyết khi vấn đề chưa rõ ràng.",
+    //     20,
+    //     155
+    //   );
+
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("c/ Nhận xét của cấp dưới:", 20, 160);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text("- Cần nhẹ nhàng với các phòng ban khác.", 20, 165);
+
+    //   doc.addPage("a4", "l");
+    //   doc.setFontSize(12);
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("4. Lời khuyên dành cho NĐPH", 15, 20);
+    //   doc.text("a/ Nhận xét của cấp trên:", 20, 25);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text("- Bình tĩnh để đọc vị cuộc họp,", 20, 30);
+    //   doc.text("- Bớt đanh đá,", 20, 35);
+    //   doc.text("- Kiểm soát cảm xúc khi giao tiếp.", 20, 40);
+
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, 45);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text(
+    //     "- Khéo léo hơn trong nhận xét ngoài chuyên môn của các phòng ban khác,",
+    //     20,
+    //     50
+    //   );
+    //   doc.text(
+    //     "- Tăng cường kết nối các bộ phận để dự án đạt hiệu quả cao nhất,",
+    //     20,
+    //     55
+    //   );
+    //   doc.text("- Tôn trọng hơn các ý kiến trái chiều.", 20, 60);
+
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("c/ Nhận xét của cấp dưới:", 20, 65);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text("- Nhẹ nhàng khuyên, chỉ bảo nhân viên hơn.", 20, 70);
+
+    let answerQuestion2 = statisticAnswerQuestions[0];
+    let answerQuestion3 = statisticAnswerQuestions[1];
+    let answerQuestion4 = statisticAnswerQuestions[2];
+
     doc.setFont("Roboto", "bold");
     doc.text("2. Những điểm mạnh nổi bật của NĐPN", 15, 20);
     doc.text("a/ Nhận xét của cấp trên:", 20, 25);
     doc.setFont("Roboto", "normal");
-    doc.text("- Thông minh, nhanh,", 20, 30);
-    doc.text("- Có nhiều kiến thức chuyên môn,", 20, 35);
-    doc.text("- Có những mối quan hệ trong lĩnh vực phụ trách.", 20, 40);
+    // doc.text("- Thông minh, nhanh,", 20, 30);
+    // doc.text("- Có nhiều kiến thức chuyên môn,", 20, 35);
+    // doc.text("- Có những mối quan hệ trong lĩnh vực phụ trách.", 20, 40);
+    console.log("answerQuestion2", answerQuestion2);
+    let currentY = 30;
+    for (let text of answerQuestion2.stringSeniors) {
+      let splitText = doc.splitTextToSize(text, maxWidth);
+      doc.text(splitText, 20, currentY);
+      let lengthRow = splitText.length;
+
+      currentY = currentY + lengthRow * 5;
+      console.log("currentY", currentY);
+    }
 
     doc.setFont("Roboto", "bold");
-    doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, 45);
+    currentY += 5;
+    doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
     doc.setFont("Roboto", "normal");
-    doc.text(
-      "- Khả năng phân tích nắm bắt nhanh thị trường, nhiều kinh nghiệm,",
-      20,
-      50
-    );
-    doc.text("- Xử lý công việc nhanh,", 20, 55);
-    doc.text(
-      "- Nhanh nhẹn, tích cực đóng góp ý kiến xây dựng (2 ý kiến),",
-      20,
-      60
-    );
-    doc.text("- Năng động, tự tin, thông minh,", 20, 65);
-    doc.text(
-      "- Nắm rõ hoạt động đầu tư, quy trình, chính sách của cty.",
-      20,
-      70
-    );
+    // doc.text(
+    //   "- Khả năng phân tích nắm bắt nhanh thị trường, nhiều kinh nghiệm,",
+    //   20,
+    //   50
+    // );
+    // doc.text("- Xử lý công việc nhanh,", 20, 55);
+    // doc.text(
+    //   "- Nhanh nhẹn, tích cực đóng góp ý kiến xây dựng (2 ý kiến),",
+    //   20,
+    //   60
+    // );
+    // doc.text("- Năng động, tự tin, thông minh,", 20, 65);
+    // doc.text(
+    //   "- Nắm rõ hoạt động đầu tư, quy trình, chính sách của cty.",
+    //   20,
+    //   70
+    // );
+    currentY += 5;
+    for (let text of answerQuestion2.stringPeers) {
+      let splitText = doc.splitTextToSize(text, maxWidth);
+      doc.text(splitText, 20, currentY);
+      let lengthRow = splitText.length;
+
+      currentY = currentY + lengthRow * 5;
+      console.log("currentY", currentY);
+    }
 
     doc.setFont("Roboto", "bold");
-    doc.text("c/ Nhận xét của cấp dưới:", 20, 75);
+    currentY += 5;
+    doc.text("c/ Nhận xét của cấp dưới:", 20, currentY);
     doc.setFont("Roboto", "normal");
-    doc.text("- Luôn nỗ lực hoàn thành mục tiêu được giao,", 20, 80);
-    doc.text("- Tinh thần trách nhiệm cao, ", 20, 85);
-    doc.text("- Quyết liệt trong công việc,", 20, 90);
-    doc.text("- Thông minh, giỏi kiến thức,", 20, 95);
-    doc.text("- Hòa đồng với nhân viên.", 20, 100);
+    // doc.text("- Luôn nỗ lực hoàn thành mục tiêu được giao,", 20, 80);
+    // doc.text("- Tinh thần trách nhiệm cao, ", 20, 85);
+    // doc.text("- Quyết liệt trong công việc,", 20, 90);
+    // doc.text("- Thông minh, giỏi kiến thức,", 20, 95);
+    // doc.text("- Hòa đồng với nhân viên.", 20, 100);
+    currentY += 5;
+    for (let text of answerQuestion2.stringSubordinates) {
+      let splitText = doc.splitTextToSize(text, maxWidth);
+      doc.text(splitText, 20, currentY);
+      let lengthRow = splitText.length;
+
+      currentY = currentY + lengthRow * 5;
+      console.log("currentY", currentY);
+    }
 
     doc.setFont("Roboto", "bold");
-    doc.text("3. Vấn đề mà NĐPH cần hoàn thiện ngay", 15, 110);
-    doc.text("a/ Nhận xét của cấp trên:", 20, 115);
+    currentY += 10;
+    doc.text("3. Vấn đề mà NĐPH cần hoàn thiện ngay", 15, currentY);
+    currentY += 5;
+    doc.text("a/ Nhận xét của cấp trên:", 20, currentY);
     doc.setFont("Roboto", "normal");
-    doc.text("- Tập trung hơn trong cuộc họp (bớt xem điện thoại),", 20, 120);
-    doc.text("- Cư xử với mọi người điềm đạm hơn,", 20, 125);
-    doc.text("- Lắng nghe tích cực,", 20, 130);
-    doc.text("- Giảm cân.", 20, 135);
+    // doc.text("- Tập trung hơn trong cuộc họp (bớt xem điện thoại),", 20, 120);
+    // doc.text("- Cư xử với mọi người điềm đạm hơn,", 20, 125);
+    // doc.text("- Lắng nghe tích cực,", 20, 130);
+    // doc.text("- Giảm cân.", 20, 135);
+    currentY += 5;
+    for (let text of answerQuestion3.stringSeniors) {
+      let splitText = doc.splitTextToSize(text, maxWidth);
+      doc.text(splitText, 20, currentY);
+      let lengthRow = splitText.length;
+
+      currentY = currentY + lengthRow * 5;
+      console.log("currentY", currentY);
+    }
 
     doc.setFont("Roboto", "bold");
-    doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, 140);
+    currentY += 5;
+    doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
     doc.setFont("Roboto", "normal");
-    doc.text(
-      "- Giảm bớt việc công bố thông tin ngoài lề của các phòng ban khác,",
-      20,
-      145
-    );
-    doc.text("- Tránh cá nhân hóa các sự việc chung,", 20, 150);
-    doc.text(
-      "- Cần bình tĩnh, không nôn nóng thúc giục giải quyết khi vấn đề chưa rõ ràng.",
-      20,
-      155
-    );
+    // doc.text(
+    //   "- Giảm bớt việc công bố thông tin ngoài lề của các phòng ban khác,",
+    //   20,
+    //   145
+    // );
+    // doc.text("- Tránh cá nhân hóa các sự việc chung,", 20, 150);
+    // doc.text(
+    //   "- Cần bình tĩnh, không nôn nóng thúc giục giải quyết khi vấn đề chưa rõ ràng.",
+    //   20,
+    //   155
+    // );
+    currentY += 5;
+    for (let text of answerQuestion3.stringPeers) {
+      let splitText = doc.splitTextToSize(text, maxWidth);
+      doc.text(splitText, 20, currentY);
+      let lengthRow = splitText.length;
+
+      currentY = currentY + lengthRow * 5;
+      console.log("currentY", currentY);
+    }
 
     doc.setFont("Roboto", "bold");
-    doc.text("c/ Nhận xét của cấp dưới:", 20, 160);
+    currentY += 5;
+    doc.text("c/ Nhận xét của cấp dưới:", 20, currentY);
     doc.setFont("Roboto", "normal");
-    doc.text("- Cần nhẹ nhàng với các phòng ban khác.", 20, 165);
+    currentY += 5;
+    for (let text of answerQuestion3.stringSubordinates) {
+      let splitText = doc.splitTextToSize(text, maxWidth);
+      doc.text(splitText, 20, currentY);
+      let lengthRow = splitText.length;
+
+      currentY = currentY + lengthRow * 5;
+      console.log("currentY", currentY);
+    }
 
     doc.addPage("a4", "l");
     doc.setFontSize(12);
@@ -1425,42 +1638,74 @@ export class FormService {
     doc.text("4. Lời khuyên dành cho NĐPH", 15, 20);
     doc.text("a/ Nhận xét của cấp trên:", 20, 25);
     doc.setFont("Roboto", "normal");
-    doc.text("- Bình tĩnh để đọc vị cuộc họp,", 20, 30);
-    doc.text("- Bớt đanh đá,", 20, 35);
-    doc.text("- Kiểm soát cảm xúc khi giao tiếp.", 20, 40);
+    // doc.text("- Bình tĩnh để đọc vị cuộc họp,", 20, 30);
+    // doc.text("- Bớt đanh đá,", 20, 35);
+    // doc.text("- Kiểm soát cảm xúc khi giao tiếp.", 20, 40);
+    currentY = 25;
+    currentY += 5;
+    for (let text of answerQuestion4.stringSeniors) {
+      let splitText = doc.splitTextToSize(text, maxWidth);
+      doc.text(splitText, 20, currentY);
+      let lengthRow = splitText.length;
+
+      currentY = currentY + lengthRow * 5;
+      console.log("currentY", currentY);
+    }
 
     doc.setFont("Roboto", "bold");
-    doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, 45);
+    currentY += 5;
+    doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
     doc.setFont("Roboto", "normal");
-    doc.text(
-      "- Khéo léo hơn trong nhận xét ngoài chuyên môn của các phòng ban khác,",
-      20,
-      50
-    );
-    doc.text(
-      "- Tăng cường kết nối các bộ phận để dự án đạt hiệu quả cao nhất,",
-      20,
-      55
-    );
-    doc.text("- Tôn trọng hơn các ý kiến trái chiều.", 20, 60);
+    // doc.text(
+    //   "- Khéo léo hơn trong nhận xét ngoài chuyên môn của các phòng ban khác,",
+    //   20,
+    //   50
+    // );
+    // doc.text(
+    //   "- Tăng cường kết nối các bộ phận để dự án đạt hiệu quả cao nhất,",
+    //   20,
+    //   55
+    // );
+    // doc.text("- Tôn trọng hơn các ý kiến trái chiều.", 20, 60);
+    currentY += 5;
+    for (let text of answerQuestion4.stringPeers) {
+      let splitText = doc.splitTextToSize(text, maxWidth);
+      doc.text(splitText, 20, currentY);
+      let lengthRow = splitText.length;
+
+      currentY = currentY + lengthRow * 5;
+      console.log("currentY", currentY);
+    }
 
     doc.setFont("Roboto", "bold");
-    doc.text("c/ Nhận xét của cấp dưới:", 20, 65);
+    currentY += 5;
+    doc.text("c/ Nhận xét của cấp dưới:", 20, currentY);
     doc.setFont("Roboto", "normal");
-    doc.text("- Nhẹ nhàng khuyên, chỉ bảo nhân viên hơn.", 20, 70);
+    currentY += 5;
+    for (let text of answerQuestion4.stringSubordinates) {
+      let splitText = doc.splitTextToSize(text, maxWidth);
+      doc.text(splitText, 20, currentY);
+      let lengthRow = splitText.length;
+
+      currentY = currentY + lengthRow * 5;
+      console.log("currentY", currentY);
+    }
 
     // Add third section
     doc.setFont("Roboto", "bold");
-    doc.text("III. PHÂN TÍCH TỔNG QUÁT", 15, 80);
+    currentY = currentY + 10;
+    doc.text("III. PHÂN TÍCH TỔNG QUÁT", 15, currentY);
 
-    doc.text("Giám đốc ......", 50, 90);
+    currentY = currentY + 10;
+    doc.text("Giám đốc ......", 50, currentY);
     doc.setFont("Roboto", "normal");
 
+    currentY = currentY + 5;
     // Thêm bảng vào PDF
     (doc as any).autoTable({
       head: headRows2,
       body: bodyTable2,
-      startY: 95,
+      startY: currentY,
       styles: {
         fontSize: 10,
         font: "Roboto", // Use the custom font for the table
@@ -1597,7 +1842,7 @@ export class FormService {
       `data:image/png;base64,${imageData}`,
       "PNG",
       130,
-      85,
+      currentY - 10,
       150,
       100
     );
@@ -1655,6 +1900,20 @@ export class FormService {
       110,
       { maxWidth: 265 }
     );
+
+    // const text =
+    //   "- Bạn hiểu & tự đoán biết được khá tương đồng với mọi người xung quanh & nhận ra điểm cần lưu ý về lắng nghe tích cực & truyền cảm hứng cho người khác để càng thành công hơn (tiêu chí số 3 & số 5). Bạn hiểu & tự đoán biết được khá tương đồng với mọi người xung quanh & nhận ra điểm cần lưu ý về lắng nghe tích cực & truyền cảm hứng cho người khác để càng thành công hơn (tiêu chí số 3 & số 5).";
+
+    // // Sử dụng hàm splitTextToSize để chia văn bản thành nhiều dòng dựa trên chiều rộng tối đa (maxWidth)
+
+    // const splitText = doc.splitTextToSize(text, maxWidth);
+
+    // // Tọa độ bắt đầu của văn bản
+    // let currentY1 = 115;
+    // console.log("splitText", splitText);
+
+    // // Vẽ đoạn text đã được chia thành nhiều dòng
+    // doc.text(splitText, 15, currentY1);
 
     // Ensure the /mnt/data/ directory exists
     const directory = "./assets/uploads/pdf";
