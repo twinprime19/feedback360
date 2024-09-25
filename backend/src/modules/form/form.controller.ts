@@ -20,7 +20,7 @@ import { AdminMaybeGuard } from "@app/guards/admin-maybe.guard";
 import { Responser } from "@app/decorators/responser.decorator";
 import { PermissionPipe } from "@app/pipes/permission.pipe";
 import { ExposePipe } from "@app/pipes/expose.pipe";
-import { FormDTO, FormPaginateQueryDTO } from "./form.dto";
+import { FormDTO, FormPaginateQueryDTO, ListEmailDTO } from "./form.dto";
 import { Form } from "./form.model";
 import {
   PaginateOptions,
@@ -100,6 +100,18 @@ export class FormController {
   @Responser.handle("Create form")
   createForm(@Req() req: any, @Body() form: FormDTO): Promise<Form> {
     return this.formService.create(form, req.user);
+  }
+
+  // send form
+  @Post("/send")
+  // @UseGuards(AdminOnlyGuard)
+  @Responser.handle("Send form")
+  sendForm(@Req() req: any, @Body() body: ListEmailDTO){
+    return this.formService.sendForm(
+      String(body.form),
+      body.listEmailAddress,
+      req.user
+    );
   }
 
   // export result statistic of form

@@ -57,3 +57,13 @@ export class FormDTO {
 
   createdBy: import("mongoose").Types.ObjectId;
 }
+
+export class ListEmailDTO {
+  @ArrayUnique()
+  @ArrayNotEmpty()
+  @IsArray()
+  listEmailAddress: string[];
+
+  @IsNotEmpty()
+  form: import("mongoose").Types.ObjectId;
+}

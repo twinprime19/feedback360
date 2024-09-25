@@ -34,6 +34,10 @@ export class Form {
 
   @IsOptional()
   @prop({ default: [] })
+  template_email: any; // mẫu email dùng để gửi
+
+  @IsOptional()
+  @prop({ default: [] })
   assessors: any; // dánh sách người đánh giá
 
   @IsString()

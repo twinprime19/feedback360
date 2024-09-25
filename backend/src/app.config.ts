@@ -14,13 +14,14 @@ export const APP = {
   PORT: 1353,
   ROOT_PATH,
   DEFAULT_CACHE_TTL: 60 * 60 * 24,
-  MASTER: "Tool feedback",
-  NAME: "Tool feedback",
+  MASTER: "Tiến Phước",
+  NAME: "Tiến Phước",
   URL: "127.0.0.1",
   ADMIN_EMAIL: argv.admin_email || "admin@example.com",
-  FE_NAME: "Tool feedback",
-  FE_URL: "http://feedback-api.test.zinisoft.net",
-  STATIC_URL: "http://feedback-api.test.zinisoft.net",
+  FE_NAME: "Tiến Phước",
+  FE_URL: "http://feedback.test.zinisoft.net",
+  STATIC_URL: "http://feedback.test.zinisoft.net",
+  SIGNATURE: "Tiến Phước",
 };
 
 export const PROJECT = {
@@ -62,11 +63,14 @@ export const AUTH = {
 };
 
 export const EMAIL = {
-  port: 587,
-  host: argv.email_host || "smtp.gmail.com",
-  account: argv.email_account || "example@gmail.com",
-  password: argv.email_password || "12345678",
-  from: `"${APP.FE_NAME}" <${argv.email_from || argv.email_account}>`,
+  service: process.env.EMAIL_SERVICE || "gmail",
+  host: process.env.EMAIL_HOST || "smtp.mailgun.org",
+  port: Number(process.env.EMAIL_PORT) || 587,
+  account: process.env.EMAIL_ACCOUNT || "example@gmail.com",
+  password: process.env.EMAIL_PASSWORD || "password",
+  from: `"${APP.FE_NAME}" <${
+    process.env.EMAIL_ACCOUNT || "example@gmail.com"
+  }>`,
 };
 
 export const GOOGLE = {

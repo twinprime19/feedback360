@@ -32,6 +32,9 @@ import { Feedback } from "../feedback/feedback.model";
 import * as path from "path";
 import axios from "axios";
 import { User } from "../user/entities/user.entity";
+import { EmailService } from "@app/processors/helper/helper.service.email";
+import { sendForm } from "@app/utils/template-email";
+import * as APP_CONFIG from "@app/app.config";
 
 @Injectable()
 export class FormService {
@@ -44,7 +47,8 @@ export class FormService {
     private readonly questionModel: MongooseModel<Question>,
     @InjectModel(Feedback)
     private readonly feedbackModel: MongooseModel<Feedback>,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly emailService: EmailService
   ) {}
 
   // get list forms
@@ -80,6 +84,30 @@ export class FormService {
       // createdBy: userInfo._id,
     };
     return await this.formModel.create(dataDTO);
+  }
+
+  // send form
+  public async sendForm(
+    formID: string,
+    listEmailAddress: string[],
+    user: AuthPayload
+  ) {
+    // let userInfo = await this.userService.findByUserName(user.userName);
+    let formInfo = await this.formModel.findById(formID).populate("user");
+    if (!formInfo) throw `Không tìm thấy biểu mẫu`;
+    let fullname = (formInfo.user as User).fullname;
+    let feedbackUserID = (formInfo.user as MongooseDoc<User>)._id;
+
+    for (let emailAddress of listEmailAddress) {
+      let url = `${APP_CONFIG.APP.FE_URL}/form/${formID}/user/${feedbackUserID}`;
+      let to = emailAddress;
+      let subject = `${APP_CONFIG.APP.NAME} - Mời tham gia khảo sát phản hồi cho nhân sự`;
+      let html = sendForm(fullname, url);
+      // send email
+      this.emailService.sendMail({ to, subject, text: "", html });
+    }
+
+    return true;
   }
 
   // get form by id
