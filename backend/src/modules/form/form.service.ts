@@ -111,7 +111,7 @@ export class FormService {
     let form_relationshipInfo = await this.formRelationshipModel.create(data);
 
     for (let emailAddress of listEmailAddress) {
-      let url = `${APP_CONFIG.APP.FE_URL}/form/${form_relationshipInfo._id}/user/${feedbackUserID}`;
+      let url = `${APP_CONFIG.APP.FE_URL}/form/${form_relationshipInfo._id}`;
       let to = emailAddress;
       let subject = `${APP_CONFIG.APP.NAME} - Mời tham gia khảo sát phản hồi cho nhân sự`;
       let html = sendForm(fullname, url);
