@@ -1,0 +1,59 @@
+/**
+ * @file Evoucher Customer model
+ * @module module/evoucher_customer/model
+ */
+
+import { prop, plugin, modelOptions, Ref } from "@typegoose/typegoose";
+import { getProviderByTypegooseClass } from "@app/transformers/model.transformer";
+import { mongoosePaginate } from "@app/utils/paginate";
+import { Form } from "../form/form.model";
+import { RelationshipState } from "@app/constants/biz.constant";
+import { IsDefined, IsIn, IsInt } from "class-validator";
+
+export const RELATIONSHIP_STATES = [
+  RelationshipState.SELF,
+  RelationshipState.PEER,
+  RelationshipState.SUBORDINATE,
+  RelationshipState.SENIOR,
+] as const;
+
+@plugin(mongoosePaginate)
+@modelOptions({
+  schemaOptions: {
+    timestamps: {
+      createdAt: "createdAt",
+      updatedAt: "updatedAt",
+    },
+    toJSON: {
+      virtuals: true,
+      transform: function (doc, ret) {
+        //delete ret.thumbnail;
+        return ret;
+      },
+    },
+    toObject: { virtuals: true },
+  },
+})
+export class FormRelationship {
+  @prop({ ref: () => Form, required: true })
+  form: Ref<Form>;
+
+  @IsIn(RELATIONSHIP_STATES)
+  @IsInt()
+  @IsDefined()
+  @prop({
+    enum: RelationshipState,
+    default: RelationshipState.SELF,
+    index: true,
+  })
+  relationship: RelationshipState;
+
+  @prop({ default: Date.now, immutable: true })
+  createdAt?: Date;
+
+  @prop({ default: Date.now })
+  updatedAt?: Date;
+}
+
+export const FormRelationshipProvider =
+  getProviderByTypegooseClass(FormRelationship);

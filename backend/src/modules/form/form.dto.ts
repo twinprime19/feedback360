@@ -59,11 +59,15 @@ export class FormDTO {
 }
 
 export class ListEmailDTO {
+  @IsNotEmpty()
+  form: import("mongoose").Types.ObjectId;
+
   @ArrayUnique()
   @ArrayNotEmpty()
   @IsArray()
   listEmailAddress: string[];
 
+  @IsNumber()
   @IsNotEmpty()
-  form: import("mongoose").Types.ObjectId;
+  relationship: number;
 }

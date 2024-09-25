@@ -5,12 +5,20 @@
 
 import { AutoIncrementID } from "@typegoose/auto-increment";
 import { prop, plugin, modelOptions, Ref } from "@typegoose/typegoose";
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsIn, IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { generalAutoIncrementIDConfig } from "@app/constants/increment.constant";
 import { getProviderByTypegooseClass } from "@app/transformers/model.transformer";
 import { mongoosePaginate } from "@app/utils/paginate";
 import { User } from "../user/entities/user.entity";
 import { Template } from "../template/template.model";
+import { RelationshipState } from "@app/constants/biz.constant";
+
+export const RELATIONSHIP_STATES = [
+  RelationshipState.SELF,
+  RelationshipState.PEER,
+  RelationshipState.SUBORDINATE,
+  RelationshipState.SENIOR,
+] as const;
 
 @plugin(mongoosePaginate)
 @plugin(AutoIncrementID, generalAutoIncrementIDConfig)
@@ -39,6 +47,16 @@ export class Form {
   @IsOptional()
   @prop({ default: [] })
   assessors: any; // dánh sách người đánh giá
+
+  @IsIn(RELATIONSHIP_STATES)
+  @IsInt()
+  @IsOptional()
+  @prop({
+    enum: RelationshipState,
+    default: RelationshipState.SELF,
+    index: true,
+  })
+  relationship: RelationshipState;
 
   @IsString()
   @IsNotEmpty()

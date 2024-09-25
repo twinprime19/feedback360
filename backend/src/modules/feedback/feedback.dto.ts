@@ -59,5 +59,8 @@ export class FeedbackDTO {
   form: import("mongoose").Types.ObjectId;
 
   @IsNotEmpty()
+  relationship_id: import("mongoose").Types.ObjectId;
+
+  @IsNotEmpty()
   result: any;
 }

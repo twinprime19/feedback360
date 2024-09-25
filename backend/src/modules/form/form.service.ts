@@ -35,6 +35,7 @@ import { User } from "../user/entities/user.entity";
 import { EmailService } from "@app/processors/helper/helper.service.email";
 import { sendForm } from "@app/utils/template-email";
 import * as APP_CONFIG from "@app/app.config";
+import { FormRelationship } from "../form_relationship/form_relationship.model";
 
 @Injectable()
 export class FormService {
@@ -47,6 +48,8 @@ export class FormService {
     private readonly questionModel: MongooseModel<Question>,
     @InjectModel(Feedback)
     private readonly feedbackModel: MongooseModel<Feedback>,
+    @InjectModel(FormRelationship)
+    private readonly formRelationshipModel: MongooseModel<FormRelationship>,
     private readonly userService: UserService,
     private readonly emailService: EmailService
   ) {}
@@ -90,6 +93,7 @@ export class FormService {
   public async sendForm(
     formID: string,
     listEmailAddress: string[],
+    relationship: number,
     user: AuthPayload
   ) {
     // let userInfo = await this.userService.findByUserName(user.userName);
@@ -98,11 +102,20 @@ export class FormService {
     let fullname = (formInfo.user as User).fullname;
     let feedbackUserID = (formInfo.user as MongooseDoc<User>)._id;
 
+    let data = {
+      form: formID,
+      relationship: relationship,
+    };
+
+    let form_relationshipInfo = await this.formRelationshipModel.create(data);
+
     for (let emailAddress of listEmailAddress) {
-      let url = `${APP_CONFIG.APP.FE_URL}/form/${formID}/user/${feedbackUserID}`;
+      let url = `${APP_CONFIG.APP.FE_URL}/form/${form_relationshipInfo._id}/user/${feedbackUserID}`;
       let to = emailAddress;
       let subject = `${APP_CONFIG.APP.NAME} - Mời tham gia khảo sát phản hồi cho nhân sự`;
       let html = sendForm(fullname, url);
+
+      console.log("html", html);
       // send email
       this.emailService.sendMail({ to, subject, text: "", html });
     }
@@ -138,6 +151,49 @@ export class FormService {
     }
     (form?.template as any).template.answerQuestions = newAnswerQuestions;
 
+    return form;
+  }
+
+  // get form by id của form relationship
+  async getForm(formID: string): Promise<MongooseDoc<any>> {
+    let formRelationshipInfo = await this.formRelationshipModel
+      .findOne({ _id: formID, deletedBy: null })
+      .exec()
+      .then(
+        (result) =>
+          result ||
+          Promise.reject(`Biểu mẫu có ID "${formID}" không được tìm thấy.`)
+      );
+
+    let form = await this.formModel
+      .findOne({ _id: formRelationshipInfo.form, deletedBy: null })
+      .populate([{ path: "template" }, { path: "user" }])
+      .exec()
+      .then(
+        (result) =>
+          result ||
+          Promise.reject(`Biểu mẫu có ID "${formID}" không được tìm thấy.`)
+      );
+
+    let reviewQuestions = (form?.template as any).template?.reviewQuestions;
+    let newReviewQuestions: any = [];
+    for (let questionID of reviewQuestions) {
+      let questionObj = await this.questionModel.findById(questionID);
+      newReviewQuestions.push(questionObj);
+    }
+    (form?.template as any).template.reviewQuestions = newReviewQuestions;
+
+    let answerQuestions = (form?.template as any).template?.answerQuestions;
+    let newAnswerQuestions: any = [];
+    for (let questionID of answerQuestions) {
+      let questionObj = await this.questionModel.findById(questionID);
+      newAnswerQuestions.push(questionObj);
+    }
+    (form?.template as any).template.answerQuestions = newAnswerQuestions;
+
+    let relationship = formRelationshipInfo.relationship;
+    (form as any).relationship = relationship;
+console.log("form", form);
     return form;
   }
 

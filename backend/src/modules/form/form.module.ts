@@ -15,6 +15,7 @@ import { FormService } from "./form.service";
 import { TemplateProvider } from "../template/template.model";
 import { QuestionProvider } from "../question/question.model";
 import { FeedbackProvider } from "../feedback/feedback.model";
+import { FormRelationshipProvider } from "../form_relationship/form_relationship.model";
 
 @Module({
   imports: [],
@@ -30,6 +31,7 @@ import { FeedbackProvider } from "../feedback/feedback.model";
     TemplateProvider,
     QuestionProvider,
     FeedbackProvider,
+    FormRelationshipProvider,
   ],
   exports: [FormService],
 })

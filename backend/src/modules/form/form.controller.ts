@@ -88,10 +88,17 @@ export class FormController {
   }
 
   // get form
-  @Get("/get/:id")
+  @Get(":id")
   @Responser.handle("Get form")
   findOne(@Param("id") formID: string): Promise<MongooseDoc<Form>> {
     return this.formService.findOne(formID);
+  }
+
+  // get form by id của form relationship
+  @Get("/get/:id")
+  @Responser.handle("Get form by id của form relationship")
+  getForm(@Param("id") formID: string): Promise<MongooseDoc<any>> {
+    return this.formService.getForm(formID);
   }
 
   // create form
@@ -106,10 +113,11 @@ export class FormController {
   @Post("/send")
   // @UseGuards(AdminOnlyGuard)
   @Responser.handle("Send form")
-  sendForm(@Req() req: any, @Body() body: ListEmailDTO){
+  sendForm(@Req() req: any, @Body() body: ListEmailDTO) {
     return this.formService.sendForm(
       String(body.form),
       body.listEmailAddress,
+      body.relationship,
       req.user
     );
   }

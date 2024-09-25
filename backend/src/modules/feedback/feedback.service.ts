@@ -24,6 +24,7 @@ import { Form } from "../form/form.model";
 import { Template } from "../template/template.model";
 import { Question } from "../question/question.model";
 import moment from "moment";
+import { FormRelationship } from "../form_relationship/form_relationship.model";
 
 @Injectable()
 export class FeedbackService {
@@ -36,7 +37,9 @@ export class FeedbackService {
     private readonly templateModel: MongooseModel<Template>,
     @InjectModel(Question)
     private readonly questionModel: MongooseModel<Question>,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    @InjectModel(FormRelationship)
+    private readonly formRelationshipModel: MongooseModel<FormRelationship>
   ) {}
 
   // get list feedbacks
@@ -68,6 +71,11 @@ export class FeedbackService {
     //let userInfo = await this.userService.findByUserName(user.userName);
     let formInfo = await this.formModel.findById(feedbackDTO.form);
     if (!formInfo) throw `Không tìm thấy form.`;
+
+    let form_relationshipInfo = await this.formRelationshipModel.findById(
+      feedbackDTO.relationship_id
+    );
+    if (!form_relationshipInfo) throw `Không tìm thấy form.`;
 
     let templateInfo = await this.templateModel.findById(formInfo.template);
     if (!templateInfo) throw `Không tìm thấy template.`;
