@@ -225,6 +225,7 @@ export class FeedbackService {
 
     let dataDTO = {
       form: feedbackDTO.form,
+      relationship_id: feedbackDTO.relationship_id,
       template: formInfo.template,
       user: formInfo.user,
       fullname: feedbackDTO.fullname,
