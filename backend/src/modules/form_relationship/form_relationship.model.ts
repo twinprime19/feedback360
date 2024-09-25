@@ -9,6 +9,7 @@ import { mongoosePaginate } from "@app/utils/paginate";
 import { Form } from "../form/form.model";
 import { RelationshipState } from "@app/constants/biz.constant";
 import { IsDefined, IsIn, IsInt } from "class-validator";
+import { User } from "../user/entities/user.entity";
 
 export const RELATIONSHIP_STATES = [
   RelationshipState.SELF,
@@ -47,6 +48,9 @@ export class FormRelationship {
     index: true,
   })
   relationship: RelationshipState;
+
+  @prop({ ref: () => User, required: true })
+  user: Ref<User>;
 
   @prop({ default: Date.now, immutable: true })
   createdAt?: Date;

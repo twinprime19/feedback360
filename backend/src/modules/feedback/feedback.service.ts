@@ -80,6 +80,8 @@ export class FeedbackService {
     let templateInfo = await this.templateModel.findById(formInfo.template);
     if (!templateInfo) throw `Không tìm thấy template.`;
 
+    feedbackDTO.relationship = form_relationshipInfo.relationship;
+
     // phân tích kết quả
     let template = templateInfo.template;
     let reviewQuestions = template.reviewQuestions;

@@ -105,6 +105,7 @@ export class FormService {
     let data = {
       form: formID,
       relationship: relationship,
+      user: feedbackUserID,
     };
 
     let form_relationshipInfo = await this.formRelationshipModel.create(data);
@@ -193,7 +194,7 @@ export class FormService {
 
     let relationship = formRelationshipInfo.relationship;
     (form as any).relationship = relationship;
-console.log("form", form);
+    console.log("form", form);
     return form;
   }
 

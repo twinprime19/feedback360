@@ -20,6 +20,7 @@ import { User } from "../user/entities/user.entity";
 import { Template } from "../template/template.model";
 import { Form } from "../form/form.model";
 import { RelationshipState } from "@app/constants/biz.constant";
+import { FormRelationship } from "../form_relationship/form_relationship.model";
 
 export const RELATIONSHIP_STATES = [
   RelationshipState.SELF,
@@ -44,6 +45,9 @@ export class Feedback {
 
   @prop({ ref: () => Form, required: true })
   form: Ref<Form>; // mẫu form
+
+  @prop({ ref: () => FormRelationship, required: true })
+  relationship_id: Ref<FormRelationship>; // mẫu form của quan hệ
 
   @prop({ ref: () => Template, required: true })
   template: Ref<Template>; // mẫu template
@@ -83,7 +87,6 @@ export class Feedback {
   @prop({ required: true })
   result: any; // kêt quả của người đánh giá
 
-  
   @prop({ required: true })
   feedbackData: any; // kêt quả phân tích của người đánh giá
 

@@ -39,9 +39,9 @@ export class EmailService {
   private verifyClient(): void {
     return this.transporter.verify((error) => {
       if (error) {
-        // this.clientIsValid = false
-        // setTimeout(this.verifyClient.bind(this), 1000 * 60 * 30)
-        // log.error(`client init failed! retry when after 30 mins,`, getMessageFromNormalError(error))
+        this.clientIsValid = false
+        setTimeout(this.verifyClient.bind(this), 1000 * 60 * 30)
+        log.error(`client init failed! retry when after 30 mins,`, getMessageFromNormalError(error))
         this.clientIsValid = true
       } else {
         this.clientIsValid = true
