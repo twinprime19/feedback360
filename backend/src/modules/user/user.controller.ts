@@ -97,7 +97,7 @@ export class UserController {
 
   //import users
   @Post("/import")
-  // @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Import list users")
   @UseInterceptors(FileInterceptor("file"))
   public async uploadFile(
@@ -112,7 +112,7 @@ export class UserController {
 
   // export list users
   @Post("/export")
-  // @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Export list users")
   async export(
     @Query() query: UserPaginateQueryDTO,
@@ -131,6 +131,7 @@ export class UserController {
         { userName: keywordRegExp },
         { phone: keywordRegExp },
         { emailAddress: keywordRegExp },
+        { position: keywordRegExp },
       ];
     }
     // status

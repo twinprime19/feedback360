@@ -29,6 +29,10 @@ export class UpdateUserDto {
   @IsOptional()
   phone: string;
 
+  @IsString()
+  @IsOptional()
+  address: string;
+  
   @IsBoolean()
   @IsOptional()
   isSuperAdmin?: boolean;

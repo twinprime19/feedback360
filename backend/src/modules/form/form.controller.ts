@@ -133,11 +133,14 @@ export class FormController {
   // export result statistic of form
   @Get("/statistic/:id")
   async downloadPdf(@Param("id") formID: string, @Res() res: Response) {
-    const buffer = await this.formService.generatePdfFile(formID);
+    const { filename, buffer } = await this.formService.generatePdfFile(formID);
+
+    // Mã hóa tên file theo RFC 5987 để xử lý ký tự tiếng Việt
+    const safeFilename = encodeURIComponent(filename);
 
     res.set({
       "Content-Type": "application/pdf",
-      "Content-Disposition": 'attachment; filename="report.pdf"',
+      "Content-Disposition": `attachment; filename*=UTF-8''${safeFilename}`,
     });
 
     res.send(buffer);

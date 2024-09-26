@@ -1422,7 +1422,7 @@ export class FormService {
       "PNG",
       140,
       currentY - 10,
-      120,
+      130,
       80
     );
 
@@ -1489,7 +1489,13 @@ export class FormService {
     // return filePath;
 
     // Lưu PDF vào buffer
+    let filename =
+      (formInfo.user as User).fullname.replace(/\s/g, "") +
+      moment().format("YYYYMMDDHHmmss") +
+      ".pdf";
+
     const pdfBuffer = doc.output("arraybuffer");
-    return Buffer.from(pdfBuffer);
+
+    return { filename: filename, buffer: Buffer.from(pdfBuffer) };
   }
 }

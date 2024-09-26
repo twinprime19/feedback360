@@ -4,7 +4,7 @@
  */
 
 import lodash from "lodash";
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { AuthPayload, TokenResult } from "./auth.interface";
 import { AuthLoginDTO } from "./auth.dto";
@@ -46,18 +46,23 @@ export class AuthService {
     const user = await this.userService.findOneByUserName(
       authLoginDTO.userName
     );
-    if (user && user.status) {
-      const check = await this.comparePassword(
-        authLoginDTO.password,
-        user.password
-      );
-      if (!user || !check) {
-        return false;
-      } else {
-        return user;
-      }
+
+    if (!user)
+      throw new UnauthorizedException(401, "Tên tài khoản không đúng.");
+
+    if (!user.status)
+      throw new UnauthorizedException(401, "Tài khoản không hoạt động.");
+
+    const check = await this.comparePassword(
+      authLoginDTO.password,
+      user.password
+    );
+
+    if (!user || !check) {
+      throw new UnauthorizedException(401, "Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại.");
+    } else {
+      return user;
     }
-    return false;
   }
 
   async login(user: MongooseDoc<User>) {

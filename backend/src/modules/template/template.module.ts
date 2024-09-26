@@ -6,6 +6,7 @@ import { UserProvider } from "../user/entities/user.entity";
 import { TemplateProvider } from "./template.model";
 import { SettingService } from "../settting/setting.service";
 import { SettingProvider } from "../settting/setting.model";
+import { FormProvider } from "../form/form.model";
 
 @Module({
   imports: [],
@@ -17,6 +18,7 @@ import { SettingProvider } from "../settting/setting.model";
     TemplateService,
     SettingService,
     SettingProvider,
+    FormProvider,
   ],
   exports: [TemplateService],
 })

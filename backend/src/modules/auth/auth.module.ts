@@ -15,6 +15,7 @@ import { LocalStrategy } from "./local.strategy";
 import * as APP_CONFIG from "@app/app.config";
 import { UserProvider } from "../user/entities/user.entity";
 import { UserService } from "../user/user.service";
+import { FormProvider } from "../form/form.model";
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { UserService } from "../user/user.service";
     UserProvider,
     UserService,
     LocalStrategy,
+    FormProvider,
   ],
   exports: [AuthService],
 })

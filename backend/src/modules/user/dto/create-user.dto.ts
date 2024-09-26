@@ -46,6 +46,10 @@ export class CreateUserDto {
   @IsOptional()
   phone: string;
 
+  @IsString()
+  @IsOptional()
+  address: string;
+
   @IsBoolean()
   isSuperAdmin: boolean = false;
 

@@ -19,13 +19,15 @@ import { UserStatus } from "@app/constants/biz.constant";
 import { PasswordDTO } from "../auth/auth.dto";
 import { importFileExcel } from "@app/utils/upload-file";
 import { AuthPayload } from "../auth/auth.interface";
+import { Form } from "../form/form.model";
 import excelJS from "exceljs";
 import moment from "moment";
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel(User) private readonly userModel: MongooseModel<User>
+    @InjectModel(User) private readonly userModel: MongooseModel<User>,
+    @InjectModel(Form) private readonly formModel: MongooseModel<Form>
   ) {}
 
   // get list users
@@ -129,6 +131,7 @@ export class UserService {
         status: UserStatus.ONLINE,
         deletedBy: null,
       })
+      .collation({ locale: "en", strength: 2 })
       .populate("roles")
       .exec();
   }
@@ -280,31 +283,36 @@ export class UserService {
   }
 
   // import list users
-  public async importUsers(file: any, user: AuthPayload): Promise<User[]> {
+  public async importUsers(file: any, user: AuthPayload): Promise<any> {
     let userInfo = await this.findByUserName(user.userName);
     let listUsers: any = await importFileExcel(file);
 
     let datas: object[] = [];
     let index = 0;
+    let password = await this.hashPassword("123456");
     for (let user of listUsers) {
-      if (!user.UserName)
-        throw `Username at row index "${index + 2}" is required!`;
-      if (!user.Password)
-        throw `Password at row index"${index + 2}" is required!`;
+      if (!user["Tên tài khoản"])
+        throw `Tên tài khoản tại dòng thứ 2 "${index + 2}" là trường bắt buộc!`;
+      if (!user["Họ tên"])
+        throw `Họ tên tại dòng thứ 2 "${index + 2}" là trường bắt buộc!`;
+      // if (!user.["Tên tài khoản"])
+      //   throw `Password at row index"${index + 2}" is required!`;
 
       const checkUserName = await this.userModel
         .findOne({ userName: user.UserName })
         .exec();
-      if (checkUserName) throw `Username "${user.UserName}" is existed!`;
+      if (checkUserName) throw `Tên tài khoản "${user.UserName}" đã tồn tại!`;
 
-      user.Password = await this.hashPassword(user.Password);
       let data = {
-        fullname: user.FullName ? user.FullName : user.UserName,
-        userName: user.UserName,
-        password: user.Password,
-        emailAddress: user.Email ? user.Email : null,
-        phone: user.Phone ? user.Phone : null,
-        status: user.Status ? user.Status : 0,
+        fullname: user["Họ tên"],
+        userName: user["Tên tài khoản"],
+        password: password,
+        emailAddress: user["E-mail"] ? user["E-mail"] : "",
+        phone: user["Số điện thoại"] ? user["Số điện thoại"] : "",
+        position: user["Chức vụ"] ? user["Chức vụ"] : "",
+        address: user["Địa chỉ"] ? user["Địa chỉ"] : "",
+        status: 1,
+        isSuperAdmin: false,
         createdBy: userInfo._id,
       };
 
@@ -312,6 +320,26 @@ export class UserService {
       index++;
     }
 
-    return await this.userModel.create(datas);
+    for (let data of datas) {
+      let userObj = await this.userModel.create(data);
+
+      let time = moment().format("YYYY-MM-DDTHH:mm:ss");
+      let templateEmail = `<p>Xin chào anh/chị,</p>
+                              <p>Tiến Phước kính mời anh chị tham gia khảo sát phản hồi cho nhân sự: <strong>[USER_FULLNAME]</strong>.</p>
+                              <p>Anh chị vui lòng nhấp vào liên kết bên dưới để thực hiện khảo sát:</p>
+                              <p><a href="[LINK]" style="background-color: #2d4432; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Tham gia khảo sát</a></p>
+                              <p>Trân trọng cảm ơn!</p>`;
+      let dataDTO = {
+        template: "66f0e0fcae2716747b0cc972",
+        user: userObj._id,
+        time: time,
+        templateEmail: templateEmail,
+        createdBy: userInfo._id,
+      };
+
+      await this.formModel.create(dataDTO);
+    }
+
+    return datas;
   }
 }

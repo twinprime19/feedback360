@@ -6,6 +6,7 @@ import { PermissionService } from "@app/modules/permission/permission.service";
 import { UserSeed } from "@app/modules/user/seeds/user.seed";
 import { UserService } from "@app/modules/user/user.service";
 import { UserProvider } from "@app/modules/user/entities/user.entity";
+import { FormProvider } from "@app/modules/form/form.model";
 
 @Module({
   imports: [CommandModule],
@@ -16,6 +17,7 @@ import { UserProvider } from "@app/modules/user/entities/user.entity";
     UserSeed,
     UserService,
     UserProvider,
+    FormProvider,
   ],
   exports: [PermissionSeed, UserSeed],
 })

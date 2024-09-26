@@ -84,6 +84,11 @@ export class User {
 
   @IsString()
   @IsOptional()
+  @prop({ required: false, default: "" })
+  address: string;
+
+  @IsString()
+  @IsOptional()
   @prop({ ref: () => Media, default: null })
   avatar: Ref<Media>;
 
