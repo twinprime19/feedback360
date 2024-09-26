@@ -524,6 +524,8 @@ export class FormService {
       statisticAnswerQuestions.push(statisticQuestion);
     }
 
+    console.log("statisticAnswerQuestions", statisticAnswerQuestions);
+
     // tạo bảng đầu tiên
     const headRows1 = [
       [
@@ -534,6 +536,8 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
           },
         },
         {
@@ -543,6 +547,8 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
           },
         },
         {
@@ -552,6 +558,8 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
           },
         },
         {
@@ -561,6 +569,8 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
           },
         },
       ],
@@ -572,6 +582,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [146, 208, 80],
           },
         },
         {
@@ -581,6 +592,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [0, 176, 80],
           },
         },
         {
@@ -590,6 +602,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 255, 0],
           },
         },
         {
@@ -599,6 +612,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [0, 176, 240],
           },
         },
 
@@ -609,6 +623,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 192, 0],
           },
         },
         {
@@ -618,6 +633,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [219, 219, 219],
           },
         },
         {
@@ -627,6 +643,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [146, 208, 80],
           },
         },
       ],
@@ -637,6 +654,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 255, 0],
           },
         },
 
@@ -645,6 +663,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [146, 208, 80],
           },
         },
         {
@@ -652,6 +671,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [0, 176, 80],
           },
         },
         {
@@ -659,6 +679,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 255, 0],
           },
         },
         {
@@ -666,56 +687,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
-          },
-        },
-
-        {
-          content: "1",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "2",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "3",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "4",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "5",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "Ko TC",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "TC",
-          styles: {
-            halign: "center",
-            valign: "middle",
+            fillColor: [0, 176, 240],
           },
         },
 
@@ -724,6 +696,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 192, 0],
           },
         },
         {
@@ -731,6 +704,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 192, 0],
           },
         },
         {
@@ -738,6 +712,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 192, 0],
           },
         },
         {
@@ -745,6 +720,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 192, 0],
           },
         },
         {
@@ -752,6 +728,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 192, 0],
           },
         },
         {
@@ -759,6 +736,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 192, 0],
           },
         },
         {
@@ -766,6 +744,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 192, 0],
           },
         },
 
@@ -774,6 +753,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [219, 219, 219],
           },
         },
         {
@@ -781,6 +761,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [219, 219, 219],
           },
         },
         {
@@ -788,6 +769,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [219, 219, 219],
           },
         },
         {
@@ -795,6 +777,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [219, 219, 219],
           },
         },
         {
@@ -802,6 +785,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [219, 219, 219],
           },
         },
         {
@@ -809,6 +793,7 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [219, 219, 219],
           },
         },
         {
@@ -816,6 +801,64 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [219, 219, 219],
+          },
+        },
+
+        {
+          content: "1",
+          styles: {
+            halign: "center",
+            valign: "middle",
+            fillColor: [146, 208, 80],
+          },
+        },
+        {
+          content: "2",
+          styles: {
+            halign: "center",
+            valign: "middle",
+            fillColor: [146, 208, 80],
+          },
+        },
+        {
+          content: "3",
+          styles: {
+            halign: "center",
+            valign: "middle",
+            fillColor: [146, 208, 80],
+          },
+        },
+        {
+          content: "4",
+          styles: {
+            halign: "center",
+            valign: "middle",
+            fillColor: [146, 208, 80],
+          },
+        },
+        {
+          content: "5",
+          styles: {
+            halign: "center",
+            valign: "middle",
+            fillColor: [146, 208, 80],
+          },
+        },
+        {
+          content: "Ko TC",
+          styles: {
+            halign: "center",
+            valign: "middle",
+            fillColor: [146, 208, 80],
+          },
+        },
+        {
+          content: "TC",
+          styles: {
+            halign: "center",
+            valign: "middle",
+            fillColor: [146, 208, 80],
           },
         },
       ],
@@ -823,13 +866,301 @@ export class FormService {
         {
           content: (formInfo.user as User).fullname,
           colSpan: 27,
-          styles: {
-            halign: "left",
-            valign: "middle",
-            fillColor: [255, 255, 255],
-            textColor: [0, 0, 0],
-          },
+          styles: { halign: "left", valign: "middle" },
         },
+      ],
+    ];
+
+    const sampleBodyTable1 = [
+      [
+        "1",
+        "Nỗ lực thực hiện hoàn thành mục tiêu của Phòng/bộ phận",
+        "4.0",
+        "4.5",
+        "4.4",
+        "5.0",
+
+        "",
+        "",
+        "",
+        "1",
+        "1",
+        "",
+        "2",
+
+        "",
+        "",
+        "1",
+        "1",
+        "3",
+        "1",
+        "6",
+
+        "",
+        "",
+        "",
+        "",
+        "2",
+        "",
+        "2",
+      ],
+      [
+        "2",
+        "Luôn hợp tác, hay khuyến khích sự hợp tác để hoàn thành mục tiêu chung của Công ty",
+        "2.0",
+        "3.0",
+        "3.8",
+        "4.5",
+
+        "",
+        "",
+        "2",
+        "",
+        "",
+        "",
+        "2",
+
+        "",
+        "",
+        "3",
+        "1",
+        "2",
+        "",
+        "6",
+
+        "",
+        "",
+        "",
+        "1",
+        "1",
+        "",
+        "2",
+      ],
+      [
+        "3",
+        "Lắng nghe tích cực, sẵn sàng trao đổi dựa trên sự thấu hiểu",
+        "2.0",
+        "2.5",
+        "3.3",
+        "4.0",
+
+        "",
+        "1",
+        "1",
+        "",
+        "",
+        "",
+        "2",
+
+        "1",
+        "",
+        "2",
+        "2",
+        "1",
+        "",
+        "6",
+
+        "",
+        "",
+        "",
+        "2",
+        "",
+        "",
+        "2",
+      ],
+      [
+        "4",
+        "Luôn tạo cơ hội, khuyến khích người khác/nhân viên đóng góp ý kiến trong công việc",
+        "3.0",
+        "2.5",
+        "3.8",
+        "4.0",
+
+        "",
+        "1",
+        "1",
+        "",
+        "",
+        "",
+        "2",
+
+        "",
+        "",
+        "1",
+        "3",
+        "",
+        "2",
+        "6",
+
+        "",
+        "",
+        "",
+        "2",
+        "",
+        "",
+        "2",
+      ],
+      [
+        "5",
+        "Truyền cảm hứng cho người khác/ nhân viên thông qua việc công nhận/ tưởng thưởng kết quả đóng góp/ làm việc của họ",
+        "2.0",
+        "2.5",
+        "3.3",
+        "3.5",
+
+        "",
+        "1",
+        "1",
+        "",
+        "",
+        "",
+        "2",
+
+        "",
+        "1",
+        "2",
+        "3",
+        "",
+        "",
+        "6",
+
+        "",
+        "",
+        "1",
+        "1",
+        "",
+        "",
+        "2",
+      ],
+      [
+        "6",
+        "Phân công công việc một cách hiệu quả",
+        "4.0",
+        "3.5",
+        "4.0",
+        "4.0",
+
+        "",
+        "",
+        "1",
+        "1",
+        "",
+        "",
+        "2",
+
+        "",
+        "",
+        "",
+        "1",
+        "",
+        "5",
+        "6",
+
+        "",
+        "",
+        "",
+        "2",
+        "",
+        "",
+        "2",
+      ],
+
+      [
+        "7",
+        "Thể hiện tính cương quyết, không chần chừ, dám nhận trách nhiệm",
+        "4.0",
+        "4.0",
+        "3.6",
+        "4.5",
+
+        "",
+        "",
+        "",
+        "2",
+        "",
+        "",
+        "2",
+
+        "",
+        "1",
+        "",
+        "4",
+        "",
+        "1",
+        "6",
+
+        "",
+        "",
+        "",
+        "1",
+        "1",
+        "",
+        "2",
+      ],
+
+      [
+        "8",
+        "Luôn cải tiến, động viên và thúc đẩy sự thay đổi trong công việc để đạt hiệu quả cao hơn",
+        "3.0",
+        "3.0",
+        "4.2",
+        "4.5",
+
+        "",
+        "",
+        "2",
+        "",
+        "",
+        "",
+        "2",
+
+        "",
+        "",
+        "1",
+        "2",
+        "2",
+        "1",
+        "6",
+
+        "",
+        "",
+        "",
+        "1",
+        "1",
+        "",
+        "2",
+      ],
+      [
+        "9",
+        "Mức độ hứng khởi của anh/ chị khi làm việc với NĐPH",
+        "",
+        "4.0",
+        "4.0",
+        "4.0",
+
+        "",
+        "",
+        "",
+        "2",
+        "",
+        "",
+        "2",
+
+        "",
+        "1",
+        "1",
+        "1",
+        "3",
+        "",
+        "6",
+
+        "",
+        "",
+        "",
+        "2",
+        "",
+        "",
+        "2",
       ],
     ];
 
@@ -840,62 +1171,133 @@ export class FormService {
           content: "Tiêu Chí Số",
           styles: {
             halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
           },
         },
         {
           content: "1",
           styles: {
             halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
           },
         },
         {
           content: "2",
           styles: {
             halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
           },
         },
         {
           content: "3",
           styles: {
             halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
           },
         },
         {
           content: "4",
           styles: {
             halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
           },
         },
         {
           content: "5",
           styles: {
             halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
           },
         },
         {
           content: "6",
           styles: {
             halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
           },
         },
         {
           content: "7",
           styles: {
             halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
           },
         },
         {
           content: "8",
           styles: {
             halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
           },
         },
         {
           content: "9",
           styles: {
             halign: "center",
+            fillColor: [255, 0, 0],
+            textColor: [255, 255, 255],
           },
         },
+      ],
+    ];
+
+    const sampleBodyTable2 = [
+      [
+        "Tự đánh giá",
+        "4.0",
+        "2.0",
+        "2.0",
+        "3.0",
+        "2.0",
+        "4.0",
+        "4.0",
+        "3.0",
+        "",
+      ],
+      [
+        "Cấp trên",
+        "4.5",
+        "3.0",
+        "2.5",
+        "2.5",
+        "2.5",
+        "3.5",
+        "4.0",
+        "3.0",
+        "4.0",
+      ],
+      [
+        "Ngang cấp",
+        "4.4",
+        "3.8",
+        "3.3",
+        "3.8",
+        "3.3",
+        "4.0",
+        "3.6",
+        "4.2",
+        "4.0",
+      ],
+      [
+        "Cấp dưới",
+        "5.0",
+        "4.5",
+        "4.0",
+        "4.0",
+        "3.5",
+        "4.0",
+        "4.5",
+        "4.5",
+        "4.0",
       ],
     ];
 
@@ -912,6 +1314,8 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 192, 0],
+            textColor: [255, 255, 255],
           },
         },
         {
@@ -919,9 +1323,35 @@ export class FormService {
           styles: {
             halign: "center",
             valign: "middle",
+            fillColor: [255, 192, 0],
+            textColor: [255, 255, 255],
           },
         },
       ],
+    ];
+
+    const sampleBodyTable3 = [
+      ["1", "Nỗ lực thực hiện hoàn thành mục tiêu của Phòng/bộ phận"],
+      [
+        "2",
+        "Luôn hợp tác, hay khuyến khích sự hợp tác để hoàn thành mục tiêu chung của Công ty",
+      ],
+      ["3", "Lắng nghe tích cực, sẵn sàng trao đổi dựa trên sự thấu hiểu"],
+      [
+        "4",
+        "Luôn tạo cơ hội, khuyến khích người khác/ nhân viên đóng góp ý kiến trong công việc",
+      ],
+      [
+        "5",
+        "Truyền cảm hứng cho người khác/ nv thông qua việc công nhận/tưởng thưởng kết quả đóng góp/làm việc của họ",
+      ],
+      ["6", "Phân công công việc một cách hiệu quả"],
+      ["7", "Thể hiện tính cương quyết, không chần chừ, dám nhận trách nhiệm"],
+      [
+        "8",
+        "Luôn cải tiến, động viên và thúc đẩy sự thay đổi trong công việc để đạt hiệu quả cao hơn",
+      ],
+      ["9", "Mức độ hứng khởi của anh/ chị khi làm việc với người này"],
     ];
 
     let bodyTable3: any = [];
@@ -1057,20 +1487,22 @@ export class FormService {
       styles: {
         fontSize: 10,
         font: "Roboto", // Use the custom font for the table
+        fillColor: [255, 255, 255], // Set header background color
+        textColor: [0, 0, 0], // Set header text color
+        halign: "center", // Center-align table text
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+      },
+      headStyles: {
+        fontStyle: "bold", // Make the header bold
+        fillColor: [255, 255, 255], // Set header background color
         textColor: [0, 0, 0], // Set header text color
         lineWidth: 0.1, // Độ dày của viền
         lineColor: [0, 0, 0], // Màu sắc viền (đen)
         halign: "center", // Center-align table text
       },
-      headStyles: {
-        fontStyle: "bold", // Make the header bold
-        fillColor: [0, 123, 76], // Set header background color
-        textColor: [255, 255, 255], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-      },
       bodyStyles: {
+        fillColor: [255, 255, 255], // Set header background color
         textColor: [0, 0, 0], // Set header text color
         lineWidth: 0.1, // Độ dày của viền
         lineColor: [0, 0, 0], // Màu sắc viền (đen)
@@ -1079,34 +1511,34 @@ export class FormService {
       },
       columnStyles: {
         1: { halign: "left" },
-        2: { cellWidth: 12 },
-        3: { cellWidth: 10 },
-        4: { cellWidth: 14 },
-        5: { cellWidth: 11 },
+        2: { fillColor: [146, 208, 80], cellWidth: 12 },
+        3: { fillColor: [0, 176, 80], cellWidth: 10 },
+        4: { fillColor: [255, 255, 0], cellWidth: 14 },
+        5: { fillColor: [0, 176, 240], cellWidth: 11 },
 
-        6: { cellWidth: 6 },
-        7: { cellWidth: 6 },
-        8: { cellWidth: 6 },
-        9: { cellWidth: 6 },
-        10: { cellWidth: 6 },
-        11: { cellWidth: 14 },
-        12: { cellWidth: 8 },
+        6: { fillColor: [255, 192, 0], cellWidth: 6 },
+        7: { fillColor: [255, 192, 0], cellWidth: 6 },
+        8: { fillColor: [255, 192, 0], cellWidth: 6 },
+        9: { fillColor: [255, 192, 0], cellWidth: 6 },
+        10: { fillColor: [255, 192, 0], cellWidth: 6 },
+        11: { fillColor: [255, 192, 0], cellWidth: 14 },
+        12: { fillColor: [255, 192, 0], cellWidth: 8 },
 
-        13: { cellWidth: 6 },
-        14: { cellWidth: 6 },
-        15: { cellWidth: 6 },
-        16: { cellWidth: 6 },
-        17: { cellWidth: 6 },
-        18: { cellWidth: 14 },
-        19: { cellWidth: 8 },
+        13: { fillColor: [219, 219, 219], cellWidth: 6 },
+        14: { fillColor: [219, 219, 219], cellWidth: 6 },
+        15: { fillColor: [219, 219, 219], cellWidth: 6 },
+        16: { fillColor: [219, 219, 219], cellWidth: 6 },
+        17: { fillColor: [219, 219, 219], cellWidth: 6 },
+        18: { fillColor: [219, 219, 219], cellWidth: 14 },
+        19: { fillColor: [219, 219, 219], cellWidth: 8 },
 
-        20: { cellWidth: 6 },
-        21: { cellWidth: 6 },
-        22: { cellWidth: 6 },
-        23: { cellWidth: 6 },
-        24: { cellWidth: 6 },
-        25: { cellWidth: 14 },
-        26: { cellWidth: 8 },
+        20: { fillColor: [146, 208, 80], cellWidth: 6 },
+        21: { fillColor: [146, 208, 80], cellWidth: 6 },
+        22: { fillColor: [146, 208, 80], cellWidth: 6 },
+        23: { fillColor: [146, 208, 80], cellWidth: 6 },
+        24: { fillColor: [146, 208, 80], cellWidth: 6 },
+        25: { fillColor: [146, 208, 80], cellWidth: 14 },
+        26: { fillColor: [146, 208, 80], cellWidth: 8 },
       },
       // didParseCell: function (data) {
       //   if (data.cell.text.length > 0) {
@@ -1124,6 +1556,103 @@ export class FormService {
     doc.addPage("a4", "l");
     doc.setFontSize(12);
 
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("2. Những điểm mạnh nổi bật của NĐPN", 15, 20);
+    //   doc.text("a/ Nhận xét của cấp trên:", 20, 25);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text("- Thông minh, nhanh,", 20, 30);
+    //   doc.text("- Có nhiều kiến thức chuyên môn,", 20, 35);
+    //   doc.text("- Có những mối quan hệ trong lĩnh vực phụ trách.", 20, 40);
+
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, 45);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text(
+    //     "- Khả năng phân tích nắm bắt nhanh thị trường, nhiều kinh nghiệm,",
+    //     20,
+    //     50
+    //   );
+    //   doc.text("- Xử lý công việc nhanh,", 20, 55);
+    //   doc.text(
+    //     "- Nhanh nhẹn, tích cực đóng góp ý kiến xây dựng (2 ý kiến),",
+    //     20,
+    //     60
+    //   );
+    //   doc.text("- Năng động, tự tin, thông minh,", 20, 65);
+    //   doc.text(
+    //     "- Nắm rõ hoạt động đầu tư, quy trình, chính sách của cty.",
+    //     20,
+    //     70
+    //   );
+
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("c/ Nhận xét của cấp dưới:", 20, 75);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text("- Luôn nỗ lực hoàn thành mục tiêu được giao,", 20, 80);
+    //   doc.text("- Tinh thần trách nhiệm cao, ", 20, 85);
+    //   doc.text("- Quyết liệt trong công việc,", 20, 90);
+    //   doc.text("- Thông minh, giỏi kiến thức,", 20, 95);
+    //   doc.text("- Hòa đồng với nhân viên.", 20, 100);
+
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("3. Vấn đề mà NĐPH cần hoàn thiện ngay", 15, 110);
+    //   doc.text("a/ Nhận xét của cấp trên:", 20, 115);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text("- Tập trung hơn trong cuộc họp (bớt xem điện thoại),", 20, 120);
+    //   doc.text("- Cư xử với mọi người điềm đạm hơn,", 20, 125);
+    //   doc.text("- Lắng nghe tích cực,", 20, 130);
+    //   doc.text("- Giảm cân.", 20, 135);
+
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, 140);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text(
+    //     "- Giảm bớt việc công bố thông tin ngoài lề của các phòng ban khác,",
+    //     20,
+    //     145
+    //   );
+    //   doc.text("- Tránh cá nhân hóa các sự việc chung,", 20, 150);
+    //   doc.text(
+    //     "- Cần bình tĩnh, không nôn nóng thúc giục giải quyết khi vấn đề chưa rõ ràng.",
+    //     20,
+    //     155
+    //   );
+
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("c/ Nhận xét của cấp dưới:", 20, 160);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text("- Cần nhẹ nhàng với các phòng ban khác.", 20, 165);
+
+    //   doc.addPage("a4", "l");
+    //   doc.setFontSize(12);
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("4. Lời khuyên dành cho NĐPH", 15, 20);
+    //   doc.text("a/ Nhận xét của cấp trên:", 20, 25);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text("- Bình tĩnh để đọc vị cuộc họp,", 20, 30);
+    //   doc.text("- Bớt đanh đá,", 20, 35);
+    //   doc.text("- Kiểm soát cảm xúc khi giao tiếp.", 20, 40);
+
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, 45);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text(
+    //     "- Khéo léo hơn trong nhận xét ngoài chuyên môn của các phòng ban khác,",
+    //     20,
+    //     50
+    //   );
+    //   doc.text(
+    //     "- Tăng cường kết nối các bộ phận để dự án đạt hiệu quả cao nhất,",
+    //     20,
+    //     55
+    //   );
+    //   doc.text("- Tôn trọng hơn các ý kiến trái chiều.", 20, 60);
+
+    //   doc.setFont("Roboto", "bold");
+    //   doc.text("c/ Nhận xét của cấp dưới:", 20, 65);
+    //   doc.setFont("Roboto", "normal");
+    //   doc.text("- Nhẹ nhàng khuyên, chỉ bảo nhân viên hơn.", 20, 70);
+
     let answerQuestion2 = statisticAnswerQuestions[0];
     let answerQuestion3 = statisticAnswerQuestions[1];
     let answerQuestion4 = statisticAnswerQuestions[2];
@@ -1134,7 +1663,10 @@ export class FormService {
     doc.setTextColor(0, 0, 0);
     doc.text("a/ Nhận xét của cấp trên:", 20, 25);
     doc.setFont("Roboto", "normal");
-
+    // doc.text("- Thông minh, nhanh,", 20, 30);
+    // doc.text("- Có nhiều kiến thức chuyên môn,", 20, 35);
+    // doc.text("- Có những mối quan hệ trong lĩnh vực phụ trách.", 20, 40);
+    console.log("answerQuestion2", answerQuestion2);
     let currentY = 30;
     for (let text of answerQuestion2.stringSeniors) {
       let splitText = doc.splitTextToSize(text, maxWidth);
@@ -1149,7 +1681,23 @@ export class FormService {
     currentY += 5;
     doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
     doc.setFont("Roboto", "normal");
-
+    // doc.text(
+    //   "- Khả năng phân tích nắm bắt nhanh thị trường, nhiều kinh nghiệm,",
+    //   20,
+    //   50
+    // );
+    // doc.text("- Xử lý công việc nhanh,", 20, 55);
+    // doc.text(
+    //   "- Nhanh nhẹn, tích cực đóng góp ý kiến xây dựng (2 ý kiến),",
+    //   20,
+    //   60
+    // );
+    // doc.text("- Năng động, tự tin, thông minh,", 20, 65);
+    // doc.text(
+    //   "- Nắm rõ hoạt động đầu tư, quy trình, chính sách của cty.",
+    //   20,
+    //   70
+    // );
     currentY += 5;
     for (let text of answerQuestion2.stringPeers) {
       let splitText = doc.splitTextToSize(text, maxWidth);
@@ -1164,7 +1712,11 @@ export class FormService {
     currentY += 5;
     doc.text("c/ Nhận xét của cấp dưới:", 20, currentY);
     doc.setFont("Roboto", "normal");
-
+    // doc.text("- Luôn nỗ lực hoàn thành mục tiêu được giao,", 20, 80);
+    // doc.text("- Tinh thần trách nhiệm cao, ", 20, 85);
+    // doc.text("- Quyết liệt trong công việc,", 20, 90);
+    // doc.text("- Thông minh, giỏi kiến thức,", 20, 95);
+    // doc.text("- Hòa đồng với nhân viên.", 20, 100);
     currentY += 5;
     for (let text of answerQuestion2.stringSubordinates) {
       let splitText = doc.splitTextToSize(text, maxWidth);
@@ -1183,7 +1735,10 @@ export class FormService {
     currentY += 5;
     doc.text("a/ Nhận xét của cấp trên:", 20, currentY);
     doc.setFont("Roboto", "normal");
-
+    // doc.text("- Tập trung hơn trong cuộc họp (bớt xem điện thoại),", 20, 120);
+    // doc.text("- Cư xử với mọi người điềm đạm hơn,", 20, 125);
+    // doc.text("- Lắng nghe tích cực,", 20, 130);
+    // doc.text("- Giảm cân.", 20, 135);
     currentY += 5;
     for (let text of answerQuestion3.stringSeniors) {
       let splitText = doc.splitTextToSize(text, maxWidth);
@@ -1198,7 +1753,17 @@ export class FormService {
     currentY += 5;
     doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
     doc.setFont("Roboto", "normal");
-
+    // doc.text(
+    //   "- Giảm bớt việc công bố thông tin ngoài lề của các phòng ban khác,",
+    //   20,
+    //   145
+    // );
+    // doc.text("- Tránh cá nhân hóa các sự việc chung,", 20, 150);
+    // doc.text(
+    //   "- Cần bình tĩnh, không nôn nóng thúc giục giải quyết khi vấn đề chưa rõ ràng.",
+    //   20,
+    //   155
+    // );
     currentY += 5;
     for (let text of answerQuestion3.stringPeers) {
       let splitText = doc.splitTextToSize(text, maxWidth);
@@ -1231,7 +1796,9 @@ export class FormService {
     doc.setTextColor(0, 0, 0);
     doc.text("a/ Nhận xét của cấp trên:", 20, 25);
     doc.setFont("Roboto", "normal");
-
+    // doc.text("- Bình tĩnh để đọc vị cuộc họp,", 20, 30);
+    // doc.text("- Bớt đanh đá,", 20, 35);
+    // doc.text("- Kiểm soát cảm xúc khi giao tiếp.", 20, 40);
     currentY = 25;
     currentY += 5;
     for (let text of answerQuestion4.stringSeniors) {
@@ -1247,7 +1814,17 @@ export class FormService {
     currentY += 5;
     doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
     doc.setFont("Roboto", "normal");
-
+    // doc.text(
+    //   "- Khéo léo hơn trong nhận xét ngoài chuyên môn của các phòng ban khác,",
+    //   20,
+    //   50
+    // );
+    // doc.text(
+    //   "- Tăng cường kết nối các bộ phận để dự án đạt hiệu quả cao nhất,",
+    //   20,
+    //   55
+    // );
+    // doc.text("- Tôn trọng hơn các ý kiến trái chiều.", 20, 60);
     currentY += 5;
     for (let text of answerQuestion4.stringPeers) {
       let splitText = doc.splitTextToSize(text, maxWidth);
@@ -1272,7 +1849,7 @@ export class FormService {
       console.log("currentY", currentY);
     }
 
-    // Add four section
+    // Add third section
     doc.setFont("Roboto", "bold");
     currentY = currentY + 10;
     doc.setTextColor(223, 153, 7);
@@ -1292,26 +1869,18 @@ export class FormService {
       styles: {
         fontSize: 10,
         font: "Roboto", // Use the custom font for the table
+        fillColor: [255, 255, 255], // Set header background color
         textColor: [0, 0, 0], // Set header text color
+        halign: "center", // Center-align table text
         lineWidth: 0.1, // Độ dày của viền
         lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
       },
       headStyles: {
-        fontStyle: "bold", // Make the header bold
-        fillColor: [0, 123, 76], // Màu nền tiêu đề
-        textColor: [255, 255, 255], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
+        fillColor: [255, 0, 0], // Màu nền tiêu đề
       },
-      bodyStyles: {
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
+      // alternateRowStyles: {
+      //   fillColor: [240, 240, 240], // Màu nền cho hàng chẵn
+      // },
       columnStyles: {
         0: { halign: "left" },
       },
@@ -1319,18 +1888,18 @@ export class FormService {
       didParseCell: function (data) {
         if (data.section === "body") {
           // Áp dụng màu nền cho từng hàng theo chỉ số index của row
-          // if (data.row.index === 0) {
-          //   data.cell.styles.fillColor = [146, 208, 80]; // Hàng đầu tiên - xanh nhạt
-          // } else if (data.row.index === 1) {
-          //   data.cell.styles.fillColor = [0, 176, 80]; // Hàng thứ hai - xanh lá đậm
-          // } else if (data.row.index === 2) {
-          //   data.cell.styles.fillColor = [255, 255, 0]; // Hàng thứ ba - vàng
-          // } else if (data.row.index === 3) {
-          //   data.cell.styles.fillColor = [0, 176, 240]; // Hàng thứ tư - xanh dương
-          // }
+          if (data.row.index === 0) {
+            data.cell.styles.fillColor = [146, 208, 80]; // Hàng đầu tiên - xanh nhạt
+          } else if (data.row.index === 1) {
+            data.cell.styles.fillColor = [0, 176, 80]; // Hàng thứ hai - xanh lá đậm
+          } else if (data.row.index === 2) {
+            data.cell.styles.fillColor = [255, 255, 0]; // Hàng thứ ba - vàng
+          } else if (data.row.index === 3) {
+            data.cell.styles.fillColor = [0, 176, 240]; // Hàng thứ tư - xanh dương
+          }
         }
       },
-      tableWidth: 115, // chiều rộng của bảng
+      tableWidth: 105, // Đặt chiều rộng của bảng bằng 50% chiều ngang trang A4 (105 mm)
     });
 
     // chèn biểu đồ từ hình ảnh
@@ -1375,6 +1944,32 @@ export class FormService {
       type: "line",
       data: {
         labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+        // datasets: [
+        //   {
+        //     label: "Tự đánh giá",
+        //     data: [4.0, 2.0, 2.0, 3.0, 2.0, 4.0, 4.0, 3.0, 0],
+        //     borderColor: "rgb(146, 208, 80)",
+        //     fill: false,
+        //   },
+        //   {
+        //     label: "Cấp trên",
+        //     data: [4.5, 3.0, 2.5, 2.5, 2.5, 3.5, 4.0, 3.0, 4.0],
+        //     borderColor: "rgb(0, 176, 80)",
+        //     fill: false,
+        //   },
+        //   {
+        //     label: "Ngang cấp",
+        //     data: [4.4, 3.8, 3.3, 3.8, 3.3, 4.0, 3.6, 4.2, 4.0],
+        //     borderColor: "rgb(255, 255, 0)",
+        //     fill: false,
+        //   },
+        //   {
+        //     label: "Cấp dưới",
+        //     data: [5.0, 4.5, 4.0, 4.0, 3.5, 4.0, 4.5, 4.5, 4.0],
+        //     borderColor: "rgb(0, 176, 240)",
+        //     fill: false,
+        //   },
+        // ],
         datasets: datasetsChart,
       },
     };
@@ -1387,7 +1982,7 @@ export class FormService {
 
     // Tải xuống hình ảnh từ URL mà QuickChart trả về
     const imageUrl = response.data.url;
-
+    // Ensure the /mnt/data/ directory exists
     const directory1 = "./assets/uploads/chart";
     if (!fs.existsSync(directory1)) {
       fs.mkdirSync(directory1, { recursive: true });
@@ -1406,10 +2001,10 @@ export class FormService {
     doc.addImage(
       `data:image/png;base64,${imageData}`,
       "PNG",
-      140,
+      130,
       currentY - 10,
-      120,
-      80
+      150,
+      100
     );
 
     doc.addPage("a4", "l");
@@ -1424,21 +2019,24 @@ export class FormService {
       styles: {
         fontSize: 10,
         font: "Roboto", // Use the custom font for the table
+        fillColor: [255, 255, 255], // Set header background color
         textColor: [0, 0, 0], // Set header text color
+        halign: "center", // Center-align table text
         lineWidth: 0.1, // Độ dày của viền
         lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
       },
       headStyles: {
-        fillColor: [0, 123, 76], // Màu nền tiêu đề
-        textColor: [255, 255, 255], // Set header text color
+        fillColor: [255, 0, 0], // Màu nền tiêu đề
       },
+      // alternateRowStyles: {
+      //   fillColor: [240, 240, 240], // Màu nền cho hàng chẵn
+      // },
       bodyStyles: {
+        fillColor: [216, 216, 216], // Set header background color
         textColor: [0, 0, 0], // Set header text color
         lineWidth: 0.1, // Độ dày của viền
         lineColor: [0, 0, 0], // Màu sắc viền (đen)
         halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
       },
       columnStyles: {
         0: { halign: "center" },
@@ -1448,7 +2046,7 @@ export class FormService {
       didParseCell: function (data) {
         if (data.section === "body") {
           // Áp dụng màu nền cho từng hàng
-          // data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
+          data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
         }
       },
     });
@@ -1463,6 +2061,21 @@ export class FormService {
       { maxWidth: 265 }
     );
 
+    // const text =
+    //   "- Bạn hiểu & tự đoán biết được khá tương đồng với mọi người xung quanh & nhận ra điểm cần lưu ý về lắng nghe tích cực & truyền cảm hứng cho người khác để càng thành công hơn (tiêu chí số 3 & số 5). Bạn hiểu & tự đoán biết được khá tương đồng với mọi người xung quanh & nhận ra điểm cần lưu ý về lắng nghe tích cực & truyền cảm hứng cho người khác để càng thành công hơn (tiêu chí số 3 & số 5).";
+
+    // // Sử dụng hàm splitTextToSize để chia văn bản thành nhiều dòng dựa trên chiều rộng tối đa (maxWidth)
+
+    // const splitText = doc.splitTextToSize(text, maxWidth);
+
+    // // Tọa độ bắt đầu của văn bản
+    // let currentY1 = 115;
+    // console.log("splitText", splitText);
+
+    // // Vẽ đoạn text đã được chia thành nhiều dòng
+    // doc.text(splitText, 15, currentY1);
+
+    // Ensure the /mnt/data/ directory exists
     const directory = "./assets/uploads/pdf";
     if (!fs.existsSync(directory)) {
       fs.mkdirSync(directory, { recursive: true });

@@ -23,8 +23,8 @@ import { AuthPayload } from "../auth/auth.interface";
 import { Form } from "../form/form.model";
 import { Template } from "../template/template.model";
 import { Question } from "../question/question.model";
-import moment from "moment";
 import { FormRelationship } from "../form_relationship/form_relationship.model";
+import moment from "moment";
 
 @Injectable()
 export class FeedbackService {
@@ -37,9 +37,9 @@ export class FeedbackService {
     private readonly templateModel: MongooseModel<Template>,
     @InjectModel(Question)
     private readonly questionModel: MongooseModel<Question>,
-    private readonly userService: UserService,
     @InjectModel(FormRelationship)
-    private readonly formRelationshipModel: MongooseModel<FormRelationship>
+    private readonly formRelationshipModel: MongooseModel<FormRelationship>,
+    private readonly userService: UserService
   ) {}
 
   // get list feedbacks
@@ -72,15 +72,15 @@ export class FeedbackService {
     let formInfo = await this.formModel.findById(feedbackDTO.form);
     if (!formInfo) throw `Không tìm thấy form.`;
 
-    let form_relationshipInfo = await this.formRelationshipModel.findById(
+    let formRelationshipInfo = await this.formRelationshipModel.findById(
       feedbackDTO.relationship_id
     );
-    if (!form_relationshipInfo) throw `Không tìm thấy form.`;
+    if (!formRelationshipInfo) throw `Không tìm thấy form.`;
 
     let templateInfo = await this.templateModel.findById(formInfo.template);
     if (!templateInfo) throw `Không tìm thấy template.`;
 
-    feedbackDTO.relationship = form_relationshipInfo.relationship;
+    let relationship = formRelationshipInfo.relationship;
 
     // phân tích kết quả
     let template = templateInfo.template;
@@ -112,7 +112,7 @@ export class FeedbackService {
         id: String(questionObj._id),
         title: questionObj.title,
         type: questionObj.type,
-        relationship: feedbackDTO.relationship,
+        relationship: relationship,
         selfPoint: 0,
         // senior: 0,
         // peer: 0,
@@ -154,12 +154,12 @@ export class FeedbackService {
         (result) => result.question === String(questionObj._id)
       );
       if (checkQuestion) {
-        if (feedbackDTO.relationship === RelationshipState.SELF) {
+        if (relationship === RelationshipState.SELF) {
           if (checkQuestion.point < 0) checkQuestion.point = 0;
           if (checkQuestion.point > 5) checkQuestion.point = 5;
           newQuestion.selfPoint = checkQuestion.point;
         }
-        if (feedbackDTO.relationship === RelationshipState.PEER) {
+        if (relationship === RelationshipState.PEER) {
           if (checkQuestion.point < 0) checkQuestion.point = 0;
           if (checkQuestion.point > 5) checkQuestion.point = 5;
           newQuestion.peer_detail.point = checkQuestion.point;
@@ -171,7 +171,7 @@ export class FeedbackService {
           if (checkQuestion.point === 4) newQuestion.peer_detail.four = true;
           if (checkQuestion.point === 5) newQuestion.peer_detail.five = true;
         }
-        if (feedbackDTO.relationship === RelationshipState.SENIOR) {
+        if (relationship === RelationshipState.SENIOR) {
           if (checkQuestion.point < 0) checkQuestion.point = 0;
           if (checkQuestion.point > 5) checkQuestion.point = 5;
           newQuestion.senior_detail.point = checkQuestion.point;
@@ -183,7 +183,7 @@ export class FeedbackService {
           if (checkQuestion.point === 4) newQuestion.senior_detail.four = true;
           if (checkQuestion.point === 5) newQuestion.senior_detail.five = true;
         }
-        if (feedbackDTO.relationship === RelationshipState.SUBORDINATE) {
+        if (relationship === RelationshipState.SUBORDINATE) {
           if (checkQuestion.point < 0) checkQuestion.point = 0;
           if (checkQuestion.point > 5) checkQuestion.point = 5;
           newQuestion.subordinate_detail.point = checkQuestion.point;
@@ -211,7 +211,7 @@ export class FeedbackService {
         id: String(questionObj._id),
         title: questionObj.title,
         type: questionObj.type,
-        relationship: feedbackDTO.relationship,
+        relationship: relationship,
         answer: "",
       };
 
@@ -228,12 +228,10 @@ export class FeedbackService {
       relationship_id: feedbackDTO.relationship_id,
       template: formInfo.template,
       user: formInfo.user,
-      fullname: feedbackDTO.fullname,
-      position: feedbackDTO.position,
       result: feedbackDTO.result,
       feedbackData: feedbackData,
       time: moment().format("YYYY-MM-DDTHH:mm:ss"),
-      relationship: feedbackDTO.relationship,
+      relationship: relationship,
       //createdBy: userInfo._id,
     };
     return await this.feedbackModel.create(dataDTO);

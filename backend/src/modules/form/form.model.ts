@@ -40,13 +40,9 @@ export class Form {
   @prop({ ref: () => User, default: true })
   user: Ref<User>; // nhân viên được đánh giá
 
-  @IsOptional()
-  @prop({ default: [] })
-  template_email: any; // mẫu email dùng để gửi
-
-  @IsOptional()
-  @prop({ default: [] })
-  assessors: any; // dánh sách người đánh giá
+  @IsNotEmpty()
+  @prop({ required: true })
+  templateEmail: string; // mẫu email dùng để gửi
 
   @IsIn(RELATIONSHIP_STATES)
   @IsInt()

@@ -44,17 +44,6 @@ export class FeedbacksDTO {
 }
 
 export class FeedbackDTO {
-  @IsString()
-  @IsNotEmpty()
-  fullname: string;
-
-  @IsString()
-  @IsNotEmpty()
-  position: string;
-
-  @IsNumber()
-  relationship: number;
-
   @IsNotEmpty()
   form: import("mongoose").Types.ObjectId;
 

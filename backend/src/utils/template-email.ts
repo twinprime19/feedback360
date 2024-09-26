@@ -211,7 +211,52 @@ export const forgotPasswordEmail = (
 };
 
 // Template kích hoạt tài khoản
-export const sendForm = (fullname: string, url: string) => {
+// export const sendForm = (fullname: string, url: string) => {
+//   let templateHTML = `
+//   <div>
+//     <table width="100%" cellpadding="0" cellspacing="0">
+//       <tbody>
+//         <tr>
+//           <td align="center">
+//             <table width="100%" cellpadding="0" cellspacing="0">
+//               <tbody>
+//                 <tr align="center">
+//                   <td>
+//                     <a href="${APP_CONFIG.APP.FE_URL}" target="_blank">
+//                       <img src="https://feedback.test.zinisoft.net/images/logo.png" width="90px" height="55px" alt="TP">
+//                     </a>
+//                   </td>
+//                 </tr>
+//                 <tr>
+//                   <td width="100%" cellpadding="0" cellspacing="0">
+//                     <table align="center" width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; font-family: Nunito Sans, sans-serif; color: #222222;">
+//                       <tbody>
+//                         <tr>
+//                           <td>
+//                             <p>Xin chào anh/chị,</p>
+//                             <p>Tiến Phước kính mời anh chị tham gia khảo sát phản hồi cho nhân sự: <strong>${fullname}</strong>.</p>
+//                             <p>Anh chị vui lòng nhấp vào liên kết bên dưới để thực hiện khảo sát:</p>
+//                             <p><a href="${url}" style="background-color: #2d4432; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Tham gia khảo sát</a></p>
+//                             <p>Trân trọng cảm ơn!</p>
+//                           </td>
+//                         </tr>
+//                       </tbody>
+//                     </table>
+//                   </td>
+//                 </tr>
+
+//               </tbody>
+//             </table>
+//           </td>
+//         </tr>
+//       </tbody>
+//     </table>
+//   </div>`;
+
+//   return templateHTML;
+// };
+
+export const sendForm = (templateEmail: string) => {
   let templateHTML = `
   <div>
     <table width="100%" cellpadding="0" cellspacing="0">
@@ -223,7 +268,7 @@ export const sendForm = (fullname: string, url: string) => {
                 <tr align="center">
                   <td>
                     <a href="${APP_CONFIG.APP.FE_URL}" target="_blank">
-                      <img src="https://feedback.test.zinisoft.net/images/logo.png" width="90px" height="55px" alt="TP"> 
+                      <img src="https://feedback.test.zinisoft.net/images/logo.png" width="90px" height="55px" alt="Tiến Phước"> 
                     </a>
                   </td>
                 </tr>
@@ -233,25 +278,13 @@ export const sendForm = (fullname: string, url: string) => {
                       <tbody>
                         <tr>
                           <td>
-                            <p>Xin chào anh/chị,</p>
-                            <p>Tiến Phước kính mời anh chị tham gia khảo sát phản hồi cho nhân sự: <strong>${fullname}</strong>.</p>
-                            <p style="color: #555555; line-height: 1.5;">
-                                Anh chị vui lòng nhấp vào liên kết bên dưới để thực hiện khảo sát:
-                            </p>
-                            <p>
-                                <a href="${url}" style="background-color: #2d4432; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Tham gia khảo sát</a>
-                            </p>
-                            <p style="color: #555555; line-height: 1.5;">
-                                Trân trọng cảm ơn!
-                            </p>
-                            
+                            ${templateEmail}
                           </td>
                         </tr>
                       </tbody>
                     </table>
                   </td>
                 </tr>
-    
               </tbody>
             </table>
           </td>
@@ -262,4 +295,3 @@ export const sendForm = (fullname: string, url: string) => {
 
   return templateHTML;
 };
-

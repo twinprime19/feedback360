@@ -64,16 +64,6 @@ export class Feedback {
   @prop({ required: true })
   time: string; // thời gian phản hồi
 
-  @IsString()
-  @IsNotEmpty()
-  @prop({ required: true })
-  fullname: string; // họ tên
-
-  @IsString()
-  @IsNotEmpty()
-  @prop({ required: true })
-  position: string; // chức vụ
-
   @IsIn(RELATIONSHIP_STATES)
   @IsInt()
   @IsDefined()

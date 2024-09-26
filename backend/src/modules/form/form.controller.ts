@@ -12,6 +12,7 @@ import {
   Post,
   Body,
   Res,
+  UseGuards,
 } from "@nestjs/common";
 import { FormService } from "./form.service";
 import { UserService } from "../user/user.service";
@@ -103,7 +104,7 @@ export class FormController {
 
   // create form
   @Post("/add")
-  // @UseGuards(AdminOnlyGuard)
+   @UseGuards(AdminOnlyGuard)
   @Responser.handle("Create form")
   createForm(@Req() req: any, @Body() form: FormDTO): Promise<Form> {
     return this.formService.create(form, req.user);
@@ -111,7 +112,7 @@ export class FormController {
 
   // send form
   @Post("/send")
-  // @UseGuards(AdminOnlyGuard)
+   @UseGuards(AdminOnlyGuard)
   @Responser.handle("Send form")
   sendForm(@Req() req: any, @Body() body: ListEmailDTO) {
     return this.formService.sendForm(

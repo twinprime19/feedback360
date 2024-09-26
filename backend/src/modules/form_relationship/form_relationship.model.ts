@@ -8,7 +8,7 @@ import { getProviderByTypegooseClass } from "@app/transformers/model.transformer
 import { mongoosePaginate } from "@app/utils/paginate";
 import { Form } from "../form/form.model";
 import { RelationshipState } from "@app/constants/biz.constant";
-import { IsDefined, IsIn, IsInt } from "class-validator";
+import { IsDefined, IsIn, IsInt, IsNotEmpty, IsString } from "class-validator";
 import { User } from "../user/entities/user.entity";
 
 export const RELATIONSHIP_STATES = [
@@ -37,7 +37,7 @@ export const RELATIONSHIP_STATES = [
 })
 export class FormRelationship {
   @prop({ ref: () => Form, required: true })
-  form: Ref<Form>;
+  form: Ref<Form>; // biểu mẫu
 
   @IsIn(RELATIONSHIP_STATES)
   @IsInt()
@@ -47,16 +47,41 @@ export class FormRelationship {
     default: RelationshipState.SELF,
     index: true,
   })
-  relationship: RelationshipState;
+  relationship: RelationshipState; // mối quan hệ
 
   @prop({ ref: () => User, required: true })
   user: Ref<User>;
+
+  @IsString()
+  @prop({ default: [] })
+  receivers: string[]; // dánh sách người đánh giá
+
+  @IsNotEmpty()
+  @prop({ required: true })
+  templateEmail: string; // mẫu email dùng để gửi
+
+  @IsString()
+  @IsNotEmpty()
+  @prop({ required: true })
+  time: string; // thời gian tạo form
 
   @prop({ default: Date.now, immutable: true })
   createdAt?: Date;
 
   @prop({ default: Date.now })
   updatedAt?: Date;
+
+  @prop({ default: null })
+  deletedAt: Date;
+
+  @prop({ ref: () => User })
+  createdBy: Ref<User>;
+
+  @prop({ ref: () => User, default: null })
+  updatedBy: Ref<User>;
+
+  @prop({ ref: () => User, default: null })
+  deletedBy: Ref<User>;
 }
 
 export const FormRelationshipProvider =
