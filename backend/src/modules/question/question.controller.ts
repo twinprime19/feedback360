@@ -106,7 +106,7 @@ export class QuestionController {
 
   // create question
   @Post("/add")
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Create question")
   createQuestion(
     @Req() req: any,
@@ -117,7 +117,7 @@ export class QuestionController {
 
   // update question
   @Put("/edit/:id")
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Update question")
   updateQuestion(
     @Req() req: any,
@@ -129,7 +129,7 @@ export class QuestionController {
 
   // update status question
   @Patch("/edit/:id")
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Update question status")
   updateStatus(
     @Req() req: any,
@@ -145,7 +145,7 @@ export class QuestionController {
 
   // delete one question
   @Delete("/delete/:id")
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Delete question")
   delQuestion(
     @Req() req: any,
@@ -156,7 +156,7 @@ export class QuestionController {
 
   // delete many questions
   @Delete("/delete")
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Delete questions")
   delQuestions(@Req() req: any, @Body() body: QuestionsDTO) {
     return this.questionService.batchDelete(body.questionIds, req.user);

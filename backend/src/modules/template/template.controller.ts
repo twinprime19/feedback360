@@ -96,7 +96,7 @@ export class TemplateController {
 
   // create template
   @Post("/add")
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Create template")
   createTemplate(
     @Req() req: any,
@@ -107,7 +107,7 @@ export class TemplateController {
 
   // update template
   @Put("/edit/:id")
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Update template")
   updateTemplate(
     @Req() req: any,
@@ -119,7 +119,7 @@ export class TemplateController {
 
   // update status template
   @Patch("/edit/:id")
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Update template status")
   updateStatus(
     @Req() req: any,
@@ -135,7 +135,7 @@ export class TemplateController {
 
   // delete one template
   @Delete("/delete/:id")
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Delete template")
   delTemplate(
     @Req() req: any,
@@ -146,7 +146,7 @@ export class TemplateController {
 
   // delete many templates
   @Delete("/delete")
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Delete templates")
   delTemplates(@Req() req: any, @Body() body: TemplatesDTO) {
     return this.templateService.batchDelete(body.templateIds, req.user);

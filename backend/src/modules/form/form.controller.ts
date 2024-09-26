@@ -112,7 +112,7 @@ export class FormController {
 
   // create form
   @Post("/add")
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Create form")
   createForm(@Req() req: any, @Body() form: FormDTO): Promise<Form> {
     return this.formService.create(form, req.user);
@@ -120,7 +120,7 @@ export class FormController {
 
   // send form
   @Post("/send")
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Send form")
   sendForm(@Req() req: any, @Body() body: ListEmailDTO) {
     return this.formService.sendForm(
@@ -133,7 +133,7 @@ export class FormController {
 
   // export result statistic of form
   @Get("/statistic/:id")
-  @UseGuards(PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   async downloadPdf(@Param("id") formID: string, @Res() res: Response) {
     const { filename, buffer } = await this.formService.generatePdfFile(formID);
 
