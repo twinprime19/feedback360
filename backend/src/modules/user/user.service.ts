@@ -262,12 +262,11 @@ export class UserService {
 
     // Column for data in excel. key must match data key
     worksheet.columns = [
-      { header: "FullName", key: "FullName", width: 25 },
-      { header: "UserName", key: "UserName", width: 25 },
-      { header: "Password", key: "Password", width: 25 },
-      { header: "Email", key: "Email", width: 25 },
-      { header: "Phone", key: "Phone", width: 25 },
-      { header: "Status", key: "Status", width: 25 },
+      { header: "Họ tên", key: "Họ tên", width: 35 },
+      { header: "Tên tài khoản", key: "Tên tài khoản", width: 35 },
+      { header: "E-mail", key: "E-mail", width: 35 },
+      { header: "Chức vụ", key: "Chức vụ", width: 35 },
+      { header: "Số điện thoại", key: "Số điện thoại", width: 35 },
     ];
 
     listUsers.forEach((user) => {
@@ -308,8 +307,8 @@ export class UserService {
         userName: user["Tên tài khoản"],
         password: password,
         emailAddress: user["E-mail"] ? user["E-mail"] : "",
-        phone: user["Số điện thoại"] ? user["Số điện thoại"] : "",
         position: user["Chức vụ"] ? user["Chức vụ"] : "",
+        phone: user["Số điện thoại"] ? user["Số điện thoại"] : "",
         address: user["Địa chỉ"] ? user["Địa chỉ"] : "",
         status: 1,
         isSuperAdmin: false,
