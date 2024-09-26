@@ -32,6 +32,7 @@ import { AdminOnlyGuard } from "@app/guards/admin-only.guard";
 import { MongooseDoc } from "@app/interfaces/mongoose.interface";
 import { Template } from "./template.model";
 import lodash from "lodash";
+import { PoliciesGuard } from "@app/guards/policies.guard";
 
 @Controller("template")
 export class TemplateController {
@@ -95,7 +96,7 @@ export class TemplateController {
 
   // create template
   @Post("/add")
-  //@UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Create template")
   createTemplate(
     @Req() req: any,
@@ -106,7 +107,7 @@ export class TemplateController {
 
   // update template
   @Put("/edit/:id")
-  // @UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Update template")
   updateTemplate(
     @Req() req: any,
@@ -118,7 +119,7 @@ export class TemplateController {
 
   // update status template
   @Patch("/edit/:id")
-  //@UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Update template status")
   updateStatus(
     @Req() req: any,
@@ -134,7 +135,7 @@ export class TemplateController {
 
   // delete one template
   @Delete("/delete/:id")
-  // @UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Delete template")
   delTemplate(
     @Req() req: any,
@@ -145,7 +146,7 @@ export class TemplateController {
 
   // delete many templates
   @Delete("/delete")
-  // @UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Delete templates")
   delTemplates(@Req() req: any, @Body() body: TemplatesDTO) {
     return this.templateService.batchDelete(body.templateIds, req.user);

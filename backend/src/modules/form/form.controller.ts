@@ -32,6 +32,7 @@ import lodash from "lodash";
 import { MongooseDoc } from "@app/interfaces/mongoose.interface";
 import { AdminOnlyGuard } from "@app/guards/admin-only.guard";
 import type { Response } from "express";
+import { PoliciesGuard } from "@app/guards/policies.guard";
 
 @Controller("form")
 export class FormController {
@@ -111,7 +112,7 @@ export class FormController {
 
   // create form
   @Post("/add")
-  @UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Create form")
   createForm(@Req() req: any, @Body() form: FormDTO): Promise<Form> {
     return this.formService.create(form, req.user);
@@ -119,7 +120,7 @@ export class FormController {
 
   // send form
   @Post("/send")
-  @UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Send form")
   sendForm(@Req() req: any, @Body() body: ListEmailDTO) {
     return this.formService.sendForm(
@@ -132,6 +133,7 @@ export class FormController {
 
   // export result statistic of form
   @Get("/statistic/:id")
+  @UseGuards(PoliciesGuard)
   async downloadPdf(@Param("id") formID: string, @Res() res: Response) {
     const { filename, buffer } = await this.formService.generatePdfFile(formID);
 

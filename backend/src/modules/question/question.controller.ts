@@ -37,6 +37,7 @@ import { AdminOnlyGuard } from "@app/guards/admin-only.guard";
 import { MongooseDoc } from "@app/interfaces/mongoose.interface";
 import { UserService } from "../user/user.service";
 import lodash from "lodash";
+import { PoliciesGuard } from "@app/guards/policies.guard";
 
 @Controller("question")
 export class QuestionController {
@@ -105,7 +106,7 @@ export class QuestionController {
 
   // create question
   @Post("/add")
-  // @UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Create question")
   createQuestion(
     @Req() req: any,
@@ -116,7 +117,7 @@ export class QuestionController {
 
   // update question
   @Put("/edit/:id")
-  // @UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Update question")
   updateQuestion(
     @Req() req: any,
@@ -128,7 +129,7 @@ export class QuestionController {
 
   // update status question
   @Patch("/edit/:id")
-  // @UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Update question status")
   updateStatus(
     @Req() req: any,
@@ -144,7 +145,7 @@ export class QuestionController {
 
   // delete one question
   @Delete("/delete/:id")
-  @UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Delete question")
   delQuestion(
     @Req() req: any,
@@ -155,7 +156,7 @@ export class QuestionController {
 
   // delete many questions
   @Delete("/delete")
-  @UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Delete questions")
   delQuestions(@Req() req: any, @Body() body: QuestionsDTO) {
     return this.questionService.batchDelete(body.questionIds, req.user);

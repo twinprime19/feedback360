@@ -49,7 +49,7 @@ export class UserController {
 
   // create user
   @Post()
-  // @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  @UseGuards(PoliciesGuard)
   async create(
     @Body() createUserDto: CreateUserDto
   ): Promise<MongooseDoc<User>> {
@@ -61,7 +61,7 @@ export class UserController {
 
   // get list users
   @Get()
-  // @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.paginate()
   @Responser.handle("Get users")
   findAll(@Query() query: UserPaginateQueryDTO): Promise<PaginateResult<User>> {
@@ -97,7 +97,7 @@ export class UserController {
 
   //import users
   @Post("/import")
-  @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Import list users")
   @UseInterceptors(FileInterceptor("file"))
   public async uploadFile(
@@ -112,7 +112,7 @@ export class UserController {
 
   // export list users
   @Post("/export")
-  @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Export list users")
   async export(
     @Query() query: UserPaginateQueryDTO,
@@ -174,14 +174,14 @@ export class UserController {
 
   // get user by id
   @Get(":id")
-  @UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   findOne(@Param("id") userID: string): Promise<MongooseDoc<User>> {
     return this.userService.findOne(userID);
   }
 
   // update user
   @Put(":id")
-  @UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   async update(
     @Param("id") userID: string,
     @Body() updateUserDto: UpdateUserDto
@@ -199,7 +199,7 @@ export class UserController {
 
   // update status user
   @Patch(":id")
-  @UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Update status user")
   async updateStatus(
     @Param("id") userID: string,
@@ -210,7 +210,7 @@ export class UserController {
 
   // delete user
   @Delete(":id")
-  @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  @UseGuards(PoliciesGuard)
   remove(
     @Req() req: any,
     @QueryParams() { params }: QueryParamsResult
@@ -220,7 +220,7 @@ export class UserController {
 
   // delete many users
   @Delete()
-  @UseGuards(AdminOnlyGuard)
+  @UseGuards(PoliciesGuard)
   @Responser.handle("Delete users")
   delUsers(@Req() req: any, @Body() body: UsersDTO) {
     return this.userService.batchDelete(body.userIds, req.user);
