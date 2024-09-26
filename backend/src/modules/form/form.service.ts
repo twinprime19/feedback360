@@ -237,6 +237,20 @@ export class FormService {
     return form;
   }
 
+  // get relationship của form
+  async getRelationship(formID: string): Promise<MongooseDoc<any>> {
+    let formRelationshipInfo = await this.formRelationshipModel
+      .findOne({ _id: formID, deletedBy: null })
+      .exec()
+      .then(
+        (result) =>
+          result ||
+          Promise.reject(`Biểu mẫu có ID "${formID}" không được tìm thấy.`)
+      );
+
+    return formRelationshipInfo;
+  }
+
   // xuất báo cáo pdf
   public async generatePdfFile(formID: string) {
     let formInfo = await this.formModel.findById(formID).populate("user");

@@ -18,6 +18,7 @@ import {
 } from "class-validator";
 import { Schema } from "mongoose";
 import { Media } from "@app/modules/media/media.model";
+import { Form } from "@app/modules/form/form.model";
 
 export const USER_STATUS = [UserStatus.ONLINE, UserStatus.OFFLINE] as const;
 
@@ -99,6 +100,13 @@ export class User {
   @ArrayUnique()
   @prop({ type: () => [String], ref: () => Role })
   roles?: Ref<Role, string>[] | Role[];
+
+  @prop({
+    ref: () => Form,
+    foreignField: "user",
+    localField: "_id",
+  })
+  forms: Ref<Form>[]; // danh sách biểu mẫu của user
 
   @prop({ default: Date.now, immutable: true })
   createdAt?: Date;

@@ -35,7 +35,7 @@ export class UserService {
   ): Promise<PaginateResult<User>> {
     return await this.userModel.paginate(query, {
       ...options,
-      populate: [{ path: "roles" }, { path: "avatar" }],
+      populate: [{ path: "forms" }, { path: "avatar" }],
     });
   }
 
