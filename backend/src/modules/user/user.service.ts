@@ -253,20 +253,20 @@ export class UserService {
       Password: item.password,
       Email: item.emailAddress,
       Phone: item.phone,
-      Status: item.status,
+      Position: item.position,
     }));
 
     const listUsers = JSON.parse(JSON.stringify(data));
     const workbook = new excelJS.Workbook(); // Create a new workbook
-    const worksheet = workbook.addWorksheet("List users"); // New Worksheet
+    const worksheet = workbook.addWorksheet("Danh sách nhân viên"); // New Worksheet
 
     // Column for data in excel. key must match data key
     worksheet.columns = [
-      { header: "Họ tên", key: "Họ tên", width: 35 },
-      { header: "Tên tài khoản", key: "Tên tài khoản", width: 35 },
-      { header: "E-mail", key: "E-mail", width: 35 },
-      { header: "Chức vụ", key: "Chức vụ", width: 35 },
-      { header: "Số điện thoại", key: "Số điện thoại", width: 35 },
+      { header: "Họ tên", key: "FullName", width: 35 },
+      { header: "Tên tài khoản", key: "UserName", width: 35 },
+      { header: "E-mail", key: "Email", width: 35 },
+      { header: "Chức vụ", key: "Position", width: 35 },
+      { header: "Số điện thoại", key: "Phone", width: 35 },
     ];
 
     listUsers.forEach((user) => {

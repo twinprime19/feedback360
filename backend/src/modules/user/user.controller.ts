@@ -39,6 +39,7 @@ import { MongooseDoc } from "@app/interfaces/mongoose.interface";
 import { FileInterceptor } from "@nestjs/platform-express";
 import type { Response } from "express";
 import { PoliciesGuard } from "@app/guards/policies.guard";
+import moment from "moment";
 
 @Controller("user")
 export class UserController {
@@ -153,10 +154,16 @@ export class UserController {
       paginateQuery,
       paginateOptions
     );
+
+    // Mã hóa tên file theo RFC 5987 để xử lý ký tự tiếng Việt
+    let filename =
+      `Danh_sách_nhân_viên_` + moment().format("YYYYMMDDHHmmss") + ".xlsx";
+    const safeFilename = encodeURIComponent(filename);
+
     res.set({
       "Content-Type":
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      "Content-Disposition": `attachment; filename=users.xlsx`,
+      "Content-Disposition": `attachment; filename*=UTF-8''${safeFilename}`,
     });
     return new StreamableFile(buffer);
   }
