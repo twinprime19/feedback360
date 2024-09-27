@@ -545,37 +545,21 @@ export class FormService {
           content: "STT",
           colSpan: 1,
           rowSpan: 2,
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
         },
         {
           content: "Nội dung",
           colSpan: 1,
           rowSpan: 2,
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
         },
         {
           content: "Điểm Bình Quân",
           colSpan: 4,
           rowSpan: 1,
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
         },
         {
           content: "Tổng Điểm",
           colSpan: 21,
           rowSpan: 1,
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
         },
       ],
       [
@@ -583,255 +567,73 @@ export class FormService {
           content: "Tự đánh giá",
           colSpan: 1,
           rowSpan: 1,
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
         },
         {
           content: "Cấp trên",
           colSpan: 1,
           rowSpan: 1,
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
         },
         {
           content: "Ngang cấp",
           colSpan: 1,
           rowSpan: 1,
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
         },
         {
           content: "Cấp dưới",
           colSpan: 1,
           rowSpan: 1,
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
         },
 
         {
           content: "Cấp trên",
           colSpan: 7,
           rowSpan: 1,
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
         },
         {
           content: "Ngang cấp",
           colSpan: 7,
           rowSpan: 1,
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
         },
         {
           content: "Cấp dưới",
           colSpan: 7,
           rowSpan: 1,
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
         },
       ],
       [
         {
           content: "Thang điểm từ 1 đến 5",
           colSpan: 2,
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
         },
 
-        {
-          content: "",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
+        { content: "" },
+        { content: "" },
+        { content: "" },
+        { content: "" },
 
-        {
-          content: "1",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "2",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "3",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "4",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "5",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "Ko TC",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "TC",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
+        { content: "1" },
+        { content: "2" },
+        { content: "3" },
+        { content: "4" },
+        { content: "5" },
+        { content: "Ko TC" },
+        { content: "TC" },
 
-        {
-          content: "1",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "2",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "3",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "4",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "5",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "Ko TC",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "TC",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
+        { content: "1" },
+        { content: "2" },
+        { content: "3" },
+        { content: "4" },
+        { content: "5" },
+        { content: "Ko TC" },
+        { content: "TC" },
 
-        {
-          content: "1",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "2",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "3",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "4",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "5",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "Ko TC",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "TC",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
+        { content: "1" },
+        { content: "2" },
+        { content: "3" },
+        { content: "4" },
+        { content: "5" },
+        { content: "Ko TC" },
+        { content: "TC" },
       ],
       [
         {
@@ -850,66 +652,16 @@ export class FormService {
     // Tạo bảng thứ 2
     const headRows2 = [
       [
-        {
-          content: "Tiêu Chí Số",
-          styles: {
-            halign: "center",
-          },
-        },
-        {
-          content: "1",
-          styles: {
-            halign: "center",
-          },
-        },
-        {
-          content: "2",
-          styles: {
-            halign: "center",
-          },
-        },
-        {
-          content: "3",
-          styles: {
-            halign: "center",
-          },
-        },
-        {
-          content: "4",
-          styles: {
-            halign: "center",
-          },
-        },
-        {
-          content: "5",
-          styles: {
-            halign: "center",
-          },
-        },
-        {
-          content: "6",
-          styles: {
-            halign: "center",
-          },
-        },
-        {
-          content: "7",
-          styles: {
-            halign: "center",
-          },
-        },
-        {
-          content: "8",
-          styles: {
-            halign: "center",
-          },
-        },
-        {
-          content: "9",
-          styles: {
-            halign: "center",
-          },
-        },
+        { content: "Tiêu Chí Số" },
+        { content: "1" },
+        { content: "2" },
+        { content: "3" },
+        { content: "4" },
+        { content: "5" },
+        { content: "6" },
+        { content: "7" },
+        { content: "8" },
+        { content: "9" },
       ],
     ];
 
@@ -919,24 +671,7 @@ export class FormService {
     }
 
     // tạo bảng thứ 3
-    const headRows3 = [
-      [
-        {
-          content: "STT",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-        {
-          content: "Nội dung tiêu chí",
-          styles: {
-            halign: "center",
-            valign: "middle",
-          },
-        },
-      ],
-    ];
+    const headRows3 = [[{ content: "STT" }, { content: "Nội dung tiêu chí" }]];
 
     let bodyTable3: any = [];
     for (let record of statisticReviewQuestions) {
@@ -953,7 +688,7 @@ export class FormService {
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
     const maxWidth = pageWidth - 20 - 15; // chiều rộng tối đa chứa 1 dòng text trên trang a4
-    const maxHeight = pageHeight - 20 - 20; // chiều cao tối đa chứa 1 dòng text trên trang a4
+    const maxHeight = pageHeight - 20 - 15; // chiều cao tối đa chứa 1 dòng text trên trang a4
     console.log("pageWidth", pageWidth);
     console.log("pageHeight", pageHeight);
     console.log("maxWidth", maxWidth);
@@ -1083,6 +818,7 @@ export class FormService {
         lineWidth: 0.1, // Độ dày của viền
         lineColor: [0, 0, 0], // Màu sắc viền (đen)
         halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
       },
       bodyStyles: {
         textColor: [0, 0, 0], // Set header text color
@@ -1130,7 +866,7 @@ export class FormService {
     });
 
     // Lấy vị trí Y của dòng cuối cùng của bảng
-    const finalY = (doc as any).lastAutoTable.finalY + 10;
+    let finalY = (doc as any).lastAutoTable.finalY + 10;
     doc.text("Ghi chú:", 15, finalY);
     doc.text("- Ko: Số người không ý kiến ở tiêu chí đánh giá đó;", 35, finalY);
     doc.text("- TC: Tổng cộng số người tham gia phản hồi.", 35, finalY + 5);
@@ -1141,6 +877,7 @@ export class FormService {
     let answerQuestion2 = statisticAnswerQuestions[0];
     let answerQuestion3 = statisticAnswerQuestions[1];
     let answerQuestion4 = statisticAnswerQuestions[2];
+    let oldCurrentY = 0;
 
     doc.setFont("Roboto", "bold");
     doc.setTextColor(45, 67, 50);
@@ -1153,142 +890,176 @@ export class FormService {
     for (let text of answerQuestion2.stringSeniors) {
       let splitText = doc.splitTextToSize(text, maxWidth);
       doc.text(splitText, 20, currentY);
+      
       let lengthRow = splitText.length;
-
       currentY = currentY + lengthRow * 5;
-      console.log("currentY", currentY);
+      currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     }
+    currentY -= 5;
 
     doc.setFont("Roboto", "bold");
-    currentY += 5;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
     doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
     doc.setFont("Roboto", "normal");
 
-    currentY += 5;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
     for (let text of answerQuestion2.stringPeers) {
       let splitText = doc.splitTextToSize(text, maxWidth);
       doc.text(splitText, 20, currentY);
-      let lengthRow = splitText.length;
 
+      let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
-      console.log("currentY", currentY);
+      currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     }
+    currentY -= 5;
 
     doc.setFont("Roboto", "bold");
-    currentY += 5;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
     doc.text("c/ Nhận xét của cấp dưới:", 20, currentY);
     doc.setFont("Roboto", "normal");
 
-    currentY += 5;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
     for (let text of answerQuestion2.stringSubordinates) {
       let splitText = doc.splitTextToSize(text, maxWidth);
       doc.text(splitText, 20, currentY);
-      let lengthRow = splitText.length;
 
+      let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
-      console.log("currentY", currentY);
+      currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     }
+    currentY -= 5;
 
     doc.setFont("Roboto", "bold");
-    currentY += 10;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 10, maxHeight);
+    currentY = currentY != 20 ? currentY + 10 : currentY;
     doc.setTextColor(45, 67, 50);
     doc.text("3. Vấn đề mà NĐPH cần hoàn thiện ngay", 15, currentY);
     doc.setTextColor(0, 0, 0);
-    currentY += 5;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
     doc.text("a/ Nhận xét của cấp trên:", 20, currentY);
     doc.setFont("Roboto", "normal");
 
-    currentY += 5;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
     for (let text of answerQuestion3.stringSeniors) {
       let splitText = doc.splitTextToSize(text, maxWidth);
       doc.text(splitText, 20, currentY);
-      let lengthRow = splitText.length;
 
+      let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
-      console.log("currentY", currentY);
+      currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     }
+    currentY -= 5;
 
     doc.setFont("Roboto", "bold");
-    currentY += 5;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
     doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
     doc.setFont("Roboto", "normal");
 
-    currentY += 5;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
     for (let text of answerQuestion3.stringPeers) {
       let splitText = doc.splitTextToSize(text, maxWidth);
       doc.text(splitText, 20, currentY);
-      let lengthRow = splitText.length;
 
+      let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
-      console.log("currentY", currentY);
+      currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     }
+    currentY -= 5;
 
     doc.setFont("Roboto", "bold");
-    currentY += 5;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
     doc.text("c/ Nhận xét của cấp dưới:", 20, currentY);
     doc.setFont("Roboto", "normal");
-    currentY += 5;
+
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
     for (let text of answerQuestion3.stringSubordinates) {
       let splitText = doc.splitTextToSize(text, maxWidth);
       doc.text(splitText, 20, currentY);
+
       let lengthRow = splitText.length;
-
       currentY = currentY + lengthRow * 5;
-      console.log("currentY", currentY);
+      currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     }
+    currentY -= 5;
 
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
     doc.setFont("Roboto", "bold");
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 10, maxHeight);
+    currentY = currentY != 20 ? currentY + 10 : currentY;
     doc.setTextColor(45, 67, 50);
-    doc.text("4. Lời khuyên dành cho NĐPH", 15, 20);
+    doc.text("4. Lời khuyên dành cho NĐPH", 15, currentY);
     doc.setTextColor(0, 0, 0);
-    doc.text("a/ Nhận xét của cấp trên:", 20, 25);
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
+    doc.text("a/ Nhận xét của cấp trên:", 20, currentY);
     doc.setFont("Roboto", "normal");
 
-    currentY = 25;
-    currentY += 5;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
     for (let text of answerQuestion4.stringSeniors) {
       let splitText = doc.splitTextToSize(text, maxWidth);
       doc.text(splitText, 20, currentY);
-      let lengthRow = splitText.length;
 
+      let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
-      console.log("currentY", currentY);
+      currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     }
+    currentY -= 5;
 
     doc.setFont("Roboto", "bold");
-    currentY += 5;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = oldCurrentY = currentY != 20 ? currentY + 5 : currentY;
     doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
     doc.setFont("Roboto", "normal");
 
-    currentY += 5;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
+    if (currentY == oldCurrentY) currentY += 5;
     for (let text of answerQuestion4.stringPeers) {
       let splitText = doc.splitTextToSize(text, maxWidth);
       doc.text(splitText, 20, currentY);
-      let lengthRow = splitText.length;
 
+      let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
-      console.log("currentY", currentY);
+      currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     }
+    currentY -= 5;
 
     doc.setFont("Roboto", "bold");
-    currentY += 5;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
     doc.text("c/ Nhận xét của cấp dưới:", 20, currentY);
     doc.setFont("Roboto", "normal");
-    currentY += 5;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
     for (let text of answerQuestion4.stringSubordinates) {
       let splitText = doc.splitTextToSize(text, maxWidth);
       doc.text(splitText, 20, currentY);
-      let lengthRow = splitText.length;
 
+      let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
-      console.log("currentY", currentY);
+      currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     }
+    currentY -= 5;
 
     // Add four section
     doc.setFont("Roboto", "bold");
-    currentY = currentY + 10;
+    currentY = this.checkCoordinatesY(
+      doc,
+      currentY,
+      currentY + 85,
+      maxHeight + 25
+    );
+    currentY = currentY != 20 ? currentY + 10 : currentY;
     doc.setTextColor(223, 153, 7);
     doc.text("IV. PHÂN TÍCH TỔNG QUÁT", 15, currentY);
     doc.setTextColor(0, 0, 0);
@@ -1297,12 +1068,11 @@ export class FormService {
     doc.text("Giám đốc ......", 50, currentY);
     doc.setFont("Roboto", "normal");
 
-    currentY = currentY + 5;
     // Thêm bảng vào PDF
     (doc as any).autoTable({
       head: headRows2,
       body: bodyTable2,
-      startY: currentY,
+      startY: currentY + 5,
       styles: {
         fontSize: 10,
         font: "Roboto", // Use the custom font for the table
@@ -1318,6 +1088,7 @@ export class FormService {
         lineWidth: 0.1, // Độ dày của viền
         lineColor: [0, 0, 0], // Màu sắc viền (đen)
         halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
       },
       bodyStyles: {
         textColor: [0, 0, 0], // Set header text color
@@ -1421,12 +1192,15 @@ export class FormService {
       `data:image/png;base64,${imageData}`,
       "PNG",
       140,
-      currentY - 10,
+      currentY - 5,
       130,
       80
     );
 
-    doc.addPage("a4", "l");
+    currentY = currentY + 80;
+
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 10, maxHeight);
+    currentY = currentY != 20 ? currentY + 10 : currentY;
     doc.setFontSize(12);
     doc.setFont("Roboto", "normal");
 
@@ -1434,7 +1208,7 @@ export class FormService {
     (doc as any).autoTable({
       head: headRows3,
       body: bodyTable3,
-      startY: 20,
+      startY: currentY,
       styles: {
         fontSize: 10,
         font: "Roboto", // Use the custom font for the table
@@ -1446,6 +1220,8 @@ export class FormService {
       headStyles: {
         fillColor: [0, 123, 76], // Màu nền tiêu đề
         textColor: [255, 255, 255], // Set header text color
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
       },
       bodyStyles: {
         textColor: [0, 0, 0], // Set header text color
@@ -1467,26 +1243,23 @@ export class FormService {
       },
     });
 
+    currentY = (doc as any).lastAutoTable.finalY;
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 10, maxHeight);
+    currentY = currentY != 20 ? currentY + 10 : currentY;
+    oldCurrentY = currentY;
     doc.setFont("Roboto", "bold");
-    doc.text("Nhận xét chung cho NĐPH:", 15, 105);
+    doc.text("Nhận xét chung cho NĐPH:", 15, currentY);
     doc.setFont("Roboto", "normal");
+    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
+    currentY = currentY != 20 ? currentY + 5 : currentY;
+    if (currentY == oldCurrentY) currentY += 5;
+
     doc.text(
       "Bạn hiểu & tự đoán biết được khá tương đồng với mọi người xung quanh & nhận ra điểm cần lưu ý về lắng nghe tích cực & truyền cảm hứng cho người khác để càng thành công hơn (tiêu chí số 3 & số 5).",
       15,
-      110,
+      currentY,
       { maxWidth: 265 }
     );
-
-    const directory = "./assets/uploads/pdf";
-    if (!fs.existsSync(directory)) {
-      fs.mkdirSync(directory, { recursive: true });
-    }
-
-    // // Save the file to disk
-    // const filePath = "./assets/uploads/pdf/report.pdf";
-    // fs.writeFileSync(filePath, doc.output());
-
-    // return filePath;
 
     // Lưu PDF vào buffer
     let filename =
@@ -1498,4 +1271,20 @@ export class FormService {
 
     return { filename: filename, buffer: Buffer.from(pdfBuffer) };
   }
+
+  // hàm kiểm tra tọa độ Y
+  public checkCoordinatesY = (
+    doc: any,
+    currentY: number,
+    newCurrentY: number,
+    maxHeight: number
+  ) => {
+    if (newCurrentY > maxHeight) {
+      doc.addPage("a4", "l");
+      doc.setFontSize(12);
+      currentY = 20;
+    }
+
+    return currentY;
+  };
 }
