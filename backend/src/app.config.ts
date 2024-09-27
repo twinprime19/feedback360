@@ -21,8 +21,8 @@ export const APP = {
   URL: "127.0.0.1",
   ADMIN_EMAIL: argv.admin_email || "admin@example.com",
   FE_NAME: "Tiến Phước",
-  FE_URL: "http://feedback.test.zinisoft.net",
-  STATIC_URL: "http://feedback.test.zinisoft.net",
+  FE_URL: "https://feedback360.tienphuoc.com",
+  STATIC_URL: "https://feedback360.tienphuoc.com",
   SIGNATURE: "Tiến Phước",
 };
 
@@ -40,10 +40,12 @@ export const CROSS_DOMAIN = {
     "http://localhost",
     "http://localhost:5173",
     "http://localhost:3000",
-    "http://feedback.test.zinisoft.net",
-    "http://feedback-api.test.zinisoft.net",
+    "https://feedback360-api.tienphuoc.com",
+    "http://feedback360-api.tienphuoc.com",
+    "https://feedback360.tienphuoc.com",
+    "http://feedback360.tienphuoc.com",
   ],
-  allowedReferer: ["zinisoft.net"],
+  allowedReferer: ["tienphuoc.com"],
 };
 
 export const MONGO_DB = {
