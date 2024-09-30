@@ -18,6 +18,7 @@ import { AuthPayload } from "../auth/auth.interface";
 import {
   FontCustomRobotoBold,
   FontCustomRobotoNormal,
+  GenderState,
   PublishState,
   QuestionTypeState,
   RelationshipState,
@@ -707,7 +708,11 @@ export class FormService {
     const textWidth1 = doc.getTextWidth(text1);
     const xCoordinate1 = (pageWidth - textWidth1) / 2; // Tính toạ độ x để căn giữa
 
-    const text2 = "Anh …… – Giám Đốc ……";
+    const text2 = `${
+      (formInfo.user as User).gender === GenderState.Male ? "Anh" : "Chị"
+    } ${(formInfo.user as User).fullname} – ${
+      (formInfo.user as User).position
+    }`;
     const textWidth2 = doc.getTextWidth(text2);
     const xCoordinate2 = (pageWidth - textWidth2) / 2; // Tính toạ độ x để căn giữa
 
@@ -890,7 +895,7 @@ export class FormService {
     for (let text of answerQuestion2.stringSeniors) {
       let splitText = doc.splitTextToSize(text, maxWidth);
       doc.text(splitText, 20, currentY);
-      
+
       let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
       currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
@@ -1065,7 +1070,7 @@ export class FormService {
     doc.setTextColor(0, 0, 0);
 
     currentY = currentY + 10;
-    doc.text("Giám đốc ......", 50, currentY);
+    doc.text((formInfo.user as User).position, 50, currentY);
     doc.setFont("Roboto", "normal");
 
     // Thêm bảng vào PDF

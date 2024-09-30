@@ -4,7 +4,7 @@ import { generalAutoIncrementIDConfig } from "@app/constants/increment.constant"
 import { getProviderByTypegooseClass } from "@app/transformers/model.transformer";
 import { mongoosePaginate } from "@app/utils/paginate";
 import { Role } from "@app/modules/role/entities/role.entity";
-import { SexState, UserStatus } from "@app/constants/biz.constant";
+import { GenderState, UserStatus } from "@app/constants/biz.constant";
 import {
   IsString,
   IsNotEmpty,
@@ -22,10 +22,10 @@ import { Form } from "@app/modules/form/form.model";
 
 export const USER_STATUS = [UserStatus.ONLINE, UserStatus.OFFLINE] as const;
 
-export const SEX_STATES = [
-  SexState.FEMALE,
-  SexState.MALE,
-  SexState.ORTHER,
+export const USER_GENDER_STATES = [
+  GenderState.Male,
+  GenderState.Female,
+  GenderState.Other,
 ] as const;
 
 @plugin(mongoosePaginate)
@@ -91,6 +91,13 @@ export class User {
   @IsOptional()
   @prop({ ref: () => Media, default: null })
   avatar: Ref<Media>;
+
+  @IsIn(USER_GENDER_STATES)
+  @IsInt()
+  @IsDefined()
+  @IsOptional()
+  @prop({ enum: GenderState, default: GenderState.Male, index: true })
+  gender: GenderState;
 
   @IsIn(USER_STATUS)
   @IsInt()

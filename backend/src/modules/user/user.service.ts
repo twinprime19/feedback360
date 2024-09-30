@@ -15,7 +15,7 @@ import {
   PaginateQuery,
   PaginateOptions,
 } from "@app/utils/paginate";
-import { UserStatus } from "@app/constants/biz.constant";
+import { GenderState, UserStatus } from "@app/constants/biz.constant";
 import { PasswordDTO } from "../auth/auth.dto";
 import { importFileExcel } from "@app/utils/upload-file";
 import { AuthPayload } from "../auth/auth.interface";
@@ -254,6 +254,7 @@ export class UserService {
       Email: item.emailAddress,
       Phone: item.phone,
       Position: item.position,
+      Gender: item.gender,
     }));
 
     const listUsers = JSON.parse(JSON.stringify(data));
@@ -267,6 +268,7 @@ export class UserService {
       { header: "E-mail", key: "Email", width: 35 },
       { header: "Chức vụ", key: "Position", width: 35 },
       { header: "Số điện thoại", key: "Phone", width: 35 },
+      { header: "Giới tính", key: "Gender", width: 35 },
     ];
 
     listUsers.forEach((user) => {
@@ -310,6 +312,7 @@ export class UserService {
         position: user["Chức vụ"] ? user["Chức vụ"] : "",
         phone: user["Số điện thoại"] ? user["Số điện thoại"] : "",
         address: user["Địa chỉ"] ? user["Địa chỉ"] : "",
+        gender: user["Giới tính"] ? user["Giới tính"] : GenderState.Male,
         status: 1,
         isSuperAdmin: false,
         createdBy: userInfo._id,

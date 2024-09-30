@@ -3,7 +3,6 @@ import { prop, plugin, modelOptions, Ref } from "@typegoose/typegoose";
 import { generalAutoIncrementIDConfig } from "@app/constants/increment.constant";
 import { getProviderByTypegooseClass } from "@app/transformers/model.transformer";
 import { mongoosePaginate } from "@app/utils/paginate";
-import { SexState } from "@app/constants/biz.constant";
 import { IsString, IsNotEmpty } from "class-validator";
 import { User } from "@app/modules/user/entities/user.entity";
 

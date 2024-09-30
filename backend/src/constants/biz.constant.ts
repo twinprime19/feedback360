@@ -52,11 +52,10 @@ export enum UserStatus {
   ONLINE = 1,
 }
 
-// comment sex state
-export enum SexState {
-  FEMALE = 0,
-  MALE = 1,
-  ORTHER = 2,
+export enum GenderState {
+  Male = 1,
+  Female = 2,
+  Other = 3,
 }
 
 // type state
