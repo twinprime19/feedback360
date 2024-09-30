@@ -39,4 +39,7 @@ export class UpdateUserDto {
 
   @IsInt()
   status: number;
+
+  @IsInt()
+  gender: number;
 }
