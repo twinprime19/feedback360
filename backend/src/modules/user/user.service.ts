@@ -304,6 +304,20 @@ export class UserService {
         .exec();
       if (checkUserName) throw `Tên tài khoản "${user.UserName}" đã tồn tại!`;
 
+      let gender = GenderState.Male;
+      if (
+        user["Giới tính"] &&
+        user["Giới tính"].trim() &&
+        user["Giới tính"].trim().toLowerCase() == "nam"
+      )
+        gender = GenderState.Male;
+      if (
+        user["Giới tính"] &&
+        user["Giới tính"].trim() &&
+        user["Giới tính"].trim().toLowerCase() == "nữ"
+      )
+        gender = GenderState.Female;
+
       let data = {
         fullname: user["Họ tên"],
         userName: user["Tên tài khoản"],
@@ -312,7 +326,7 @@ export class UserService {
         position: user["Chức vụ"] ? user["Chức vụ"] : "",
         phone: user["Số điện thoại"] ? user["Số điện thoại"] : "",
         address: user["Địa chỉ"] ? user["Địa chỉ"] : "",
-        gender: user["Giới tính"] ? user["Giới tính"] : GenderState.Male,
+        gender: gender,
         status: 1,
         isSuperAdmin: false,
         createdBy: userInfo._id,
