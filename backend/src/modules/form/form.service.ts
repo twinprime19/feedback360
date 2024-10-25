@@ -274,7 +274,9 @@ export class FormService {
     }
 
     let relationship = formRelationshipInfo.relationship;
+    let isSubmitted = formRelationshipInfo.isSubmitted;
     (form as any).relationship = relationship;
+    (form as any).isSubmitted = isSubmitted;
 
     return form;
   }
