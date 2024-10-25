@@ -120,6 +120,7 @@ export class FormService {
       receivers: listEmailAddress,
       time: time,
       templateEmail: templateEmail,
+      isSubmitted: false,
       createdBy: userInfo._id,
     };
 

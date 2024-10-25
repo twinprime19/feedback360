@@ -8,7 +8,14 @@ import { getProviderByTypegooseClass } from "@app/transformers/model.transformer
 import { mongoosePaginate } from "@app/utils/paginate";
 import { Form } from "../form/form.model";
 import { RelationshipState } from "@app/constants/biz.constant";
-import { IsDefined, IsIn, IsInt, IsNotEmpty, IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsDefined,
+  IsIn,
+  IsInt,
+  IsNotEmpty,
+  IsString,
+} from "class-validator";
 import { User } from "../user/entities/user.entity";
 
 export const RELATIONSHIP_STATES = [
@@ -64,6 +71,10 @@ export class FormRelationship {
   @IsNotEmpty()
   @prop({ required: true })
   time: string; // thời gian tạo form
+
+  @IsBoolean()
+  @prop({ required: false, default: false })
+  isSubmitted: boolean;
 
   @prop({ default: Date.now, immutable: true })
   createdAt?: Date;

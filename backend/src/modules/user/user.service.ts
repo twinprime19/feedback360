@@ -49,8 +49,7 @@ export class UserService {
         status: UserStatus.ONLINE,
         deletedBy: null,
       })
-      .populate(["roles", "avatar"])
-      .select("-password")
+      .populate(["avatar"])
       .exec()
       .then(
         (result) =>
@@ -89,7 +88,6 @@ export class UserService {
         { password: password.newPassword },
         { new: true }
       )
-      .select("-password")
       .exec();
     if (!userObj) throw `User id "${user._id}" isn't found!`;
     return userObj;
@@ -129,10 +127,10 @@ export class UserService {
       .findOne({
         userName: userName,
         status: UserStatus.ONLINE,
+        isSuperAdmin: true,
         deletedBy: null,
       })
       .collation({ locale: "en", strength: 2 })
-      .populate("roles")
       .exec();
   }
 
@@ -140,8 +138,7 @@ export class UserService {
   async findOne(userID: string): Promise<MongooseDoc<User>> {
     return await this.userModel
       .findOne({ _id: userID, deletedBy: null })
-      .populate(["createdBy", "roles", "avatar"])
-      .select("-password")
+      .populate(["avatar"])
       .exec()
       .then(
         (result) => result || Promise.reject(`User id "${userID}" isn't found`)
@@ -203,7 +200,6 @@ export class UserService {
         },
         { new: true }
       )
-      .select("-password")
       .exec();
     if (!userObj) throw `User id "${userID}" isn't found!`;
     return userObj;
@@ -254,7 +250,7 @@ export class UserService {
       Email: item.emailAddress,
       Phone: item.phone,
       Position: item.position,
-      Gender: item.gender,
+      Gender: item.gender === GenderState.Male ? "Nam" : "Nữ",
     }));
 
     const listUsers = JSON.parse(JSON.stringify(data));
@@ -311,12 +307,7 @@ export class UserService {
         user["Giới tính"].trim().toLowerCase() == "nam"
       )
         gender = GenderState.Male;
-      if (
-        user["Giới tính"] &&
-        user["Giới tính"].trim() &&
-        user["Giới tính"].trim().toLowerCase() == "nữ"
-      )
-        gender = GenderState.Female;
+      else gender = GenderState.Female;
 
       let data = {
         fullname: user["Họ tên"],

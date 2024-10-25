@@ -21,8 +21,8 @@ export const APP = {
   URL: "127.0.0.1",
   ADMIN_EMAIL: argv.admin_email || "admin@example.com",
   FE_NAME: "Tiến Phước",
-  FE_URL: "https://feedback360.tienphuoc.com",
-  STATIC_URL: "https://feedback360.tienphuoc.com",
+  FE_URL: process.env.FE_URL || "https://feedback360.tienphuoc.com",
+  STATIC_URL: process.env.STATIC_URL || "https://feedback360.tienphuoc.com",
   SIGNATURE: "Tiến Phước",
 };
 

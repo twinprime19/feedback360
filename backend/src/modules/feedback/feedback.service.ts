@@ -77,6 +77,9 @@ export class FeedbackService {
     );
     if (!formRelationshipInfo) throw `Không tìm thấy form.`;
 
+    if (formRelationshipInfo.isSubmitted == true)
+      throw `Bạn đã gửi phản hồi trước đó rồi.`;
+
     let templateInfo = await this.templateModel.findById(formInfo.template);
     if (!templateInfo) throw `Không tìm thấy template.`;
 
@@ -234,8 +237,17 @@ export class FeedbackService {
       relationship: relationship,
       //createdBy: userInfo._id,
     };
-    console.log("dataDTO", dataDTO)
-    return await this.feedbackModel.create(dataDTO);
+
+    let feedbackInfo = await this.feedbackModel.create(dataDTO);
+    await this.formRelationshipModel
+      .findByIdAndUpdate(
+        feedbackDTO.relationship_id,
+        { isSubmitted: true },
+        { new: true }
+      )
+      .exec();
+
+    return feedbackInfo;
   }
 
   // get feedback by id
