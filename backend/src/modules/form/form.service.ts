@@ -231,6 +231,7 @@ export class FormService {
           },
         },
       ])
+      .lean()
       .exec()
       .then(
         (result) =>
@@ -275,10 +276,14 @@ export class FormService {
 
     let relationship = formRelationshipInfo.relationship;
     let isSubmitted = formRelationshipInfo.isSubmitted;
-    (form as any).relationship = relationship;
-    (form as any).isSubmitted = isSubmitted;
 
-    return form;
+    let data = {
+      ...form,
+      relationship: relationship,
+      isSubmitted: isSubmitted,
+    };
+
+    return data;
   }
 
   // get relationship của form
