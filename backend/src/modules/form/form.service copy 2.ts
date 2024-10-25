@@ -232,23 +232,6 @@ export class FormService {
     }
     (form?.template as any).template.answerQuestions = newAnswerQuestions;
 
-    let levelQuestions = (form?.template as any).template?.questions;
-    for (let levelObj of levelQuestions) {
-      let childQuestions = levelObj.children.length ? levelObj.children : [];
-      for (let childObj of childQuestions) {
-        let questions = childObj.questions.length ? childObj.questions : [];
-        let newAnswerQuestions: any = [];
-
-        for (let questionID of questions) {
-          let questionObj = await this.questionModel.findById(questionID);
-          newAnswerQuestions.push(questionObj);
-        }
-        childObj.questions = newAnswerQuestions;
-      }
-    }
-    
-
-
     let relationship = formRelationshipInfo.relationship;
     (form as any).relationship = relationship;
 
