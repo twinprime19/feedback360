@@ -158,7 +158,9 @@ export class FormService {
     let reviewQuestions = (form?.template as any).template?.reviewQuestions;
     let newReviewQuestions: any = [];
     for (let questionID of reviewQuestions) {
-      let questionObj = await this.questionModel.findById(questionID);
+      let questionObj = await this.questionModel
+        .findById(questionID)
+        .select(["_id", "title", "content", "type", "status"]);
       newReviewQuestions.push(questionObj);
     }
     (form?.template as any).template.reviewQuestions = newReviewQuestions;
@@ -166,10 +168,29 @@ export class FormService {
     let answerQuestions = (form?.template as any).template?.answerQuestions;
     let newAnswerQuestions: any = [];
     for (let questionID of answerQuestions) {
-      let questionObj = await this.questionModel.findById(questionID);
+      let questionObj = await this.questionModel
+        .findById(questionID)
+        .select(["_id", "title", "content", "type", "status"]);
       newAnswerQuestions.push(questionObj);
     }
     (form?.template as any).template.answerQuestions = newAnswerQuestions;
+
+    let levelQuestions = (form?.template as any).template?.questions;
+    for (let levelObj of levelQuestions) {
+      let childQuestions = levelObj.children.length ? levelObj.children : [];
+      for (let childObj of childQuestions) {
+        let questions = childObj.questions.length ? childObj.questions : [];
+        let newAnswerQuestions: any = [];
+
+        for (let questionID of questions) {
+          let questionObj = await this.questionModel
+            .findById(questionID)
+            .select(["_id", "title", "content", "type", "status"]);
+          newAnswerQuestions.push(questionObj);
+        }
+        childObj.questions = newAnswerQuestions;
+      }
+    }
 
     return form;
   }
@@ -216,18 +237,20 @@ export class FormService {
           Promise.reject(`Biểu mẫu có ID "${formID}" không được tìm thấy.`)
       );
 
-    let reviewQuestions = (form?.template as any).template?.reviewQuestions;
-    let newReviewQuestions: any = [];
-    for (let questionID of reviewQuestions) {
-      let questionObj = await this.questionModel.findById(questionID);
-      newReviewQuestions.push(questionObj);
-    }
-    (form?.template as any).template.reviewQuestions = newReviewQuestions;
+    // let reviewQuestions = (form?.template as any).template?.reviewQuestions;
+    // let newReviewQuestions: any = [];
+    // for (let questionID of reviewQuestions) {
+    //   let questionObj = await this.questionModel.findById(questionID).select(["_id", "title", "content", "type", "status"]);
+    //   newReviewQuestions.push(questionObj);
+    // }
+    // (form?.template as any).template.reviewQuestions = newReviewQuestions;
 
     let answerQuestions = (form?.template as any).template?.answerQuestions;
     let newAnswerQuestions: any = [];
     for (let questionID of answerQuestions) {
-      let questionObj = await this.questionModel.findById(questionID);
+      let questionObj = await this.questionModel
+        .findById(questionID)
+        .select(["_id", "title", "content", "type", "status"]);
       newAnswerQuestions.push(questionObj);
     }
     (form?.template as any).template.answerQuestions = newAnswerQuestions;
@@ -240,14 +263,14 @@ export class FormService {
         let newAnswerQuestions: any = [];
 
         for (let questionID of questions) {
-          let questionObj = await this.questionModel.findById(questionID);
+          let questionObj = await this.questionModel
+            .findById(questionID)
+            .select(["_id", "title", "content", "type", "status"]);
           newAnswerQuestions.push(questionObj);
         }
         childObj.questions = newAnswerQuestions;
       }
     }
-    
-
 
     let relationship = formRelationshipInfo.relationship;
     (form as any).relationship = relationship;
@@ -286,14 +309,18 @@ export class FormService {
     let arrAnswerQuestions: any = [];
 
     for (let qid of reviewQuestions) {
-      let question = await this.questionModel.findById(qid);
+      let question = await this.questionModel
+        .findById(qid)
+        .select(["_id", "title", "content", "type", "status"]);
       if (question && question.type === QuestionTypeState.POINT)
         arrReviewQuestions.push(question);
       else arrAnswerQuestions.push(question);
     }
 
     for (let qid of answerQuestions) {
-      let question = await this.questionModel.findById(qid);
+      let question = await this.questionModel
+        .findById(qid)
+        .select(["_id", "title", "content", "type", "status"]);
       if (question && question.type === QuestionTypeState.POINT)
         arrReviewQuestions.push(question);
       else arrAnswerQuestions.push(question);
