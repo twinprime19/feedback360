@@ -7,6 +7,7 @@ import { RoleProvider } from "../role/entities/role.entity";
 import { PermissionProvider } from "../permission/entities/permission.entity";
 import { PermissionService } from "../permission/permission.service";
 import { FormProvider } from "../form/form.model";
+import { TemplateProvider } from "../template/template.model";
 
 @Module({
   imports: [],
@@ -19,6 +20,7 @@ import { FormProvider } from "../form/form.model";
     PermissionService,
     PermissionProvider,
     FormProvider,
+    TemplateProvider,
   ],
   exports: [UserService],
 })

@@ -22,12 +22,15 @@ import { AuthPayload } from "../auth/auth.interface";
 import { Form } from "../form/form.model";
 import excelJS from "exceljs";
 import moment from "moment";
+import { Template } from "../template/template.model";
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User) private readonly userModel: MongooseModel<User>,
-    @InjectModel(Form) private readonly formModel: MongooseModel<Form>
+    @InjectModel(Form) private readonly formModel: MongooseModel<Form>,
+    @InjectModel(Template)
+    private readonly templateModel: MongooseModel<Template>
   ) {}
 
   // get list users
@@ -284,21 +287,32 @@ export class UserService {
     let userInfo = await this.findByUserName(user.userName);
     let listUsers: any = await importFileExcel(file);
 
-    let datas: object[] = [];
     let index = 0;
     let password = await this.hashPassword("123456");
-    for (let user of listUsers) {
-      if (!user["Tên tài khoản"])
-        throw `Tên tài khoản tại dòng thứ 2 "${index + 2}" là trường bắt buộc!`;
-      if (!user["Họ tên"])
-        throw `Họ tên tại dòng thứ 2 "${index + 2}" là trường bắt buộc!`;
-      // if (!user.["Tên tài khoản"])
-      //   throw `Password at row index"${index + 2}" is required!`;
 
-      const checkUserName = await this.userModel
-        .findOne({ userName: user.UserName })
-        .exec();
-      if (checkUserName) throw `Tên tài khoản "${user.UserName}" đã tồn tại!`;
+    let templates = await this.templateModel
+      .find({ deletedAt: null })
+      .limit(0)
+      .sort({ createdAt: -1 });
+    let templateID = templates.length ? templates[0]._id : null;
+
+    let time = moment().format("YYYY-MM-DDTHH:mm:ss");
+    let templateEmail = `<p>Xin chào anh/chị,</p>
+      <p>Tiến Phước kính mời anh chị tham gia khảo sát phản hồi cho nhân sự: <strong>[USER_FULLNAME]</strong>.</p>
+      <p>Anh chị vui lòng nhấp vào liên kết bên dưới để thực hiện khảo sát:</p>
+      <p><a href="[LINK]" style="background-color: #2d4432; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Tham gia khảo sát</a></p>
+      <p>Trân trọng cảm ơn!</p>
+    `;
+
+    for (let user of listUsers) {
+      let userName = user["Tên tài khoản"]
+        ? user["Tên tài khoản"].trim()
+        : null;
+      let fullname = user["Họ tên"] ? user["Họ tên"] : null;
+      if (!userName)
+        throw `Tên tài khoản tại dòng thứ 2 "${index + 2}" là trường bắt buộc!`;
+      if (!fullname)
+        throw `Họ tên tại dòng thứ 2 "${index + 2}" là trường bắt buộc!`;
 
       let gender = GenderState.Male;
       if (
@@ -310,8 +324,8 @@ export class UserService {
       else gender = GenderState.Female;
 
       let data = {
-        fullname: user["Họ tên"],
-        userName: user["Tên tài khoản"],
+        fullname: fullname,
+        userName: userName,
         password: password,
         emailAddress: user["E-mail"] ? user["E-mail"] : "",
         position: user["Chức vụ"] ? user["Chức vụ"] : "",
@@ -323,30 +337,39 @@ export class UserService {
         createdBy: userInfo._id,
       };
 
-      datas.push(data);
+      const checkUserName = await this.userModel
+        .findOne({ userName: data.userName })
+        .exec();
+
+      if (checkUserName) {
+        await this.userModel
+          .findByIdAndUpdate(checkUserName._id, data, { new: true })
+          .exec();
+
+        let dataDTO = {
+          template: templateID,
+          user: checkUserName._id,
+          time: time,
+          templateEmail: templateEmail,
+          createdBy: userInfo._id,
+        };
+        await this.formModel.create(dataDTO);
+      } else {
+        let userObj = await this.userModel.create(data);
+
+        let dataDTO = {
+          template: templateID,
+          user: userObj._id,
+          time: time,
+          templateEmail: templateEmail,
+          createdBy: userInfo._id,
+        };
+        await this.formModel.create(dataDTO);
+      }
+
       index++;
     }
 
-    for (let data of datas) {
-      let userObj = await this.userModel.create(data);
-
-      let time = moment().format("YYYY-MM-DDTHH:mm:ss");
-      let templateEmail = `<p>Xin chào anh/chị,</p>
-                              <p>Tiến Phước kính mời anh chị tham gia khảo sát phản hồi cho nhân sự: <strong>[USER_FULLNAME]</strong>.</p>
-                              <p>Anh chị vui lòng nhấp vào liên kết bên dưới để thực hiện khảo sát:</p>
-                              <p><a href="[LINK]" style="background-color: #2d4432; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Tham gia khảo sát</a></p>
-                              <p>Trân trọng cảm ơn!</p>`;
-      let dataDTO = {
-        template: "66f0e0fcae2716747b0cc972",
-        user: userObj._id,
-        time: time,
-        templateEmail: templateEmail,
-        createdBy: userInfo._id,
-      };
-
-      await this.formModel.create(dataDTO);
-    }
-
-    return datas;
+    return listUsers;
   }
 }

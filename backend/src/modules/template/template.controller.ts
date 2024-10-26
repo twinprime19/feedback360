@@ -31,8 +31,8 @@ import { SettingService } from "../settting/setting.service";
 import { AdminOnlyGuard } from "@app/guards/admin-only.guard";
 import { MongooseDoc } from "@app/interfaces/mongoose.interface";
 import { Template } from "./template.model";
-import lodash from "lodash";
 import { PoliciesGuard } from "@app/guards/policies.guard";
+import lodash from "lodash";
 
 @Controller("template")
 export class TemplateController {

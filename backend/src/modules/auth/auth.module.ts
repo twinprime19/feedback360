@@ -16,6 +16,7 @@ import * as APP_CONFIG from "@app/app.config";
 import { UserProvider } from "../user/entities/user.entity";
 import { UserService } from "../user/user.service";
 import { FormProvider } from "../form/form.model";
+import { TemplateProvider } from "../template/template.model";
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { FormProvider } from "../form/form.model";
     UserProvider,
     UserService,
     LocalStrategy,
+    TemplateProvider,
     FormProvider,
   ],
   exports: [AuthService],
