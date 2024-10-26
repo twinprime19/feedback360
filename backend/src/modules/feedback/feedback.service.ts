@@ -158,12 +158,12 @@ export class FeedbackService {
       );
       if (checkQuestion) {
         if (relationship === RelationshipState.SELF) {
-          if (checkQuestion.point < 0) checkQuestion.point = 0;
+          if (checkQuestion.point < 1) checkQuestion.point = 0;
           if (checkQuestion.point > 5) checkQuestion.point = 5;
           newQuestion.selfPoint = checkQuestion.point;
         }
         if (relationship === RelationshipState.PEER) {
-          if (checkQuestion.point < 0) checkQuestion.point = 0;
+          if (checkQuestion.point < 1) checkQuestion.point = 0;
           if (checkQuestion.point > 5) checkQuestion.point = 5;
           newQuestion.peer_detail.point = checkQuestion.point;
 
@@ -175,7 +175,7 @@ export class FeedbackService {
           if (checkQuestion.point === 5) newQuestion.peer_detail.five = true;
         }
         if (relationship === RelationshipState.SENIOR) {
-          if (checkQuestion.point < 0) checkQuestion.point = 0;
+          if (checkQuestion.point < 1) checkQuestion.point = 0;
           if (checkQuestion.point > 5) checkQuestion.point = 5;
           newQuestion.senior_detail.point = checkQuestion.point;
 
@@ -187,7 +187,7 @@ export class FeedbackService {
           if (checkQuestion.point === 5) newQuestion.senior_detail.five = true;
         }
         if (relationship === RelationshipState.SUBORDINATE) {
-          if (checkQuestion.point < 0) checkQuestion.point = 0;
+          if (checkQuestion.point < 1) checkQuestion.point = 0;
           if (checkQuestion.point > 5) checkQuestion.point = 5;
           newQuestion.subordinate_detail.point = checkQuestion.point;
 
@@ -242,7 +242,8 @@ export class FeedbackService {
     await this.formRelationshipModel
       .findByIdAndUpdate(
         feedbackDTO.relationship_id,
-        { isSubmitted: true },
+        { isSubmitted: false },
+        //{ isSubmitted: true },
         { new: true }
       )
       .exec();
