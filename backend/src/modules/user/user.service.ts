@@ -20,9 +20,9 @@ import { PasswordDTO } from "../auth/auth.dto";
 import { importFileExcel } from "@app/utils/upload-file";
 import { AuthPayload } from "../auth/auth.interface";
 import { Form } from "../form/form.model";
+import { Template } from "../template/template.model";
 import excelJS from "exceljs";
 import moment from "moment";
-import { Template } from "../template/template.model";
 
 @Injectable()
 export class UserService {
@@ -120,8 +120,32 @@ export class UserService {
       ? createUserDto.fullname
       : createUserDto.userName;
 
-    let user = await this.userModel.create(createUserDto);
-    return await this.findOne(String(user._id));
+    let userInfo = await this.userModel.create(createUserDto);
+    
+    let templates = await this.templateModel
+      .find({ deletedAt: null })
+      .limit(0)
+      .sort({ createdAt: -1 });
+    let templateID = templates.length ? templates[0]._id : null;
+
+    let time = moment().format("YYYY-MM-DDTHH:mm:ss");
+    let templateEmail = `<p>Xin chào anh/chị,</p>
+      <p>Tiến Phước kính mời anh chị tham gia khảo sát phản hồi cho nhân sự: <strong>[USER_FULLNAME]</strong>.</p>
+      <p>Anh chị vui lòng nhấp vào liên kết bên dưới để thực hiện khảo sát:</p>
+      <p><a href="[LINK]" style="background-color: #2d4432; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Tham gia khảo sát</a></p>
+      <p>Trân trọng cảm ơn!</p>
+    `;
+
+    let dataDTO = {
+      template: templateID,
+      user: userInfo._id,
+      time: time,
+      templateEmail: templateEmail,
+      createdBy: userInfo._id,
+    };
+    await this.formModel.create(dataDTO);
+
+    return await this.findOne(String(userInfo._id));
   }
 
   // get user by username
