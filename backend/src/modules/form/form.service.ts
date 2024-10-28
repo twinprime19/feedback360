@@ -320,18 +320,22 @@ export class FormService {
       let question = await this.questionModel
         .findById(qid)
         .select(["_id", "title", "content", "type", "status"]);
-      if (question && question.type === QuestionTypeState.POINT)
-        arrReviewQuestions.push(question);
-      else arrAnswerQuestions.push(question);
+      if (question) {
+        if (question.type === QuestionTypeState.POINT)
+          arrReviewQuestions.push(question);
+        else arrAnswerQuestions.push(question);
+      }
     }
 
     for (let qid of answerQuestions) {
       let question = await this.questionModel
         .findById(qid)
         .select(["_id", "title", "content", "type", "status"]);
-      if (question && question.type === QuestionTypeState.POINT)
-        arrReviewQuestions.push(question);
-      else arrAnswerQuestions.push(question);
+      if (question) {
+        if (question.type === QuestionTypeState.POINT)
+          arrReviewQuestions.push(question);
+        else arrAnswerQuestions.push(question);
+      }
     }
 
     let userFeedbacks = await this.feedbackModel.find({
@@ -1225,6 +1229,7 @@ export class FormService {
       chart: chartConfig,
       width: 600,
       height: 400,
+      format: "jpeg", // Đặt định dạng ảnh là JPEG, mặc định là PNG
     });
 
     // Tải xuống hình ảnh từ URL mà QuickChart trả về
@@ -1234,10 +1239,7 @@ export class FormService {
     if (!fs.existsSync(directory1)) {
       fs.mkdirSync(directory1, { recursive: true });
     }
-    const imagePath = path.join(
-      "./assets/uploads/chart",
-      "quickchart-image.png"
-    );
+    const imagePath = path.join(directory1, "quickchart-image.jpg");
     const imageResponse = await axios.get(imageUrl, {
       responseType: "arraybuffer",
     });
@@ -1245,14 +1247,15 @@ export class FormService {
 
     // Tạo PDF và chèn hình ảnh vào
     const imageData = fs.readFileSync(imagePath).toString("base64");
-    doc.addImage(
-      `data:image/png;base64,${imageData}`,
-      "PNG",
-      140,
-      currentY - 5,
-      130,
-      80
-    );
+    doc.addImage({
+      imageData: `data:image/jpeg;base64,${imageData}`,
+      format: "JPEG",
+      x: 140,
+      y: currentY - 5,
+      width: 130,
+      height: 80,
+      compression: "MEDIUM", 
+    });
 
     currentY = currentY + 80;
 

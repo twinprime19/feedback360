@@ -95,16 +95,20 @@ export class FeedbackService {
 
     for (let qid of reviewQuestions) {
       let question = await this.questionModel.findById(qid);
-      if (question && question.type === QuestionTypeState.POINT)
-        arrReviewQuestions.push(question);
-      else arrAnswerQuestions.push(question);
+      if (question) {
+        if (question.type === QuestionTypeState.POINT)
+          arrReviewQuestions.push(question);
+        else arrAnswerQuestions.push(question);
+      }
     }
 
     for (let qid of answerQuestions) {
       let question = await this.questionModel.findById(qid);
-      if (question && question.type === QuestionTypeState.POINT)
-        arrReviewQuestions.push(question);
-      else arrAnswerQuestions.push(question);
+      if (question) {
+        if (question.type === QuestionTypeState.POINT)
+          arrReviewQuestions.push(question);
+        else arrAnswerQuestions.push(question);
+      }
     }
 
     let results = feedbackDTO.result;
