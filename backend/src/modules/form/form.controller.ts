@@ -125,7 +125,7 @@ export class FormController {
 
   // export result statistic of form
   @Get("/statistic/:id")
-  @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  //@UseGuards(AdminOnlyGuard, PoliciesGuard)
   async downloadPdf(@Param("id") formID: string, @Res() res: Response) {
     const { filename, buffer } = await this.formService.generatePdfFile(formID);
 
