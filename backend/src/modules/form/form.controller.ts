@@ -15,9 +15,6 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { FormService } from "./form.service";
-import { UserService } from "../user/user.service";
-import { SettingService } from "../settting/setting.service";
-import { AdminMaybeGuard } from "@app/guards/admin-maybe.guard";
 import { Responser } from "@app/decorators/responser.decorator";
 import { PermissionPipe } from "@app/pipes/permission.pipe";
 import { ExposePipe } from "@app/pipes/expose.pipe";
@@ -36,15 +33,11 @@ import { PoliciesGuard } from "@app/guards/policies.guard";
 
 @Controller("form")
 export class FormController {
-  constructor(
-    private readonly formService: FormService,
-    private readonly userService: UserService,
-    private readonly settingService: SettingService
-  ) {}
+  constructor(private readonly formService: FormService) {}
 
   // get list forms
   @Get("/getAll")
-  // @UseGuards(AdminMaybeGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.paginate()
   @Responser.handle("Get forms")
   async find(
@@ -53,8 +46,6 @@ export class FormController {
   ): Promise<PaginateResult<Form>> {
     let { page, page_size, field, order, status, user, ...filters } = query;
     console.log("QUERYDATA", query);
-    //let user = await this.userService.findByUserName(req.user.userName);
-    page_size = page_size ?? 100;
 
     const paginateQuery: PaginateQuery<Form> = {};
     // search
@@ -84,6 +75,7 @@ export class FormController {
 
   // get list forms
   @Get("/list")
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Get list forms")
   listForms(): Promise<Form[]> {
     return this.formService.listForms();
@@ -133,7 +125,7 @@ export class FormController {
 
   // export result statistic of form
   @Get("/statistic/:id")
-  // @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   async downloadPdf(@Param("id") formID: string, @Res() res: Response) {
     const { filename, buffer } = await this.formService.generatePdfFile(formID);
 

@@ -12,7 +12,6 @@ import {
   Patch,
 } from "@nestjs/common";
 import { TemplateService } from "./template.service";
-import { AdminMaybeGuard } from "@app/guards/admin-maybe.guard";
 import { PermissionPipe } from "@app/pipes/permission.pipe";
 import { ExposePipe } from "@app/pipes/expose.pipe";
 import { Responser } from "@app/decorators/responser.decorator";
@@ -21,13 +20,11 @@ import {
   PaginateQuery,
   PaginateResult,
 } from "@app/utils/paginate";
-import { UserService } from "../user/user.service";
 import {
   TemplateDTO,
   TemplatePaginateQueryDTO,
   TemplatesDTO,
 } from "./template.dto";
-import { SettingService } from "../settting/setting.service";
 import { AdminOnlyGuard } from "@app/guards/admin-only.guard";
 import { MongooseDoc } from "@app/interfaces/mongoose.interface";
 import { Template } from "./template.model";
@@ -36,15 +33,11 @@ import lodash from "lodash";
 
 @Controller("template")
 export class TemplateController {
-  constructor(
-    private readonly userService: UserService,
-    private readonly templateService: TemplateService,
-    private readonly settingService: SettingService
-  ) {}
+  constructor(private readonly templateService: TemplateService) {}
 
   // get list templates
   @Get("/getAll")
-  // @UseGuards(AdminMaybeGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.paginate()
   @Responser.handle("Get templates")
   async find(
@@ -53,8 +46,6 @@ export class TemplateController {
   ): Promise<PaginateResult<Template>> {
     let { page, page_size, field, order, status, ...filters } = query;
     console.log("QUERYDATA", query);
-    //let user = await this.userService.findByUserName(req.user.userName);
-    page_size = page_size ?? 100;
 
     const paginateQuery: PaginateQuery<Template> = {};
     // search
@@ -82,6 +73,7 @@ export class TemplateController {
 
   // get list templates
   @Get("/list")
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Get list templates")
   listTemplates(): Promise<Template[]> {
     return this.templateService.listTemplates();
@@ -89,7 +81,8 @@ export class TemplateController {
 
   // get template
   @Get("/get/:id")
-  //@Responser.handle("Get template")
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  @Responser.handle("Get template")
   findOne(@Param("id") templateID: string): Promise<MongooseDoc<Template>> {
     return this.templateService.findOne(templateID);
   }

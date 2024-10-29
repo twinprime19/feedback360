@@ -16,7 +16,6 @@ import {
   Put,
   Patch,
 } from "@nestjs/common";
-import { AdminMaybeGuard } from "@app/guards/admin-maybe.guard";
 import { PermissionPipe } from "@app/pipes/permission.pipe";
 import { ExposePipe } from "@app/pipes/expose.pipe";
 import { Responser } from "@app/decorators/responser.decorator";
@@ -30,26 +29,19 @@ import {
   QuestionPaginateQueryDTO,
   QuestionsDTO,
 } from "./question.dto";
-import { SettingService } from "../settting/setting.service";
 import { Question } from "./question.model";
 import { QuestionService } from "./question.service";
 import { AdminOnlyGuard } from "@app/guards/admin-only.guard";
 import { MongooseDoc } from "@app/interfaces/mongoose.interface";
-import { UserService } from "../user/user.service";
-import lodash from "lodash";
 import { PoliciesGuard } from "@app/guards/policies.guard";
+import lodash from "lodash";
 
 @Controller("question")
 export class QuestionController {
-  constructor(
-    private readonly questionService: QuestionService,
-    private readonly settingService: SettingService,
-    private readonly userService: UserService
-  ) {}
+  constructor(private readonly questionService: QuestionService) {}
 
   // get list questions
   @Get("/getAll")
-  // @UseGuards(AdminMaybeGuard)
   @Responser.paginate()
   @Responser.handle("Get questions")
   async find(
@@ -58,8 +50,6 @@ export class QuestionController {
   ): Promise<PaginateResult<Question>> {
     let { page, page_size, field, order, status, type, ...filters } = query;
     console.log("QUERYDATA", query);
-    //let user = await this.userService.findByUserName(req.user.userName);
-    page_size = page_size ?? 100;
 
     const paginateQuery: PaginateQuery<Question> = {};
     // search

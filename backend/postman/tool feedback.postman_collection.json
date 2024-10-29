@@ -30,7 +30,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"demodemo\",\r\n    \"password\":\"123456\"\r\n}",
+					"raw": "{\r\n    \"username\":\"supperadmin@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -165,13 +165,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{url_feedback}}/user/63bedf7be1a3720ed20c0893",
+					"raw": "{{url_feedback}}/user/66f25850e933981e3ba05078",
 					"host": [
 						"{{url_feedback}}"
 					],
 					"path": [
 						"user",
-						"63bedf7be1a3720ed20c0893"
+						"66f25850e933981e3ba05078"
 					]
 				}
 			},
@@ -237,6 +237,93 @@
 					],
 					"path": [
 						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER IMPORT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "UserData_Sample (1).xlsx"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url_feedback}}/user/import",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"user",
+						"import"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER EXPORT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/user/export",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"user",
+						"export"
 					]
 				}
 			},
@@ -354,13 +441,13 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url_feedback}}/user/63a12bcf2d0bfdc1192aed81",
+					"raw": "{{url_feedback}}/user/66ebc97749aa0c90c42a46a7",
 					"host": [
 						"{{url_feedback}}"
 					],
 					"path": [
 						"user",
-						"63a12bcf2d0bfdc1192aed81"
+						"66ebc97749aa0c90c42a46a7"
 					]
 				}
 			},
@@ -389,7 +476,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"categoryIds\": [\"64e80de881e7beb62135d181\", \"64e80ca81d090f54b5a43c33\"]\r\n}",
+					"raw": "{\r\n    \"userIds\": [\"66ebc97749aa0c90c42a46a7\"]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -828,7 +915,17 @@
 					"query": [
 						{
 							"key": "keyword",
-							"value": "",
+							"value": "thúc đẩy sự thay đổi",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "page_size",
+							"value": "10",
 							"disabled": true
 						}
 					]
@@ -1015,14 +1112,14 @@
 					}
 				],
 				"url": {
-					"raw": "{{url_feedback}}/question/delete/63a58703fc89ecb2604c23dd",
+					"raw": "{{url_feedback}}/question/delete/66f26bceb211ef87b88d9553",
 					"host": [
 						"{{url_feedback}}"
 					],
 					"path": [
 						"question",
 						"delete",
-						"63a58703fc89ecb2604c23dd"
+						"66f26bceb211ef87b88d9553"
 					]
 				}
 			},
@@ -1066,6 +1163,99 @@
 					"path": [
 						"question",
 						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TEMPLATE GET PAGINATION",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/template/getAll",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"template",
+						"getAll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TEMPLATE GET ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/template/get/671b1b265b4ed32439d15c65",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"template",
+						"get",
+						"671b1b265b4ed32439d15c65"
 					]
 				}
 			},
@@ -1137,7 +1327,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"Biểu mẫu khảo sát 2\",\r\n    \"template\": {\r\n        \"reviewQuestions\": [\r\n            \"66eaa501d998406674a97b02\",\r\n            \"66eaed06da1266f7b50521b3\",\r\n            \"66eaed7cda1266f7b50521b9\",\r\n            \"66eaed8bda1266f7b50521bd\",\r\n            \"66eaedddda1266f7b50521c1\",\r\n            \"66eaedefda1266f7b50521c5\",\r\n            \"66eaefcdda1266f7b50521c9\",\r\n            \"66eaefdfda1266f7b50521cd\"\r\n        ],\r\n        \"answerQuestions\": [\r\n            \"66eaeff9da1266f7b50521d1\",\r\n            \"66eaf00bda1266f7b50521d5\",\r\n            \"66eaf075da1266f7b50521d9\",\r\n            \"66eaf902da1266f7b50521dd\"\r\n        ]\r\n    }\r\n}",
+					"raw": "{\r\n    \"title\": \"Biểu mẫu khảo sát 3\",\r\n    \"template\": {\r\n        \"reviewQuestions\": [\r\n            \"671b1390cbf5c70d45d2eb22\",\r\n            \"671b13b2cbf5c70d45d2eb2f\",\r\n            \"671b13bdcbf5c70d45d2eb34\",\r\n            \"671b13c9cbf5c70d45d2eb39\",\r\n            \"671b13d7cbf5c70d45d2eb3e\",\r\n            \"671b13dfcbf5c70d45d2eb43\",\r\n            \"671b13e7cbf5c70d45d2eb48\",\r\n            \"671b13f1cbf5c70d45d2eb4d\",\r\n            \"671b13fccbf5c70d45d2eb52\",\r\n            \"671b1408cbf5c70d45d2eb57\",\r\n            \"671b1414cbf5c70d45d2eb5c\",\r\n            \"671b141ecbf5c70d45d2eb61\",\r\n            \"671b142acbf5c70d45d2eb66\",\r\n            \"671b143ccbf5c70d45d2eb6b\",\r\n            \"671b1444cbf5c70d45d2eb70\",\r\n            \"671b144ccbf5c70d45d2eb75\",\r\n            \"671b145fcbf5c70d45d2eb7f\",\r\n            \"671b1469cbf5c70d45d2eb84\",\r\n            \"671b1471cbf5c70d45d2eb89\",\r\n            \"671b147ccbf5c70d45d2eb8e\",\r\n            \"671b1485cbf5c70d45d2eb93\",\r\n            \"671b1490cbf5c70d45d2eb98\",\r\n            \"671b149acbf5c70d45d2eb9d\",\r\n            \"671b14a6cbf5c70d45d2eba2\",\r\n            \"671b1740cbf5c70d45d2ebb2\",\r\n            \"671b174acbf5c70d45d2ebb7\",\r\n            \"671b1752cbf5c70d45d2ebbc\",\r\n            \"671b1760cbf5c70d45d2ebc1\",\r\n            \"671b1769cbf5c70d45d2ebc6\",\r\n            \"671b1773cbf5c70d45d2ebcb\",\r\n            \"671b177ccbf5c70d45d2ebd0\",\r\n            \"671b1784cbf5c70d45d2ebd5\",\r\n            \"671b178bcbf5c70d45d2ebda\",\r\n            \"671b1795cbf5c70d45d2ebdf\",\r\n            \"671b17a5cbf5c70d45d2ebe4\",\r\n            \"671b62acda17663bcc132e83\",\r\n            \"671b17bdcbf5c70d45d2ebee\",\r\n            \"671b17c9cbf5c70d45d2ebf3\",\r\n            \"671b17dacbf5c70d45d2ebf8\",\r\n            \"671b17e2cbf5c70d45d2ebfd\",\r\n            \"671b17f9cbf5c70d45d2ec05\",\r\n            \"671b1802cbf5c70d45d2ec0a\",\r\n            \"671b180acbf5c70d45d2ec0f\",\r\n            \"671b1812cbf5c70d45d2ec14\",\r\n            \"671b181acbf5c70d45d2ec19\",\r\n            \"671b1821cbf5c70d45d2ec1e\",\r\n            \"671b1829cbf5c70d45d2ec23\",\r\n            \"671b1831cbf5c70d45d2ec28\",\r\n            \"671b1838cbf5c70d45d2ec2d\",\r\n            \"671b184acbf5c70d45d2ec32\"\r\n        ],\r\n        \"answerQuestions\": [\r\n            \"66eaeff9da1266f7b50521d1\",\r\n            \"66eaf00bda1266f7b50521d5\",\r\n            \"66eaf075da1266f7b50521d9\",\r\n            \"66eaf902da1266f7b50521dd\",\r\n            \"671b1812cbf5c70d45d2ec14\",\r\n            \"671b181acbf5c70d45d2ec19\",\r\n            \"671b1821cbf5c70d45d2ec1e\",\r\n            \"671b1829cbf5c70d45d2ec23\"\r\n            \r\n        ],\r\n        \"questions\": [\r\n            {\r\n                \"title\": \"I. KỸ NĂNG LÃNH ĐẠO VÀ QUẢN LÝ\",\r\n                \"children\": [\r\n                    {\r\n                        \"title\": \"1. Xây dựng mục tiêu và định hướng thực hiện\",\r\n                        \"questions\": [\r\n                            \"671b1390cbf5c70d45d2eb22\",\r\n                            \"671b13b2cbf5c70d45d2eb2f\",\r\n                            \"671b13bdcbf5c70d45d2eb34\",\r\n                            \"671b13c9cbf5c70d45d2eb39\",\r\n                            \"671b13d7cbf5c70d45d2eb3e\",\r\n                            \"671b13dfcbf5c70d45d2eb43\",\r\n                            \"671b13e7cbf5c70d45d2eb48\"\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"title\": \"2. Ra quyết định và giải quyết vấn đề:\",\r\n                        \"questions\": [\r\n                            \"671b13f1cbf5c70d45d2eb4d\",\r\n                            \"671b13fccbf5c70d45d2eb52\",\r\n                            \"671b1408cbf5c70d45d2eb57\",\r\n                            \"671b1414cbf5c70d45d2eb5c\"\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"title\": \"3. Giao tiếp\",\r\n                        \"questions\": [\r\n                            \"671b141ecbf5c70d45d2eb61\",\r\n                            \"671b142acbf5c70d45d2eb66\"\r\n                        ]\r\n                    }\r\n                ]\r\n            },\r\n            {\r\n                \"title\": \"II. KỸ NĂNG TẠO ĐỘNG LỰC CHO NHÓM\",\r\n                \"children\": [\r\n                    {\r\n                        \"title\": \"1. Động lực và sự gắn kết\",\r\n                        \"questions\": [\r\n                            \"671b143ccbf5c70d45d2eb6b\",\r\n                            \"671b1444cbf5c70d45d2eb70\",\r\n                            \"671b144ccbf5c70d45d2eb75\",\r\n                            \"671b145fcbf5c70d45d2eb7f\",\r\n                            \"671b1469cbf5c70d45d2eb84\",\r\n                            \"671b1471cbf5c70d45d2eb89\",\r\n                            \"671b147ccbf5c70d45d2eb8e\",\r\n                            \"671b1485cbf5c70d45d2eb93\",\r\n                            \"671b1490cbf5c70d45d2eb98\",\r\n                            \"671b149acbf5c70d45d2eb9d\",\r\n                            \"671b14a6cbf5c70d45d2eba2\"\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"title\": \"2.  Tạo cơ hội phát triển:\",\r\n                        \"questions\": [\r\n                            \"671b1740cbf5c70d45d2ebb2\",\r\n                            \"671b174acbf5c70d45d2ebb7\",\r\n                            \"671b1752cbf5c70d45d2ebbc\",\r\n                            \"671b1760cbf5c70d45d2ebc1\",\r\n                            \"671b1769cbf5c70d45d2ebc6\",\r\n                            \"671b1773cbf5c70d45d2ebcb\"\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"title\": \"3. Đạo đức và liêm chính:\",\r\n                        \"questions\": [\r\n                            \"671b177ccbf5c70d45d2ebd0\",\r\n                            \"671b1784cbf5c70d45d2ebd5\",\r\n                            \"671b178bcbf5c70d45d2ebda\",\r\n                            \"671b1795cbf5c70d45d2ebdf\"\r\n                        ]\r\n                    }\r\n                ]\r\n            },\r\n            {\r\n                \"title\": \"III. KỸ NĂNG GIẢI QUYẾT XUNG ĐỘT\",\r\n                \"children\": [\r\n                    {\r\n                        \"title\": \"1. Cách tiếp cận vấn đề xung đột\",\r\n                        \"questions\": [\r\n                            \"671b17a5cbf5c70d45d2ebe4\",\r\n                            \"671b62acda17663bcc132e83\",\r\n                            \"671b17bdcbf5c70d45d2ebee\"\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"title\": \"2. Công bằng, vô tư:\",\r\n                        \"questions\": [\r\n                            \"671b17c9cbf5c70d45d2ebf3\",\r\n                            \"671b17dacbf5c70d45d2ebf8\",\r\n                            \"671b17e2cbf5c70d45d2ebfd\"\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"title\": \"3. Giao tiếp trong tình huống xung đột\",\r\n                        \"questions\": [\r\n                            \"671b17f9cbf5c70d45d2ec05\",\r\n                            \"671b1802cbf5c70d45d2ec0a\",\r\n                            \"671b180acbf5c70d45d2ec0f\"\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"title\": \"4. Giải quyết vấn đề và hòa giải\",\r\n                        \"questions\": [\r\n                            \"671b1812cbf5c70d45d2ec14\",\r\n                            \"671b181acbf5c70d45d2ec19\",\r\n                            \"671b1821cbf5c70d45d2ec1e\",\r\n                            \"671b1829cbf5c70d45d2ec23\"\r\n                        ]\r\n                    },\r\n                    {\r\n                        \"title\": \"5. Tác động lâu dài\",\r\n                        \"questions\": [\r\n                            \"671b1831cbf5c70d45d2ec28\",\r\n                            \"671b1838cbf5c70d45d2ec2d\",\r\n                            \"671b184acbf5c70d45d2ec32\"\r\n                        ]\r\n                    }\r\n                ]\r\n            }\r\n        ]\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1145,14 +1335,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{url_feedback}}/template/edit/66f0e0fcae2716747b0cc972",
+					"raw": "{{url_feedback}}/template/edit/671b1b265b4ed32439d15c65",
 					"host": [
 						"{{url_feedback}}"
 					],
 					"path": [
 						"template",
 						"edit",
-						"66f0e0fcae2716747b0cc972"
+						"671b1b265b4ed32439d15c65"
 					]
 				}
 			},
@@ -1181,7 +1371,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"template\": \"66f0e0fcae2716747b0cc972\",\r\n    \"user\": \"66ebc87f49aa0c90c42a469b\"\r\n}",
+					"raw": "{\r\n    \"template\": \"671b1b265b4ed32439d15c65\",\r\n    \"user\": \"63da2e8a474bffaaec7d89b9\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1196,6 +1386,49 @@
 					"path": [
 						"form",
 						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FORM SEND",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"form\": \"671f04933b2bcd3af044ac25\",\r\n    \"listEmailAddress\": [\r\n        \"ductai2982@gmail.com\"\r\n    ],\r\n    \"relationship\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/form/send",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"form",
+						"send"
 					]
 				}
 			},
@@ -1235,13 +1468,73 @@
 					}
 				},
 				"url": {
-					"raw": "{{url_feedback}}/form/66f0e2247795ae536c2a4215",
+					"raw": "{{url_feedback}}/form/get/:relationship_id",
 					"host": [
 						"{{url_feedback}}"
 					],
 					"path": [
 						"form",
-						"66f0e2247795ae536c2a4215"
+						"get",
+						":relationship_id"
+					],
+					"variable": [
+						{
+							"key": "relationship_id",
+							"value": "671b2270cbf5c70d45d2ecb4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FORM GET RELATIONSHIP BY FORM ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer  {{TOKENFEEDBACK}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_feedback}}/form/get-relationship/:relationship_id",
+					"host": [
+						"{{url_feedback}}"
+					],
+					"path": [
+						"form",
+						"get-relationship",
+						":relationship_id"
+					],
+					"variable": [
+						{
+							"key": "relationship_id",
+							"value": "66f4d7d054872c869e62a7f2"
+						}
 					]
 				}
 			},
@@ -1270,7 +1563,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"form\": \"66f0e2247795ae536c2a4215\",\r\n    \"fullname\": \"Nguyễn Ngọc Quang\",\r\n    \"position\": \"Nhân viên kinh doanh\",\r\n    \"relationship\": 1,\r\n    \"result\": [\r\n        {\r\n            \"question\": \"66eaa501d998406674a97b02\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaed06da1266f7b50521b3\",\r\n            \"type\": 0,\r\n            \"point\": 2,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaed7cda1266f7b50521b9\",\r\n            \"type\": 0,\r\n            \"point\": 1,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaed8bda1266f7b50521bd\",\r\n            \"type\": 0,\r\n            \"point\": 4,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaedddda1266f7b50521c1\",\r\n            \"type\": 0,\r\n            \"point\": 5,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaedefda1266f7b50521c5\",\r\n            \"type\": 0,\r\n            \"point\": 4,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaefcdda1266f7b50521c9\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaefdfda1266f7b50521cd\",\r\n            \"type\": 0,\r\n            \"point\": 2,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaeff9da1266f7b50521d1\",\r\n            \"type\": 0,\r\n            \"point\": 1,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaf00bda1266f7b50521d5\",\r\n            \"type\": 1,\r\n            \"point\": 0,\r\n            \"answer\": \"Câu trả lời 1\"\r\n        },\r\n        {\r\n            \"question\": \"66eaf075da1266f7b50521d9\",\r\n            \"type\": 1,\r\n            \"point\": 0,\r\n            \"answer\": \"Câu trả lời 2\"\r\n        },\r\n        {\r\n            \"question\": \"66eaf902da1266f7b50521dd\",\r\n            \"type\": 1,\r\n            \"point\": 0,\r\n            \"answer\": \"Câu trả lời 3\"\r\n        }\r\n    ]\r\n}",
+					"raw": "{\r\n    \"form\": \"671f04933b2bcd3af044ac25\",\r\n    \"relationship_id\": \"671f04b53b2bcd3af044ac2d\",\r\n    \"result\": [\r\n        {\r\n            \"question\": \"671b1390cbf5c70d45d2eb22\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b13b2cbf5c70d45d2eb2f\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b13bdcbf5c70d45d2eb34\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b13c9cbf5c70d45d2eb39\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b13d7cbf5c70d45d2eb3e\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b13dfcbf5c70d45d2eb43\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b13e7cbf5c70d45d2eb48\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b13f1cbf5c70d45d2eb4d\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b13fccbf5c70d45d2eb52\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b1408cbf5c70d45d2eb57\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b1414cbf5c70d45d2eb5c\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b141ecbf5c70d45d2eb61\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b142acbf5c70d45d2eb66\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b13fccbf5c70d45d2eb52\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b143ccbf5c70d45d2eb6b\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b1444cbf5c70d45d2eb70\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b144ccbf5c70d45d2eb75\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b145fcbf5c70d45d2eb7f\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b1469cbf5c70d45d2eb84\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b1471cbf5c70d45d2eb89\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b147ccbf5c70d45d2eb8e\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b1485cbf5c70d45d2eb93\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b1490cbf5c70d45d2eb98\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b149acbf5c70d45d2eb9d\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b14a6cbf5c70d45d2eba2\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"671b1740cbf5c70d45d2ebb2\",\r\n            \"type\": 0,\r\n            \"point\": 3,\r\n            \"answer\": \"\"\r\n        },\r\n        {\r\n            \"question\": \"66eaf00bda1266f7b50521d5\",\r\n            \"type\": 1,\r\n            \"point\": 0,\r\n            \"answer\": \"Câu trả lời 1\"\r\n        },\r\n        {\r\n            \"question\": \"66eaf075da1266f7b50521d9\",\r\n            \"type\": 1,\r\n            \"point\": 0,\r\n            \"answer\": \"Câu trả lời 2\"\r\n        },\r\n        {\r\n            \"question\": \"66eaf902da1266f7b50521dd\",\r\n            \"type\": 1,\r\n            \"point\": 0,\r\n            \"answer\": \"Câu trả lời 3\"\r\n        }\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1323,17 +1616,14 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:1353/v1.0/form/statistic/66f0e2247795ae536c2a4215",
-					"protocol": "http",
+					"raw": "{{url_feedback}}/form/statistic/671b2266cbf5c70d45d2eca8",
 					"host": [
-						"localhost"
+						"{{url_feedback}}"
 					],
-					"port": "1353",
 					"path": [
-						"v1.0",
 						"form",
 						"statistic",
-						"66f0e2247795ae536c2a4215"
+						"671b2266cbf5c70d45d2eca8"
 					]
 				}
 			},

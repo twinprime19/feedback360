@@ -13,7 +13,6 @@ import {
   Post,
   Body,
 } from "@nestjs/common";
-import { AdminMaybeGuard } from "@app/guards/admin-maybe.guard";
 import { PermissionPipe } from "@app/pipes/permission.pipe";
 import { ExposePipe } from "@app/pipes/expose.pipe";
 import { Responser } from "@app/decorators/responser.decorator";
@@ -22,26 +21,21 @@ import {
   PaginateQuery,
   PaginateResult,
 } from "@app/utils/paginate";
-import { SettingService } from "../settting/setting.service";
 import { AdminOnlyGuard } from "@app/guards/admin-only.guard";
 import { MongooseDoc } from "@app/interfaces/mongoose.interface";
-import { UserService } from "../user/user.service";
 import { FeedbackDTO, FeedbackPaginateQueryDTO } from "./feedback.dto";
 import { FeedbackService } from "./feedback.service";
 import { Feedback } from "./feedback.model";
+import { PoliciesGuard } from "@app/guards/policies.guard";
 import lodash from "lodash";
 
 @Controller("feedback")
 export class FeedbackController {
-  constructor(
-    private readonly feedbackService: FeedbackService,
-    private readonly userService: UserService,
-    private readonly settingService: SettingService
-  ) {}
+  constructor(private readonly feedbackService: FeedbackService) {}
 
   // get list feedbacks
   @Get("/getAll")
-  // @UseGuards(AdminMaybeGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.paginate()
   @Responser.handle("Get feedbacks")
   async find(
@@ -51,7 +45,6 @@ export class FeedbackController {
     let { page, page_size, field, order, status, ...filters } = query;
     console.log("QUERYDATA", query);
     //let user = await this.userService.findByUserName(req.user.userName);
-    page_size = page_size ?? 100;
 
     const paginateQuery: PaginateQuery<Feedback> = {};
     // search
@@ -82,6 +75,7 @@ export class FeedbackController {
 
   // get list feedbacks
   @Get("/list")
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.handle("Get list feedbacks")
   listFeedbacks(): Promise<Feedback[]> {
     return this.feedbackService.listFeedbacks();
@@ -96,7 +90,6 @@ export class FeedbackController {
 
   // create feedback
   @Post("/add")
-  //@UseGuards(AdminOnlyGuard)
   @Responser.handle("Create feedback")
   createFeedback(
     @Req() req: any,

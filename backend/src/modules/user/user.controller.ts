@@ -29,8 +29,6 @@ import {
 } from "@app/utils/paginate";
 import { User } from "./entities/user.entity";
 import { UserPaginateQueryDTO } from "./dto/query-user.dto";
-import { Role } from "../role/entities/role.entity";
-import { RoleService } from "../role/role.service";
 import {
   QueryParams,
   QueryParamsResult,
@@ -43,10 +41,7 @@ import moment from "moment";
 
 @Controller("user")
 export class UserController {
-  constructor(
-    private readonly userService: UserService,
-    private readonly roleService: RoleService
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   // create user
   @Post()
@@ -166,17 +161,6 @@ export class UserController {
       "Content-Disposition": `attachment; filename*=UTF-8''${safeFilename}`,
     });
     return new StreamableFile(buffer);
-  }
-
-  // get init roles
-  @Get("init-roles")
-  // @UseGuards(AdminOnlyGuard, PoliciesGuard)
-  @Responser.paginate()
-  @Responser.handle("Get init roles")
-  findAllRoles(): Promise<PaginateResult<Role>> {
-    const paginateQuery: PaginateQuery<Role> = {};
-    const paginateOptions: PaginateOptions = {};
-    return this.roleService.paginator(paginateQuery, paginateOptions);
   }
 
   // get user by id
