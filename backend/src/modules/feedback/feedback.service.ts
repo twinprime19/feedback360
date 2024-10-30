@@ -246,7 +246,8 @@ export class FeedbackService {
     await this.formRelationshipModel
       .findByIdAndUpdate(
         feedbackDTO.relationship_id,
-        { isSubmitted: true },
+        { isSubmitted: false },
+        // { isSubmitted: true },
         { new: true }
       )
       .exec();
