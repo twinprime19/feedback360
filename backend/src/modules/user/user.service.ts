@@ -218,16 +218,7 @@ export class UserService {
   ): Promise<MongooseDoc<User>> {
     let userInfo = await this.findByUserName(user.userName);
 
-    const userObj = await this.userModel
-      .findByIdAndUpdate(
-        userID,
-        {
-          deletedBy: userInfo._id,
-          deletedAt: moment(),
-        },
-        { new: true }
-      )
-      .exec();
+    const userObj = await this.userModel.findByIdAndRemove(userID).exec();
     if (!userObj) throw `User id "${userID}" isn't found!`;
     return userObj;
   }
@@ -238,14 +229,7 @@ export class UserService {
 
     const users = await this.userModel.find({ _id: { $in: userIDs } }).exec();
     if (!users) throw `Users aren't found!`;
-
-    return await this.userModel
-      .updateMany(
-        { _id: { $in: userIDs } },
-        { deletedBy: userInfo._id, deletedAt: moment() },
-        { new: true }
-      )
-      .exec();
+    return await this.userModel.deleteMany({ _id: { $in: userIDs } }).exec();
   }
 
   // hash password
