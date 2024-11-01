@@ -121,7 +121,7 @@ export class UserService {
       : createUserDto.userName;
 
     let userInfo = await this.userModel.create(createUserDto);
-    
+
     let templates = await this.templateModel
       .find({ deletedAt: null })
       .limit(0)
@@ -376,6 +376,8 @@ export class UserService {
           time: time,
           templateEmail: templateEmail,
           createdBy: userInfo._id,
+          deletedAt: null,
+          deletedBy: null,
         };
         await this.formModel.create(dataDTO);
       } else {
