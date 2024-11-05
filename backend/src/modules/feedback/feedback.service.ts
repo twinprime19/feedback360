@@ -171,7 +171,10 @@ export class FeedbackService {
           if (checkQuestion.point > 5) checkQuestion.point = 5;
           newQuestion.peer_detail.point = checkQuestion.point;
 
-          if (checkQuestion.point === 0) newQuestion.peer_detail.ko = true;
+          if (checkQuestion.point === 0) {
+            newQuestion.peer_detail.ko = true;
+            newQuestion.peer_detail.tc = false;
+          }
           if (checkQuestion.point === 1) newQuestion.peer_detail.one = true;
           if (checkQuestion.point === 2) newQuestion.peer_detail.two = true;
           if (checkQuestion.point === 3) newQuestion.peer_detail.three = true;
@@ -183,7 +186,10 @@ export class FeedbackService {
           if (checkQuestion.point > 5) checkQuestion.point = 5;
           newQuestion.senior_detail.point = checkQuestion.point;
 
-          if (checkQuestion.point === 0) newQuestion.senior_detail.ko = true;
+          if (checkQuestion.point === 0) {
+            newQuestion.senior_detail.ko = true;
+            newQuestion.senior_detail.tc = false;
+          }
           if (checkQuestion.point === 1) newQuestion.senior_detail.one = true;
           if (checkQuestion.point === 2) newQuestion.senior_detail.two = true;
           if (checkQuestion.point === 3) newQuestion.senior_detail.three = true;
@@ -195,8 +201,10 @@ export class FeedbackService {
           if (checkQuestion.point > 5) checkQuestion.point = 5;
           newQuestion.subordinate_detail.point = checkQuestion.point;
 
-          if (checkQuestion.point === 0)
+          if (checkQuestion.point === 0) {
             newQuestion.subordinate_detail.ko = true;
+            newQuestion.subordinate_detail.tc = false;
+          }
           if (checkQuestion.point === 1)
             newQuestion.subordinate_detail.one = true;
           if (checkQuestion.point === 2)
