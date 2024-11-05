@@ -62,10 +62,9 @@ export class ListEmailDTO {
   @IsNotEmpty()
   form: import("mongoose").Types.ObjectId;
 
-  @ArrayUnique()
-  @ArrayNotEmpty()
-  @IsArray()
-  listEmailAddress: string[];
+  @IsNotEmpty()
+  @IsString()
+  listEmailAddress: string;
 
   @IsNumber()
   @IsNotEmpty()

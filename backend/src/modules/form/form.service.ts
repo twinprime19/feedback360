@@ -99,7 +99,7 @@ export class FormService {
   // send form
   public async sendForm(
     formID: string,
-    listEmailAddress: string[],
+    listEmailAddress: string,
     relationship: number,
     user: AuthPayload
   ) {
@@ -113,12 +113,13 @@ export class FormService {
 
     let time = moment().format("YYYY-MM-DDTHH:mm:ss");
     let templateEmail = formInfo.templateEmail;
+    let emails = listEmailAddress.split(";");
 
     let data = {
       form: formID,
       relationship: relationship,
       user: feedbackUserID,
-      receivers: listEmailAddress,
+      receivers: emails,
       time: time,
       templateEmail: templateEmail,
       isSubmitted: false,
@@ -126,8 +127,7 @@ export class FormService {
     };
 
     let formRelationshipInfo = await this.formRelationshipModel.create(data);
-
-    for (let emailAddress of listEmailAddress) {
+    for (let emailAddress of emails) {
       let url = `${APP_CONFIG.APP.FE_URL}/form/${formRelationshipInfo._id}`;
       let to = emailAddress;
       let subject = `${APP_CONFIG.APP.NAME} - Mời tham gia khảo sát phản hồi cho nhân sự`;
@@ -673,7 +673,7 @@ export class FormService {
         { content: "3" },
         { content: "4" },
         { content: "5" },
-        { content: "Ko TC" },
+        { content: "Ko" },
         { content: "TC" },
 
         { content: "1" },
@@ -681,7 +681,7 @@ export class FormService {
         { content: "3" },
         { content: "4" },
         { content: "5" },
-        { content: "Ko TC" },
+        { content: "Ko" },
         { content: "TC" },
 
         { content: "1" },
@@ -689,7 +689,7 @@ export class FormService {
         { content: "3" },
         { content: "4" },
         { content: "5" },
-        { content: "Ko TC" },
+        { content: "Ko" },
         { content: "TC" },
       ],
       [
@@ -734,6 +734,173 @@ export class FormService {
     for (let record of statisticReviewQuestions) {
       bodyTable3.push([record.index, record.title]);
     }
+
+    // 1. tổng hợp
+    let summary = [
+      {
+        title: "1. Xây dựng mục tiêu và định hướng thực hiện",
+        questions: [
+          "671b1390cbf5c70d45d2eb22",
+          "671b13b2cbf5c70d45d2eb2f",
+          "671b13bdcbf5c70d45d2eb34",
+          "671b13c9cbf5c70d45d2eb39",
+          "671b13d7cbf5c70d45d2eb3e",
+          "671b13dfcbf5c70d45d2eb43",
+          "671b13e7cbf5c70d45d2eb48",
+        ],
+      },
+      {
+        title: "2. Ra quyết định và giải quyết vấn đề:",
+        questions: [
+          "671b13f1cbf5c70d45d2eb4d",
+          "671b13fccbf5c70d45d2eb52",
+          "671b1408cbf5c70d45d2eb57",
+          "671b1414cbf5c70d45d2eb5c",
+        ],
+      },
+      {
+        title: "3. Giao tiếp",
+        questions: ["671b141ecbf5c70d45d2eb61", "671b142acbf5c70d45d2eb66"],
+      },
+      {
+        title: "1. Động lực và sự gắn kết",
+        questions: [
+          "671b143ccbf5c70d45d2eb6b",
+          "671b1444cbf5c70d45d2eb70",
+          "671b144ccbf5c70d45d2eb75",
+          "671b145fcbf5c70d45d2eb7f",
+          "671b1469cbf5c70d45d2eb84",
+          "671b1471cbf5c70d45d2eb89",
+          "671b147ccbf5c70d45d2eb8e",
+          "671b1485cbf5c70d45d2eb93",
+          "671b1490cbf5c70d45d2eb98",
+          "671b149acbf5c70d45d2eb9d",
+          "671b14a6cbf5c70d45d2eba2",
+        ],
+      },
+      {
+        title: "2.  Tạo cơ hội phát triển:",
+        questions: [
+          "671b1740cbf5c70d45d2ebb2",
+          "671b174acbf5c70d45d2ebb7",
+          "671b1752cbf5c70d45d2ebbc",
+          "671b1760cbf5c70d45d2ebc1",
+          "671b1769cbf5c70d45d2ebc6",
+          "671b1773cbf5c70d45d2ebcb",
+        ],
+      },
+      {
+        title: "3. Đạo đức và liêm chính:",
+        questions: [
+          "671b177ccbf5c70d45d2ebd0",
+          "671b1784cbf5c70d45d2ebd5",
+          "671b178bcbf5c70d45d2ebda",
+          "671b1795cbf5c70d45d2ebdf",
+        ],
+      },
+      {
+        title: "1. Cách tiếp cận vấn đề xung đột",
+        questions: [
+          "671b17a5cbf5c70d45d2ebe4",
+          "671b62acda17663bcc132e83",
+          "671b17bdcbf5c70d45d2ebee",
+        ],
+      },
+      {
+        title: "2. Công bằng, vô tư:",
+        questions: [
+          "671b17c9cbf5c70d45d2ebf3",
+          "671b17dacbf5c70d45d2ebf8",
+          "671b17e2cbf5c70d45d2ebfd",
+        ],
+      },
+      {
+        title: "3. Giao tiếp trong tình huống xung đột",
+        questions: [
+          "671b17f9cbf5c70d45d2ec05",
+          "671b1802cbf5c70d45d2ec0a",
+          "671b180acbf5c70d45d2ec0f",
+        ],
+      },
+      {
+        title: "4. Giải quyết vấn đề và hòa giải",
+        questions: [
+          "671b1812cbf5c70d45d2ec14",
+          "671b181acbf5c70d45d2ec19",
+          "671b1821cbf5c70d45d2ec1e",
+          "671b1829cbf5c70d45d2ec23",
+        ],
+      },
+      {
+        title: "5. Tác động lâu dài",
+        questions: [
+          "671b1831cbf5c70d45d2ec28",
+          "671b1838cbf5c70d45d2ec2d",
+          "671b184acbf5c70d45d2ec32",
+        ],
+      },
+    ];
+
+    // 2. Kỹ năng lãnh đạo, quản lý
+    let lanh_dao_quan_ly = [
+      "671b1390cbf5c70d45d2eb22",
+      "671b13b2cbf5c70d45d2eb2f",
+      "671b13bdcbf5c70d45d2eb34",
+      "671b13c9cbf5c70d45d2eb39",
+      "671b13d7cbf5c70d45d2eb3e",
+      "671b13dfcbf5c70d45d2eb43",
+      "671b13e7cbf5c70d45d2eb48",
+      "671b13f1cbf5c70d45d2eb4d",
+      "671b13fccbf5c70d45d2eb52",
+      "671b1408cbf5c70d45d2eb57",
+      "671b1414cbf5c70d45d2eb5c",
+      "671b141ecbf5c70d45d2eb61",
+      "671b142acbf5c70d45d2eb66",
+    ];
+    // 3. Kỹ năng tạo động lực nhóm
+    let tao_dong_luc_nhom_question_ids = [
+      "671b143ccbf5c70d45d2eb6b",
+      "671b1444cbf5c70d45d2eb70",
+      "671b144ccbf5c70d45d2eb75",
+      "671b145fcbf5c70d45d2eb7f",
+      "671b1469cbf5c70d45d2eb84",
+      "671b1471cbf5c70d45d2eb89",
+      "671b147ccbf5c70d45d2eb8e",
+      "671b1485cbf5c70d45d2eb93",
+      "671b1490cbf5c70d45d2eb98",
+      "671b149acbf5c70d45d2eb9d",
+      "671b14a6cbf5c70d45d2eba2",
+      "671b1740cbf5c70d45d2ebb2",
+      "671b174acbf5c70d45d2ebb7",
+      "671b1752cbf5c70d45d2ebbc",
+      "671b1760cbf5c70d45d2ebc1",
+      "671b1769cbf5c70d45d2ebc6",
+      "671b1773cbf5c70d45d2ebcb",
+      "671b177ccbf5c70d45d2ebd0",
+      "671b1784cbf5c70d45d2ebd5",
+      "671b178bcbf5c70d45d2ebda",
+      "671b1795cbf5c70d45d2ebdf",
+    ];
+
+    // 4. Kỹ năng giải quyết xung đột
+    let giai_quyet_xung_dot_question_ids = [
+      "671b17a5cbf5c70d45d2ebe4",
+      "671b62acda17663bcc132e83",
+      "671b17bdcbf5c70d45d2ebee",
+      "671b17c9cbf5c70d45d2ebf3",
+      "671b17dacbf5c70d45d2ebf8",
+      "671b17e2cbf5c70d45d2ebfd",
+      "671b17f9cbf5c70d45d2ec05",
+      "671b1802cbf5c70d45d2ec0a",
+      "671b180acbf5c70d45d2ec0f",
+      "671b1812cbf5c70d45d2ec14",
+      "671b181acbf5c70d45d2ec19",
+      "671b1821cbf5c70d45d2ec1e",
+      "671b1829cbf5c70d45d2ec23",
+      "671b1831cbf5c70d45d2ec28",
+      "671b1838cbf5c70d45d2ec2d",
+      "671b184acbf5c70d45d2ec32",
+    ];
 
     const doc = new jsPDF({
       orientation: "landscape",
@@ -1254,7 +1421,7 @@ export class FormService {
       y: currentY - 5,
       width: 130,
       height: 80,
-      compression: "MEDIUM", 
+      compression: "MEDIUM",
     });
 
     currentY = currentY + 80;
@@ -1302,24 +1469,6 @@ export class FormService {
         }
       },
     });
-
-    currentY = (doc as any).lastAutoTable.finalY;
-    currentY = this.checkCoordinatesY(doc, currentY, currentY + 10, maxHeight);
-    currentY = currentY != 20 ? currentY + 10 : currentY;
-    oldCurrentY = currentY;
-    doc.setFont("Roboto", "bold");
-    doc.text("Nhận xét chung cho NĐPH:", 15, currentY);
-    doc.setFont("Roboto", "normal");
-    currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
-    currentY = currentY != 20 ? currentY + 5 : currentY;
-    if (currentY == oldCurrentY) currentY += 5;
-
-    doc.text(
-      "Bạn hiểu & tự đoán biết được khá tương đồng với mọi người xung quanh & nhận ra điểm cần lưu ý về lắng nghe tích cực & truyền cảm hứng cho người khác để càng thành công hơn (tiêu chí số 3 & số 5).",
-      15,
-      currentY,
-      { maxWidth: 265 }
-    );
 
     // Lưu PDF vào buffer
     let filename =
