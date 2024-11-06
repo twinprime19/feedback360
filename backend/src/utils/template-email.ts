@@ -14,7 +14,7 @@ export const activationAccountEmail = (fullname: string, url: string) => {
                 <tr align="center">
                   <td>
                     <a href="${APP_CONFIG.APP.FE_URL}" target="_blank">
-                      <img src="https://feedback.test.zinisoft.net/images/logo.png" width="252px" height="96px" alt="WKEY"> 
+                      <img src="https://feedback360.tienphuoc.com/images/logo.png" width="252px" height="96px" alt="WKEY"> 
                     </a>
                   </td>
                 </tr>
@@ -71,7 +71,7 @@ export const activationAccountAuthorityEmail = (
                 <tr align="center">
                   <td>
                     <a href="${APP_CONFIG.APP.FE_URL}" target="_blank">
-                      <img src="https://feedback.test.zinisoft.net/images/logo.png" width="252px" height="96px" alt="WKEY"> 
+                      <img src="https://feedback360.tienphuoc.com/images/logo.png" width="252px" height="96px" alt="WKEY"> 
                     </a>
                   </td>
                 </tr>
@@ -122,7 +122,7 @@ export const welcomeAccountEmail = (fullname: string, email: string) => {
                 <tr align="center">
                   <td>
                     <a href="${APP_CONFIG.APP.FE_URL}" target="_blank">
-                      <img src="https://feedback.test.zinisoft.net/images/logo.png" width="252px" height="96px" alt="WKEY"> 
+                      <img src="https://feedback360.tienphuoc.com/images/logo.png" width="252px" height="96px" alt="WKEY"> 
                     </a>
                   </td>
                 </tr>
@@ -171,7 +171,7 @@ export const forgotPasswordEmail = (
                 <tr align="center">
                   <td>
                     <a href="${APP_CONFIG.APP.FE_URL}" target="_blank">
-                      <img src="https://feedback.test.zinisoft.net/images/logo.png" width="252px" height="96px" alt="WKEY"> 
+                      <img src="https://feedback360.tienphuoc.com/images/logo.png" width="252px" height="96px" alt="WKEY"> 
                     </a>
                   </td>
                 </tr>
@@ -223,7 +223,7 @@ export const forgotPasswordEmail = (
 //                 <tr align="center">
 //                   <td>
 //                     <a href="${APP_CONFIG.APP.FE_URL}" target="_blank">
-//                       <img src="https://feedback.test.zinisoft.net/images/logo.png" width="90px" height="55px" alt="TP">
+//                       <img src="https://feedback360.tienphuoc.com/images/logo.png" width="90px" height="55px" alt="TP">
 //                     </a>
 //                   </td>
 //                 </tr>
@@ -268,7 +268,7 @@ export const sendForm = (templateEmail: string) => {
                 <tr align="center">
                   <td>
                     <a href="${APP_CONFIG.APP.FE_URL}" target="_blank">
-                      <img src="https://feedback.test.zinisoft.net/images/logo.png" width="90px" height="55px" alt="Tiến Phước"> 
+                      <img src="https://feedback360.tienphuoc.com/images/logo.png" width="90px" height="55px" alt="Tiến Phước"> 
                     </a>
                   </td>
                 </tr>

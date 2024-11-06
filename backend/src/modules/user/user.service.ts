@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@app/transformers/model.transformer";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { CreateSuperAdminDto } from "./dto/create-superAdmin.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
+import { UpdateUserDto, UpdateUserSADto } from "./dto/update-user.dto";
 import { User } from "./entities/user.entity";
 import * as bcrypt from "bcrypt";
 import {
@@ -15,14 +15,22 @@ import {
   PaginateQuery,
   PaginateOptions,
 } from "@app/utils/paginate";
-import { GenderState, UserStatus } from "@app/constants/biz.constant";
+import * as APP_CONFIG from "@app/app.config";
+import {
+  GenderState,
+  UserState,
+  UserStatus,
+} from "@app/constants/biz.constant";
 import { PasswordDTO } from "../auth/auth.dto";
 import { importFileExcel } from "@app/utils/upload-file";
 import { AuthPayload } from "../auth/auth.interface";
 import { Form } from "../form/form.model";
 import { Template } from "../template/template.model";
+import { EmailService } from "@app/processors/helper/helper.service.email";
 import excelJS from "exceljs";
 import moment from "moment";
+import { generatePassword } from "@app/utils/generatePassword";
+import { forgotPasswordEmail } from "@app/utils/template-email";
 
 @Injectable()
 export class UserService {
@@ -30,7 +38,8 @@ export class UserService {
     @InjectModel(User) private readonly userModel: MongooseModel<User>,
     @InjectModel(Form) private readonly formModel: MongooseModel<Form>,
     @InjectModel(Template)
-    private readonly templateModel: MongooseModel<Template>
+    private readonly templateModel: MongooseModel<Template>,
+    private readonly emailService: EmailService
   ) {}
 
   // get list users
@@ -381,5 +390,79 @@ export class UserService {
     }
 
     return listUsers;
+  }
+
+  async updateProfile(
+    userName: string,
+    userDTO: UpdateUserSADto
+  ): Promise<MongooseDoc<User>> {
+    const checkUsername = await this.userModel
+      .findOne({ userName: userName })
+      .exec();
+    if (!checkUsername) throw `Tên tài khoản "${userName}" không tồn tại.`;
+
+    let newUserName = userDTO.userName.trim();
+    let newEmailAddress = userDTO.emailAddress.trim();
+
+    const checkExistUsername = await this.userModel
+      .findOne({ userName: newUserName, _id: { $ne: checkUsername._id } })
+      .exec();
+    if (checkExistUsername) throw `Tên tài khoản "${newUserName}" đã tồn tại.`;
+
+    const checkExistEmail = await this.userModel
+      .findOne({
+        emailAddress: newEmailAddress,
+        _id: { $ne: checkUsername._id },
+      })
+      .exec();
+    if (checkExistEmail) throw `Email "${newEmailAddress}" đã tồn tại.`;
+
+    let data = {
+      userName: newUserName,
+      fullname: userDTO.fullname ? userDTO.fullname : "",
+      emailAddress: newEmailAddress,
+      position: userDTO.position ? userDTO.position : "",
+      phone: userDTO.phone ? userDTO.phone : "",
+      address: userDTO.address ? userDTO.address : "",
+    };
+
+    const user = await this.userModel
+      .findByIdAndUpdate(checkUsername._id, data, { new: true })
+      .exec();
+    if (!user) throw `Cập nhật thông tin tài khoản bị lỗi.`;
+
+    return user;
+  }
+
+  // forgot password user
+  async forgotPassword(emailAddress: string): Promise<User> {
+    let user = await this.userModel
+      .findOne({
+        emailAddress: emailAddress,
+        status: UserState.ACTIVE,
+        deletedBy: null,
+      })
+      .exec()
+      .then(
+        (result) =>
+          result ||
+          Promise.reject(`E-mail "${emailAddress}" không được tìm thấy.`)
+      );
+
+    let newPassword = generatePassword(6);
+    let hashPassword = await this.hashPassword(newPassword);
+
+    await this.userModel
+      .findByIdAndUpdate(user._id, { password: hashPassword }, { new: true })
+      .exec();
+
+    let url = `${APP_CONFIG.APP.FE_URL}/login`;
+    let to = user.emailAddress;
+    let subject = `${APP_CONFIG.APP.NAME} - Quên mật khẩu`;
+    let html = forgotPasswordEmail(user.fullname, newPassword, url);
+    // send email
+    this.emailService.sendMail({ to, subject, text: "", html });
+
+    return user;
   }
 }

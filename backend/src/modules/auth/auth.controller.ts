@@ -14,6 +14,9 @@ import { Responser } from "@app/decorators/responser.decorator";
 import { UserService } from "../user/user.service";
 import { AdminOnlyGuard } from "@app/guards/admin-only.guard";
 import { PasswordDTO } from "./auth.dto";
+import { PoliciesGuard } from "@app/guards/policies.guard";
+import { User } from "../user/entities/user.entity";
+import { UpdateUserSADto } from "../user/dto/update-user.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -39,10 +42,24 @@ export class AuthController {
   }
 
   // change password
-  @UseGuards(AdminOnlyGuard)
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Post("change-password")
   changePassword(@Request() req, @Body() password: PasswordDTO) {
     let userName = req.user.userName;
     return this.userService.changePassword(userName, password);
+  }
+
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  @Post("/update-profile")
+  updateProfile(@Request() req, @Body() user: UpdateUserSADto) {
+    let userName = req.user.userName;
+    return this.userService.updateProfile(userName, user);
+  }
+
+  // forgot password user
+  @Post("/forgot-password")
+  @Responser.handle("Forgot password")
+  async forgotPassword(@Body() body: { emailAddress: string }): Promise<User> {
+    return this.userService.forgotPassword(body.emailAddress);
   }
 }
