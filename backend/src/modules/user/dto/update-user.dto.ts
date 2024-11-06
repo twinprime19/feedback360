@@ -85,4 +85,8 @@ export class UpdateUserSADto {
   @IsInt()
   @IsOptional()
   gender: number;
+
+  @IsString()
+  @IsOptional()
+  avatar: string;
 }

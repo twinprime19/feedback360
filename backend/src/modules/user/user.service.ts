@@ -424,6 +424,8 @@ export class UserService {
       position: userDTO.position ? userDTO.position : "",
       phone: userDTO.phone ? userDTO.phone : "",
       address: userDTO.address ? userDTO.address : "",
+      avatar: userDTO.avatar ? userDTO.avatar : null,
+      gender: userDTO.gender ? userDTO.gender : GenderState.Male,
     };
 
     const user = await this.userModel
