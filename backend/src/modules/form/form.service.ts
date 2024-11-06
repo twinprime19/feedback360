@@ -37,6 +37,7 @@ import { EmailService } from "@app/processors/helper/helper.service.email";
 import { sendForm } from "@app/utils/template-email";
 import * as APP_CONFIG from "@app/app.config";
 import { FormRelationship } from "../form_relationship/form_relationship.model";
+import { ChartService } from "../chart/chart.service";
 
 @Injectable()
 export class FormService {
@@ -52,7 +53,8 @@ export class FormService {
     @InjectModel(FormRelationship)
     private readonly formRelationshipModel: MongooseModel<FormRelationship>,
     private readonly userService: UserService,
-    private readonly emailService: EmailService
+    private readonly emailService: EmailService,
+    private readonly chartService: ChartService
   ) {}
 
   // get list forms
@@ -302,6 +304,9 @@ export class FormService {
 
   // xuất báo cáo pdf
   public async generatePdfFile(formID: string) {
+    const directory = "./assets/uploads/chart";
+    if (!fs.existsSync(directory)) fs.mkdirSync(directory, { recursive: true });
+
     let formInfo = await this.formModel.findById(formID).populate("user");
     if (!formInfo) throw `Không tìm thấy form.`;
 
@@ -595,6 +600,61 @@ export class FormService {
       statisticAnswerQuestions.push(statisticQuestion);
     }
 
+    let indexsTable = [
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.4",
+      "1.5",
+      "1.6",
+      "1.7",
+      "2.1",
+      "2.2",
+      "2.3",
+      "2.4",
+      "3.1",
+      "3.2",
+
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.4",
+      "1.5",
+      "1.6",
+      "1.7",
+      "1.8",
+      "1.9",
+      "1.10",
+      "1.11",
+      "2.1",
+      "2.2",
+      "2.3",
+      "2.4",
+      "2.5",
+      "2.6",
+      "3.1",
+      "3.2",
+      "3.3",
+      "3.4",
+
+      "1.1",
+      "1.2",
+      "1.3",
+      "2.1",
+      "2.2",
+      "2.3",
+      "3.1",
+      "3.2",
+      "3.3",
+      "4.1",
+      "4.2",
+      "4.3",
+      "4.4",
+      "5.1",
+      "5.2",
+      "5.3",
+    ];
+
     // tạo bảng đầu tiên
     const headRows1 = [
       [
@@ -706,39 +766,40 @@ export class FormService {
       ],
     ];
 
-    // Tạo bảng thứ 2
-    const headRows2 = [
-      [
-        { content: "Tiêu Chí Số" },
-        { content: "1" },
-        { content: "2" },
-        { content: "3" },
-        { content: "4" },
-        { content: "5" },
-        { content: "6" },
-        { content: "7" },
-        { content: "8" },
-        { content: "9" },
-      ],
-    ];
+    // // Tạo bảng thứ 2
+    // const headRows2 = [
+    //   [
+    //     { content: "Tiêu Chí Số" },
+    //     { content: "1" },
+    //     { content: "2" },
+    //     { content: "3" },
+    //     { content: "4" },
+    //     { content: "5" },
+    //     { content: "6" },
+    //     { content: "7" },
+    //     { content: "8" },
+    //     { content: "9" },
+    //   ],
+    // ];
 
-    let bodyTable2: any = [];
-    for (let record of statisticCriteria) {
-      bodyTable2.push([record.title, ...record.data]);
-    }
+    // let bodyTable2: any = [];
+    // for (let record of statisticCriteria) {
+    //   bodyTable2.push([record.title, ...record.data]);
+    // }
 
-    // tạo bảng thứ 3
-    const headRows3 = [[{ content: "STT" }, { content: "Nội dung tiêu chí" }]];
+    // // tạo bảng thứ 3
+    // const headRows3 = [[{ content: "STT" }, { content: "Nội dung tiêu chí" }]];
 
-    let bodyTable3: any = [];
-    for (let record of statisticReviewQuestions) {
-      bodyTable3.push([record.index, record.title]);
-    }
+    // let bodyTable3: any = [];
+    // for (let record of statisticReviewQuestions) {
+    //   bodyTable3.push([record.index, record.title]);
+    // }
 
     // 1. tổng hợp
-    let summary = [
+    let summary_meta = [
       {
-        title: "1. Xây dựng mục tiêu và định hướng thực hiện",
+        stt: "1.",
+        title: "Xây dựng mục tiêu và định hướng thực hiện",
         questions: [
           "671b1390cbf5c70d45d2eb22",
           "671b13b2cbf5c70d45d2eb2f",
@@ -750,7 +811,8 @@ export class FormService {
         ],
       },
       {
-        title: "2. Ra quyết định và giải quyết vấn đề:",
+        stt: "2.",
+        title: "Ra quyết định và giải quyết vấn đề:",
         questions: [
           "671b13f1cbf5c70d45d2eb4d",
           "671b13fccbf5c70d45d2eb52",
@@ -759,11 +821,13 @@ export class FormService {
         ],
       },
       {
-        title: "3. Giao tiếp",
+        stt: "3.",
+        title: "Giao tiếp",
         questions: ["671b141ecbf5c70d45d2eb61", "671b142acbf5c70d45d2eb66"],
       },
       {
-        title: "1. Động lực và sự gắn kết",
+        stt: "1.",
+        title: "Động lực và sự gắn kết",
         questions: [
           "671b143ccbf5c70d45d2eb6b",
           "671b1444cbf5c70d45d2eb70",
@@ -779,7 +843,8 @@ export class FormService {
         ],
       },
       {
-        title: "2.  Tạo cơ hội phát triển:",
+        stt: "2.",
+        title: "Tạo cơ hội phát triển:",
         questions: [
           "671b1740cbf5c70d45d2ebb2",
           "671b174acbf5c70d45d2ebb7",
@@ -790,7 +855,8 @@ export class FormService {
         ],
       },
       {
-        title: "3. Đạo đức và liêm chính:",
+        stt: "3.",
+        title: "Đạo đức và liêm chính:",
         questions: [
           "671b177ccbf5c70d45d2ebd0",
           "671b1784cbf5c70d45d2ebd5",
@@ -799,7 +865,8 @@ export class FormService {
         ],
       },
       {
-        title: "1. Cách tiếp cận vấn đề xung đột",
+        stt: "1.",
+        title: "Cách tiếp cận vấn đề xung đột",
         questions: [
           "671b17a5cbf5c70d45d2ebe4",
           "671b62acda17663bcc132e83",
@@ -807,7 +874,8 @@ export class FormService {
         ],
       },
       {
-        title: "2. Công bằng, vô tư:",
+        stt: "2.",
+        title: "Công bằng, vô tư:",
         questions: [
           "671b17c9cbf5c70d45d2ebf3",
           "671b17dacbf5c70d45d2ebf8",
@@ -815,7 +883,8 @@ export class FormService {
         ],
       },
       {
-        title: "3. Giao tiếp trong tình huống xung đột",
+        stt: "3.",
+        title: "Giao tiếp trong tình huống xung đột",
         questions: [
           "671b17f9cbf5c70d45d2ec05",
           "671b1802cbf5c70d45d2ec0a",
@@ -823,7 +892,8 @@ export class FormService {
         ],
       },
       {
-        title: "4. Giải quyết vấn đề và hòa giải",
+        stt: "4.",
+        title: "Giải quyết vấn đề và hòa giải",
         questions: [
           "671b1812cbf5c70d45d2ec14",
           "671b181acbf5c70d45d2ec19",
@@ -832,7 +902,8 @@ export class FormService {
         ],
       },
       {
-        title: "5. Tác động lâu dài",
+        stt: "5.",
+        title: "Tác động lâu dài",
         questions: [
           "671b1831cbf5c70d45d2ec28",
           "671b1838cbf5c70d45d2ec2d",
@@ -841,8 +912,58 @@ export class FormService {
       },
     ];
 
+    const headRows7 = [
+      [{ content: "" }, { content: "" }, { content: "Điểm số" }],
+    ];
+
+    let bodyTable7: any = [];
+    for (let cate of summary_meta) {
+      let sumAvgPoint = 0;
+      let countAvgPoint = 0;
+
+      for (let record of statisticReviewQuestions) {
+        let checkQ = cate.questions.find((item) => item === record.id);
+        if (checkQ) {
+          let countPoint = 0;
+          if (record.avgPeerPoint != 0) countPoint = countPoint + 1;
+          if (record.avgSeniorPoint != 0) countPoint = countPoint + 1;
+          if (record.avgSubordinatePoint != 0) countPoint = countPoint + 1;
+
+          let avgPoint = 0;
+          if (countPoint > 0)
+            avgPoint =
+              (record.avgPeerPoint +
+                record.avgSeniorPoint +
+                record.avgSubordinatePoint) /
+              countPoint;
+
+          if (avgPoint != 0) {
+            sumAvgPoint = sumAvgPoint + avgPoint;
+            countAvgPoint = countAvgPoint + 1;
+          }
+        }
+      }
+
+      sumAvgPoint = Math.round((sumAvgPoint / countAvgPoint) * 100) / 100;
+
+      let data = [cate.stt, cate.title, sumAvgPoint];
+      bodyTable7.push(data);
+    }
+
+    let titleChart7 = "Biểu đồ Tổng hợp";
+
+    let labelChart7: any = [];
+    for (let record of bodyTable7) {
+      labelChart7.push(record[1]);
+    }
+
+    let dataChart7: any = [];
+    for (let record of bodyTable7) {
+      dataChart7.push(record[2]);
+    }
+
     // 2. Kỹ năng lãnh đạo, quản lý
-    let lanh_dao_quan_ly = [
+    let lanh_dao_quan_ly_ids = [
       "671b1390cbf5c70d45d2eb22",
       "671b13b2cbf5c70d45d2eb2f",
       "671b13bdcbf5c70d45d2eb34",
@@ -857,6 +978,55 @@ export class FormService {
       "671b141ecbf5c70d45d2eb61",
       "671b142acbf5c70d45d2eb66",
     ];
+    const headRows4 = [
+      [
+        { content: "I" },
+        {
+          content: "KỸ NĂNG LÃNH ĐẠO",
+          styles: {
+            halign: "left",
+            valign: "middle",
+          },
+        },
+        { content: "Điểm số" },
+      ],
+    ];
+
+    let bodyTable4: any = [];
+    for (let record of statisticReviewQuestions) {
+      let checkQ = lanh_dao_quan_ly_ids.find((item) => item === record.id);
+      if (checkQ) {
+        let countPoint = 0;
+        if (record.avgPeerPoint != 0) countPoint = countPoint + 1;
+        if (record.avgSeniorPoint != 0) countPoint = countPoint + 1;
+        if (record.avgSubordinatePoint != 0) countPoint = countPoint + 1;
+
+        let avgPoint = 0;
+        if (countPoint > 0)
+          avgPoint =
+            (record.avgPeerPoint +
+              record.avgSeniorPoint +
+              record.avgSubordinatePoint) /
+            countPoint;
+
+        avgPoint = Math.round(avgPoint * 100) / 100;
+        let stt = indexsTable[record.index - 1];
+        bodyTable4.push([stt, record.title, avgPoint]);
+      }
+    }
+
+    let titleChart4 = "Biểu đồ Kỹ năng lãnh đạo";
+
+    let labelChart4: any = [];
+    for (let record of bodyTable4) {
+      labelChart4.push(record[1]);
+    }
+
+    let dataChart4: any = [];
+    for (let record of bodyTable4) {
+      dataChart4.push(record[2]);
+    }
+
     // 3. Kỹ năng tạo động lực nhóm
     let tao_dong_luc_nhom_question_ids = [
       "671b143ccbf5c70d45d2eb6b",
@@ -881,6 +1051,56 @@ export class FormService {
       "671b178bcbf5c70d45d2ebda",
       "671b1795cbf5c70d45d2ebdf",
     ];
+    const headRows5 = [
+      [
+        { content: "II" },
+        {
+          content: "KỸ NĂNG TẠO ĐỘNG LỰC CHO NHÓM",
+          styles: {
+            halign: "left",
+            valign: "middle",
+          },
+        },
+        { content: "Điểm số" },
+      ],
+    ];
+
+    let bodyTable5: any = [];
+    for (let record of statisticReviewQuestions) {
+      let checkQ = tao_dong_luc_nhom_question_ids.find(
+        (item) => item === record.id
+      );
+      if (checkQ) {
+        let countPoint = 0;
+        if (record.avgPeerPoint != 0) countPoint = countPoint + 1;
+        if (record.avgSeniorPoint != 0) countPoint = countPoint + 1;
+        if (record.avgSubordinatePoint != 0) countPoint = countPoint + 1;
+
+        let avgPoint = 0;
+        if (countPoint > 0)
+          avgPoint =
+            (record.avgPeerPoint +
+              record.avgSeniorPoint +
+              record.avgSubordinatePoint) /
+            countPoint;
+
+        avgPoint = Math.round(avgPoint * 100) / 100;
+        let stt = indexsTable[record.index - 1];
+        bodyTable5.push([stt, record.title, avgPoint]);
+      }
+    }
+
+    let titleChart5 = "Biểu đồ Kỹ năng Tạo động lực nhóm";
+
+    let labelChart5: any = [];
+    for (let record of bodyTable5) {
+      labelChart5.push(record[1]);
+    }
+
+    let dataChart5: any = [];
+    for (let record of bodyTable5) {
+      dataChart5.push(record[2]);
+    }
 
     // 4. Kỹ năng giải quyết xung đột
     let giai_quyet_xung_dot_question_ids = [
@@ -901,6 +1121,59 @@ export class FormService {
       "671b1838cbf5c70d45d2ec2d",
       "671b184acbf5c70d45d2ec32",
     ];
+
+    const headRows6 = [
+      [
+        { content: "III" },
+        {
+          content: "KỸ NĂNG GIẢI QUYẾT XUNG ĐỘT",
+          styles: {
+            halign: "left",
+            valign: "middle",
+          },
+        },
+        { content: "Điểm số" },
+      ],
+    ];
+
+    let bodyTable6: any = [];
+    for (let record of statisticReviewQuestions) {
+      let checkQ = giai_quyet_xung_dot_question_ids.find(
+        (item) => item === record.id
+      );
+      if (checkQ) {
+        let countPoint = 0;
+        if (record.avgPeerPoint != 0) countPoint = countPoint + 1;
+        if (record.avgSeniorPoint != 0) countPoint = countPoint + 1;
+        if (record.avgSubordinatePoint != 0) countPoint = countPoint + 1;
+
+        let avgPoint = 0;
+        if (countPoint > 0)
+          avgPoint =
+            (record.avgPeerPoint +
+              record.avgSeniorPoint +
+              record.avgSubordinatePoint) /
+            countPoint;
+
+        avgPoint = Math.round(avgPoint * 100) / 100;
+        let stt = indexsTable[record.index - 1];
+        bodyTable6.push([stt, record.title, avgPoint]);
+      }
+    }
+
+    let titleChart6 = "Biểu đồ Kỹ năng Giải quyết xung đột";
+
+    let labelChart6: any = [];
+    for (let record of bodyTable6) {
+      labelChart6.push(record[1]);
+    }
+
+    let dataChart6: any = [];
+    for (let record of bodyTable6) {
+      dataChart6.push(record[2]);
+    }
+
+    let chartName = (formInfo.user as User).userName + ".jpg";
 
     const doc = new jsPDF({
       orientation: "landscape",
@@ -1062,28 +1335,28 @@ export class FormService {
         4: { cellWidth: 14 },
         5: { cellWidth: 11 },
 
-        6: { cellWidth: 6 },
-        7: { cellWidth: 6 },
-        8: { cellWidth: 6 },
-        9: { cellWidth: 6 },
-        10: { cellWidth: 6 },
-        11: { cellWidth: 14 },
+        6: { cellWidth: 8 },
+        7: { cellWidth: 8 },
+        8: { cellWidth: 8 },
+        9: { cellWidth: 8 },
+        10: { cellWidth: 8 },
+        11: { cellWidth: 8 },
         12: { cellWidth: 8 },
 
-        13: { cellWidth: 6 },
-        14: { cellWidth: 6 },
-        15: { cellWidth: 6 },
-        16: { cellWidth: 6 },
-        17: { cellWidth: 6 },
-        18: { cellWidth: 14 },
+        13: { cellWidth: 8 },
+        14: { cellWidth: 8 },
+        15: { cellWidth: 8 },
+        16: { cellWidth: 8 },
+        17: { cellWidth: 8 },
+        18: { cellWidth: 8 },
         19: { cellWidth: 8 },
 
-        20: { cellWidth: 6 },
-        21: { cellWidth: 6 },
-        22: { cellWidth: 6 },
-        23: { cellWidth: 6 },
-        24: { cellWidth: 6 },
-        25: { cellWidth: 14 },
+        20: { cellWidth: 8 },
+        21: { cellWidth: 8 },
+        22: { cellWidth: 8 },
+        23: { cellWidth: 8 },
+        24: { cellWidth: 8 },
+        25: { cellWidth: 8 },
         26: { cellWidth: 8 },
       },
       // didParseCell: function (data) {
@@ -1289,152 +1562,233 @@ export class FormService {
     );
     currentY = currentY != 20 ? currentY + 10 : currentY;
     doc.setTextColor(223, 153, 7);
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    currentY = 20;
+
     doc.text("IV. PHÂN TÍCH TỔNG QUÁT", 15, currentY);
     doc.setTextColor(0, 0, 0);
 
     currentY = currentY + 10;
-    doc.text((formInfo.user as User).position, 50, currentY);
-    doc.setFont("Roboto", "normal");
+    // doc.text((formInfo.user as User).position, 50, currentY);
+    // doc.setFont("Roboto", "normal");
 
-    // Thêm bảng vào PDF
-    (doc as any).autoTable({
-      head: headRows2,
-      body: bodyTable2,
-      startY: currentY + 5,
-      styles: {
-        fontSize: 10,
-        font: "Roboto", // Use the custom font for the table
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-      },
-      headStyles: {
-        fontStyle: "bold", // Make the header bold
-        fillColor: [0, 123, 76], // Màu nền tiêu đề
-        textColor: [255, 255, 255], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      bodyStyles: {
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      columnStyles: {
-        0: { halign: "left" },
-      },
-      // Hàm để thay đổi màu nền cho từng hàng
-      didParseCell: function (data) {
-        if (data.section === "body") {
-          // Áp dụng màu nền cho từng hàng theo chỉ số index của row
-          // if (data.row.index === 0) {
-          //   data.cell.styles.fillColor = [146, 208, 80]; // Hàng đầu tiên - xanh nhạt
-          // } else if (data.row.index === 1) {
-          //   data.cell.styles.fillColor = [0, 176, 80]; // Hàng thứ hai - xanh lá đậm
-          // } else if (data.row.index === 2) {
-          //   data.cell.styles.fillColor = [255, 255, 0]; // Hàng thứ ba - vàng
-          // } else if (data.row.index === 3) {
-          //   data.cell.styles.fillColor = [0, 176, 240]; // Hàng thứ tư - xanh dương
-          // }
-        }
-      },
-      tableWidth: 115, // chiều rộng của bảng
-    });
+    // // Thêm bảng vào PDF
+    // (doc as any).autoTable({
+    //   head: headRows2,
+    //   body: bodyTable2,
+    //   startY: currentY + 5,
+    //   styles: {
+    //     fontSize: 10,
+    //     font: "Roboto", // Use the custom font for the table
+    //     textColor: [0, 0, 0], // Set header text color
+    //     lineWidth: 0.1, // Độ dày của viền
+    //     lineColor: [0, 0, 0], // Màu sắc viền (đen)
+    //     halign: "center", // Center-align table text
+    //   },
+    //   headStyles: {
+    //     fontStyle: "bold", // Make the header bold
+    //     fillColor: [0, 123, 76], // Màu nền tiêu đề
+    //     textColor: [255, 255, 255], // Set header text color
+    //     lineWidth: 0.1, // Độ dày của viền
+    //     lineColor: [0, 0, 0], // Màu sắc viền (đen)
+    //     halign: "center", // Center-align table text
+    //     valign: "middle", // Middle-align table text
+    //   },
+    //   bodyStyles: {
+    //     textColor: [0, 0, 0], // Set header text color
+    //     lineWidth: 0.1, // Độ dày của viền
+    //     lineColor: [0, 0, 0], // Màu sắc viền (đen)
+    //     halign: "center", // Center-align table text
+    //     valign: "middle", // Middle-align table text
+    //   },
+    //   columnStyles: {
+    //     0: { halign: "left" },
+    //   },
+    //   // Hàm để thay đổi màu nền cho từng hàng
+    //   didParseCell: function (data) {
+    //     if (data.section === "body") {
+    //       // Áp dụng màu nền cho từng hàng theo chỉ số index của row
+    //       // if (data.row.index === 0) {
+    //       //   data.cell.styles.fillColor = [146, 208, 80]; // Hàng đầu tiên - xanh nhạt
+    //       // } else if (data.row.index === 1) {
+    //       //   data.cell.styles.fillColor = [0, 176, 80]; // Hàng thứ hai - xanh lá đậm
+    //       // } else if (data.row.index === 2) {
+    //       //   data.cell.styles.fillColor = [255, 255, 0]; // Hàng thứ ba - vàng
+    //       // } else if (data.row.index === 3) {
+    //       //   data.cell.styles.fillColor = [0, 176, 240]; // Hàng thứ tư - xanh dương
+    //       // }
+    //     }
+    //   },
+    //   tableWidth: 115, // chiều rộng của bảng
+    // });
 
     // chèn biểu đồ từ hình ảnh
     // Cấu hình yêu cầu API QuickChart
-    let datasetsChart: any = [];
-    for (let record of statisticCriteria) {
-      if (record.title === "Tự đánh giá") {
-        datasetsChart.push({
-          label: "Tự đánh giá",
-          data: record.data,
-          borderColor: "rgb(146, 208, 80)",
-          fill: false,
-        });
-      }
-      if (record.title === "Cấp trên") {
-        datasetsChart.push({
-          label: "Cấp trên",
-          data: record.data,
-          borderColor: "rgb(0, 176, 80)",
-          fill: false,
-        });
-      }
-      if (record.title === "Ngang cấp") {
-        datasetsChart.push({
-          label: "Ngang cấp",
-          data: record.data,
-          borderColor: "rgb(255, 255, 0)",
-          fill: false,
-        });
-      }
-      if (record.title === "Cấp dưới") {
-        datasetsChart.push({
-          label: "Cấp dưới",
-          data: record.data,
-          borderColor: "rgb(0, 176, 240)",
-          fill: false,
-        });
-      }
-    }
+    // let datasetsChart: any = [];
+    // for (let record of statisticCriteria) {
+    //   if (record.title === "Tự đánh giá") {
+    //     datasetsChart.push({
+    //       label: "Tự đánh giá",
+    //       data: record.data,
+    //       borderColor: "rgb(146, 208, 80)",
+    //       fill: false,
+    //     });
+    //   }
+    //   if (record.title === "Cấp trên") {
+    //     datasetsChart.push({
+    //       label: "Cấp trên",
+    //       data: record.data,
+    //       borderColor: "rgb(0, 176, 80)",
+    //       fill: false,
+    //     });
+    //   }
+    //   if (record.title === "Ngang cấp") {
+    //     datasetsChart.push({
+    //       label: "Ngang cấp",
+    //       data: record.data,
+    //       borderColor: "rgb(255, 255, 0)",
+    //       fill: false,
+    //     });
+    //   }
+    //   if (record.title === "Cấp dưới") {
+    //     datasetsChart.push({
+    //       label: "Cấp dưới",
+    //       data: record.data,
+    //       borderColor: "rgb(0, 176, 240)",
+    //       fill: false,
+    //     });
+    //   }
+    // }
 
-    const chartConfig = {
-      type: "line",
-      data: {
-        labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
-        datasets: datasetsChart,
-      },
-    };
+    // const chartConfig = {
+    //   type: "line",
+    //   data: {
+    //     labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    //     datasets: datasetsChart,
+    //   },
+    // };
 
-    const response = await axios.post("https://quickchart.io/chart/create", {
-      chart: chartConfig,
-      width: 600,
-      height: 400,
-      format: "jpeg", // Đặt định dạng ảnh là JPEG, mặc định là PNG
-    });
+    // // Tải xuống hình ảnh từ URL mà QuickChart trả về
+    // const imageUrl = await this.chartService.getMultiLineChart(chartConfig);
 
-    // Tải xuống hình ảnh từ URL mà QuickChart trả về
-    const imageUrl = response.data.url;
+    // const imagePath = path.join(directory, chartName);
+    // const imageResponse = await axios.get(imageUrl, {
+    //   responseType: "arraybuffer",
+    // });
+    // fs.writeFileSync(imagePath, imageResponse.data);
 
-    const directory1 = "./assets/uploads/chart";
-    if (!fs.existsSync(directory1)) {
-      fs.mkdirSync(directory1, { recursive: true });
-    }
-    const imagePath = path.join(directory1, "quickchart-image.jpg");
-    const imageResponse = await axios.get(imageUrl, {
+    // // Tạo PDF và chèn hình ảnh vào
+    // const imageData = fs.readFileSync(imagePath).toString("base64");
+    // doc.addImage({
+    //   imageData: `data:image/jpeg;base64,${imageData}`,
+    //   format: "JPEG",
+    //   x: 140,
+    //   y: currentY - 5,
+    //   width: 130,
+    //   height: 80,
+    //   compression: "MEDIUM",
+    // });
+
+    // currentY = currentY + 80;
+
+    // currentY = this.checkCoordinatesY(doc, currentY, currentY + 10, maxHeight);
+    // currentY = currentY != 20 ? currentY + 10 : currentY;
+    // doc.setFontSize(12);
+    // doc.setFont("Roboto", "normal");
+
+    // // Thêm bảng vào PDF
+    // (doc as any).autoTable({
+    //   head: headRows3,
+    //   body: bodyTable3,
+    //   startY: currentY,
+    //   styles: {
+    //     fontSize: 10,
+    //     font: "Roboto", // Use the custom font for the table
+    //     textColor: [0, 0, 0], // Set header text color
+    //     lineWidth: 0.1, // Độ dày của viền
+    //     lineColor: [0, 0, 0], // Màu sắc viền (đen)
+    //     halign: "center", // Center-align table text
+    //   },
+    //   headStyles: {
+    //     fillColor: [0, 123, 76], // Màu nền tiêu đề
+    //     textColor: [255, 255, 255], // Set header text color
+    //     halign: "center", // Center-align table text
+    //     valign: "middle", // Middle-align table text
+    //   },
+    //   bodyStyles: {
+    //     textColor: [0, 0, 0], // Set header text color
+    //     lineWidth: 0.1, // Độ dày của viền
+    //     lineColor: [0, 0, 0], // Màu sắc viền (đen)
+    //     halign: "center", // Center-align table text
+    //     valign: "middle", // Middle-align table text
+    //   },
+    //   columnStyles: {
+    //     0: { halign: "center" },
+    //     1: { halign: "left" },
+    //   },
+    //   // Hàm để thay đổi màu nền cho từng hàng
+    //   didParseCell: function (data) {
+    //     if (data.section === "body") {
+    //       // Áp dụng màu nền cho từng hàng
+    //       // data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
+    //     }
+    //   },
+    // });
+
+    // currentY = (doc as any).lastAutoTable.finalY;
+    // currentY = this.checkCoordinatesY(doc, currentY, currentY + 10, maxHeight);
+    // currentY = currentY != 20 ? currentY + 10 : currentY;
+
+    // doc.setFontSize(12);
+    // doc.setFont("Roboto", "normal");
+
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    doc.setTextColor(45, 67, 50);
+    doc.text("1. Biểu đồ Tổng hợp", 15, currentY);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("Roboto", "normal");
+    currentY = currentY + 15;
+
+    // biểu đồ tổng hợp
+    let imageUrl7 = await this.chartService.getLineChart(
+      titleChart7,
+      labelChart7,
+      dataChart7,
+      0,
+      5
+    );
+
+    const imagePath7 = path.join(directory, chartName);
+    const imageResponse7 = await axios.get(imageUrl7, {
       responseType: "arraybuffer",
     });
-    fs.writeFileSync(imagePath, imageResponse.data);
+    fs.writeFileSync(imagePath7, imageResponse7.data);
 
     // Tạo PDF và chèn hình ảnh vào
-    const imageData = fs.readFileSync(imagePath).toString("base64");
+    const imageData7 = fs.readFileSync(imagePath7).toString("base64");
     doc.addImage({
-      imageData: `data:image/jpeg;base64,${imageData}`,
+      imageData: `data:image/jpeg;base64,${imageData7}`,
       format: "JPEG",
-      x: 140,
+      x: 20,
       y: currentY - 5,
-      width: 130,
-      height: 80,
+      width: 250,
+      height: 150,
       compression: "MEDIUM",
     });
 
-    currentY = currentY + 80;
-
-    currentY = this.checkCoordinatesY(doc, currentY, currentY + 10, maxHeight);
-    currentY = currentY != 20 ? currentY + 10 : currentY;
+    doc.addPage("a4", "l");
     doc.setFontSize(12);
     doc.setFont("Roboto", "normal");
+    currentY = 20;
 
+    // bảng 7
     // Thêm bảng vào PDF
     (doc as any).autoTable({
-      head: headRows3,
-      body: bodyTable3,
+      head: headRows7,
+      body: bodyTable7,
       startY: currentY,
       styles: {
         fontSize: 10,
@@ -1460,6 +1814,256 @@ export class FormService {
       columnStyles: {
         0: { halign: "center" },
         1: { halign: "left" },
+        2: { halign: "center" },
+      },
+      // Hàm để thay đổi màu nền cho từng hàng
+      didParseCell: function (data) {
+        if (data.section === "body") {
+          // Áp dụng màu nền cho từng hàng
+          // data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
+        }
+      },
+    });
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    currentY = 20;
+    doc.setTextColor(45, 67, 50);
+    doc.text("2. Biểu đồ Kỹ năng Lãnh đạo", 15, currentY);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("Roboto", "normal");
+    currentY = currentY + 15;
+
+    // biểu đồ 4
+    let imageUrl1 = await this.chartService.getLineChart(
+      titleChart4,
+      labelChart4,
+      dataChart4,
+      0,
+      5
+    );
+
+    const imagePath4 = path.join(directory, chartName);
+    const imageResponse4 = await axios.get(imageUrl1, {
+      responseType: "arraybuffer",
+    });
+    fs.writeFileSync(imagePath4, imageResponse4.data);
+
+    // Tạo PDF và chèn hình ảnh vào
+    const imageData4 = fs.readFileSync(imagePath4).toString("base64");
+    doc.addImage({
+      imageData: `data:image/jpeg;base64,${imageData4}`,
+      format: "JPEG",
+      x: 20,
+      y: currentY - 5,
+      width: 250,
+      height: 150,
+      compression: "MEDIUM",
+    });
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "normal");
+    currentY = 20;
+
+    // bảng 4
+    // Thêm bảng vào PDF
+    (doc as any).autoTable({
+      head: headRows4,
+      body: bodyTable4,
+      startY: currentY,
+      styles: {
+        fontSize: 10,
+        font: "Roboto", // Use the custom font for the table
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+      },
+      headStyles: {
+        fillColor: [0, 123, 76], // Màu nền tiêu đề
+        textColor: [255, 255, 255], // Set header text color
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      bodyStyles: {
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      columnStyles: {
+        0: { halign: "center" },
+        1: { halign: "left" },
+        2: { halign: "center" },
+      },
+      // Hàm để thay đổi màu nền cho từng hàng
+      didParseCell: function (data) {
+        if (data.section === "body") {
+          // Áp dụng màu nền cho từng hàng
+          // data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
+        }
+      },
+    });
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    currentY = 20;
+    doc.setTextColor(45, 67, 50);
+    doc.text("3. Biểu đồ Kỹ năng Tạo động lực nhóm", 15, currentY);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("Roboto", "normal");
+    currentY = currentY + 15;
+
+    // biểu đồ 5
+    let imageUrl5 = await this.chartService.getLineChart(
+      titleChart5,
+      labelChart5,
+      dataChart5,
+      0,
+      5
+    );
+
+    const imagePath5 = path.join(directory, chartName);
+    const imageResponse5 = await axios.get(imageUrl5, {
+      responseType: "arraybuffer",
+    });
+    fs.writeFileSync(imagePath5, imageResponse5.data);
+
+    // Tạo PDF và chèn hình ảnh vào
+    const imageData5 = fs.readFileSync(imagePath5).toString("base64");
+    doc.addImage({
+      imageData: `data:image/jpeg;base64,${imageData5}`,
+      format: "JPEG",
+      x: 20,
+      y: currentY - 5,
+      width: 250,
+      height: 150,
+      compression: "MEDIUM",
+    });
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "normal");
+    currentY = 20;
+
+    // bảng 5
+    // Thêm bảng vào PDF
+    (doc as any).autoTable({
+      head: headRows5,
+      body: bodyTable5,
+      startY: currentY,
+      styles: {
+        fontSize: 10,
+        font: "Roboto", // Use the custom font for the table
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+      },
+      headStyles: {
+        fillColor: [0, 123, 76], // Màu nền tiêu đề
+        textColor: [255, 255, 255], // Set header text color
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      bodyStyles: {
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      columnStyles: {
+        0: { halign: "center" },
+        1: { halign: "left" },
+        2: { halign: "center" },
+      },
+      // Hàm để thay đổi màu nền cho từng hàng
+      didParseCell: function (data) {
+        if (data.section === "body") {
+          // Áp dụng màu nền cho từng hàng
+          // data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
+        }
+      },
+    });
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    currentY = 20;
+    doc.setTextColor(45, 67, 50);
+    doc.text("4. Biểu đồ Kỹ năng Giải quyết xung đột", 15, currentY);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("Roboto", "normal");
+    currentY = currentY + 15;
+
+    // biểu đồ 6
+    let imageUrl6 = await this.chartService.getLineChart(
+      titleChart6,
+      labelChart6,
+      dataChart6,
+      0,
+      5
+    );
+
+    const imagePath6 = path.join(directory, chartName);
+    const imageResponse6 = await axios.get(imageUrl6, {
+      responseType: "arraybuffer",
+    });
+    fs.writeFileSync(imagePath6, imageResponse6.data);
+
+    // Tạo PDF và chèn hình ảnh vào
+    const imageData6 = fs.readFileSync(imagePath6).toString("base64");
+    doc.addImage({
+      imageData: `data:image/jpeg;base64,${imageData6}`,
+      format: "JPEG",
+      x: 20,
+      y: currentY - 5,
+      width: 250,
+      height: 150,
+      compression: "MEDIUM",
+    });
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "normal");
+    currentY = 20;
+
+    // bảng 6
+    // Thêm bảng vào PDF
+    (doc as any).autoTable({
+      head: headRows6,
+      body: bodyTable6,
+      startY: currentY,
+      styles: {
+        fontSize: 10,
+        font: "Roboto", // Use the custom font for the table
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+      },
+      headStyles: {
+        fillColor: [0, 123, 76], // Màu nền tiêu đề
+        textColor: [255, 255, 255], // Set header text color
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      bodyStyles: {
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      columnStyles: {
+        0: { halign: "center" },
+        1: { halign: "left" },
+        2: { halign: "center" },
       },
       // Hàm để thay đổi màu nền cho từng hàng
       didParseCell: function (data) {
