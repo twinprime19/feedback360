@@ -500,7 +500,7 @@ export class FormService {
         record.countSenior.three,
         record.countSenior.four,
         record.countSenior.five,
-        record.countSenior.ko,
+        //record.countSenior.ko,
         record.countSenior.tc,
 
         record.countPeer.one,
@@ -508,7 +508,7 @@ export class FormService {
         record.countPeer.three,
         record.countPeer.four,
         record.countPeer.five,
-        record.countPeer.ko,
+        //record.countPeer.ko,
         record.countPeer.tc,
 
         record.countSubordinate.one,
@@ -516,7 +516,7 @@ export class FormService {
         record.countSubordinate.three,
         record.countSubordinate.four,
         record.countSubordinate.five,
-        record.countSubordinate.ko,
+        //record.countSubordinate.ko,
         record.countSubordinate.tc,
       ];
 
@@ -675,7 +675,8 @@ export class FormService {
         },
         {
           content: "Tổng Điểm",
-          colSpan: 21,
+          //colSpan: 21,
+          colSpan: 18,
           rowSpan: 1,
         },
       ],
@@ -703,17 +704,20 @@ export class FormService {
 
         {
           content: "Cấp trên",
-          colSpan: 7,
+          //colSpan: 7,
+          colSpan: 6,
           rowSpan: 1,
         },
         {
           content: "Ngang cấp",
-          colSpan: 7,
+          //colSpan: 7,
+          colSpan: 6,
           rowSpan: 1,
         },
         {
           content: "Cấp dưới",
-          colSpan: 7,
+          //colSpan: 7,
+          colSpan: 6,
           rowSpan: 1,
         },
       ],
@@ -733,7 +737,7 @@ export class FormService {
         { content: "3" },
         { content: "4" },
         { content: "5" },
-        { content: "Ko" },
+        //{ content: "Ko" },
         { content: "TC" },
 
         { content: "1" },
@@ -741,7 +745,7 @@ export class FormService {
         { content: "3" },
         { content: "4" },
         { content: "5" },
-        { content: "Ko" },
+        //{ content: "Ko" },
         { content: "TC" },
 
         { content: "1" },
@@ -749,13 +753,13 @@ export class FormService {
         { content: "3" },
         { content: "4" },
         { content: "5" },
-        { content: "Ko" },
+        //{ content: "Ko" },
         { content: "TC" },
       ],
       [
         {
           content: (formInfo.user as User).fullname,
-          colSpan: 27,
+          colSpan: 24,
           styles: {
             halign: "left",
             valign: "middle",
@@ -798,7 +802,7 @@ export class FormService {
     // 1. tổng hợp
     let summary_meta = [
       {
-        stt: "1.",
+        stt: "1",
         title: "Xây dựng mục tiêu và định hướng thực hiện",
         questions: [
           "671b1390cbf5c70d45d2eb22",
@@ -811,7 +815,7 @@ export class FormService {
         ],
       },
       {
-        stt: "2.",
+        stt: "2",
         title: "Ra quyết định và giải quyết vấn đề:",
         questions: [
           "671b13f1cbf5c70d45d2eb4d",
@@ -821,12 +825,12 @@ export class FormService {
         ],
       },
       {
-        stt: "3.",
+        stt: "3",
         title: "Giao tiếp",
         questions: ["671b141ecbf5c70d45d2eb61", "671b142acbf5c70d45d2eb66"],
       },
       {
-        stt: "1.",
+        stt: "4",
         title: "Động lực và sự gắn kết",
         questions: [
           "671b143ccbf5c70d45d2eb6b",
@@ -843,7 +847,7 @@ export class FormService {
         ],
       },
       {
-        stt: "2.",
+        stt: "5",
         title: "Tạo cơ hội phát triển:",
         questions: [
           "671b1740cbf5c70d45d2ebb2",
@@ -855,7 +859,7 @@ export class FormService {
         ],
       },
       {
-        stt: "3.",
+        stt: "6",
         title: "Đạo đức và liêm chính:",
         questions: [
           "671b177ccbf5c70d45d2ebd0",
@@ -865,7 +869,7 @@ export class FormService {
         ],
       },
       {
-        stt: "1.",
+        stt: "7",
         title: "Cách tiếp cận vấn đề xung đột",
         questions: [
           "671b17a5cbf5c70d45d2ebe4",
@@ -874,7 +878,7 @@ export class FormService {
         ],
       },
       {
-        stt: "2.",
+        stt: "8",
         title: "Công bằng, vô tư:",
         questions: [
           "671b17c9cbf5c70d45d2ebf3",
@@ -883,7 +887,7 @@ export class FormService {
         ],
       },
       {
-        stt: "3.",
+        stt: "9",
         title: "Giao tiếp trong tình huống xung đột",
         questions: [
           "671b17f9cbf5c70d45d2ec05",
@@ -892,7 +896,7 @@ export class FormService {
         ],
       },
       {
-        stt: "4.",
+        stt: "10",
         title: "Giải quyết vấn đề và hòa giải",
         questions: [
           "671b1812cbf5c70d45d2ec14",
@@ -902,7 +906,7 @@ export class FormService {
         ],
       },
       {
-        stt: "5.",
+        stt: "11",
         title: "Tác động lâu dài",
         questions: [
           "671b1831cbf5c70d45d2ec28",
@@ -1011,7 +1015,7 @@ export class FormService {
 
         avgPoint = Math.round(avgPoint * 100) / 100;
         let stt = indexsTable[record.index - 1];
-        bodyTable4.push([stt, record.title, avgPoint]);
+        bodyTable4.push([record.index, record.title, avgPoint]);
       }
     }
 
@@ -1086,7 +1090,7 @@ export class FormService {
 
         avgPoint = Math.round(avgPoint * 100) / 100;
         let stt = indexsTable[record.index - 1];
-        bodyTable5.push([stt, record.title, avgPoint]);
+        bodyTable5.push([record.index, record.title, avgPoint]);
       }
     }
 
@@ -1157,7 +1161,7 @@ export class FormService {
 
         avgPoint = Math.round(avgPoint * 100) / 100;
         let stt = indexsTable[record.index - 1];
-        bodyTable6.push([stt, record.title, avgPoint]);
+        bodyTable6.push([record.index, record.title, avgPoint]);
       }
     }
 
@@ -1369,8 +1373,9 @@ export class FormService {
     // Lấy vị trí Y của dòng cuối cùng của bảng
     let finalY = (doc as any).lastAutoTable.finalY + 10;
     doc.text("Ghi chú:", 15, finalY);
-    doc.text("- Ko: Số người không ý kiến ở tiêu chí đánh giá đó;", 35, finalY);
-    doc.text("- TC: Tổng cộng số người tham gia phản hồi.", 35, finalY + 5);
+    //doc.text("- Ko: Số người không ý kiến ở tiêu chí đánh giá đó;", 35, finalY);
+    //doc.text("- TC: Tổng cộng số người tham gia phản hồi.", 35, finalY + 5);
+    doc.text("- TC: Tổng cộng số người tham gia phản hồi.", 35, finalY);
 
     doc.addPage("a4", "l");
     doc.setFontSize(12);
