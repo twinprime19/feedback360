@@ -22,7 +22,7 @@ export class AuthService {
   ) {}
 
   public async createToken(data: AuthPayload): Promise<TokenResult> {
-    let user: any = await this.userService.authToken(data.userName);
+    let user: any = await this.userService.authToken(data.id);
     if (!user) {
       user = {};
     }
@@ -59,7 +59,10 @@ export class AuthService {
     );
 
     if (!user || !check) {
-      throw new UnauthorizedException(401, "Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại.");
+      throw new UnauthorizedException(
+        401,
+        "Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại."
+      );
     } else {
       return user;
     }
