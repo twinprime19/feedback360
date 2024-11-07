@@ -993,31 +993,54 @@ export class FormService {
           },
         },
         { content: "Điểm số" },
+        { content: "Điểm số" },
+        { content: "Điểm số" },
+        { content: "Điểm số" },
       ],
     ];
 
+    let statisticSelf4: any = [];
+    let statisticSenior4: any = [];
+    let statisticPeer4: any = [];
+    let statisticSubordinate4: any = [];
     let bodyTable4: any = [];
     for (let record of statisticReviewQuestions) {
       let checkQ = lanh_dao_quan_ly_ids.find((item) => item === record.id);
       if (checkQ) {
-        let countPoint = 0;
-        if (record.avgPeerPoint != 0) countPoint = countPoint + 1;
-        if (record.avgSeniorPoint != 0) countPoint = countPoint + 1;
-        if (record.avgSubordinatePoint != 0) countPoint = countPoint + 1;
+        bodyTable4.push([
+          record.index,
+          record.title,
+          record.selfPoint,
+          record.avgSeniorPoint,
+          record.avgPeerPoint,
+          record.avgSubordinatePoint,
+        ]);
 
-        let avgPoint = 0;
-        if (countPoint > 0)
-          avgPoint =
-            (record.avgPeerPoint +
-              record.avgSeniorPoint +
-              record.avgSubordinatePoint) /
-            countPoint;
-
-        avgPoint = Math.round(avgPoint * 100) / 100;
-        let stt = indexsTable[record.index - 1];
-        bodyTable4.push([record.index, record.title, avgPoint]);
+        statisticSelf4.push(record.selfPoint.toFixed(1));
+        statisticSenior4.push(record.avgSeniorPoint.toFixed(1));
+        statisticPeer4.push(record.avgPeerPoint.toFixed(1));
+        statisticSubordinate4.push(record.avgSubordinatePoint.toFixed(1));
       }
     }
+
+    let statisticCriteria4 = [
+      {
+        title: "Tự đánh giá",
+        data: statisticSelf4,
+      },
+      {
+        title: "Cấp trên",
+        data: statisticSenior4,
+      },
+      {
+        title: "Ngang cấp",
+        data: statisticPeer4,
+      },
+      {
+        title: "Cấp dưới",
+        data: statisticSubordinate4,
+      },
+    ];
 
     let titleChart4 = "Biểu đồ Kỹ năng lãnh đạo";
 
@@ -1027,8 +1050,42 @@ export class FormService {
     }
 
     let dataChart4: any = [];
-    for (let record of bodyTable4) {
-      dataChart4.push(record[2]);
+    // for (let record of bodyTable4) {
+    //   dataChart4.push(record[2]);
+    // }
+    for (let record of statisticCriteria4) {
+      if (record.title === "Tự đánh giá") {
+        dataChart4.push({
+          label: "Tự đánh giá",
+          data: record.data,
+          borderColor: "rgb(146, 208, 80)",
+          fill: false,
+        });
+      }
+      if (record.title === "Cấp trên") {
+        dataChart4.push({
+          label: "Cấp trên",
+          data: record.data,
+          borderColor: "rgb(0, 176, 80)",
+          fill: false,
+        });
+      }
+      if (record.title === "Ngang cấp") {
+        dataChart4.push({
+          label: "Ngang cấp",
+          data: record.data,
+          borderColor: "rgb(255, 255, 0)",
+          fill: false,
+        });
+      }
+      if (record.title === "Cấp dưới") {
+        dataChart4.push({
+          label: "Cấp dưới",
+          data: record.data,
+          borderColor: "rgb(0, 176, 240)",
+          fill: false,
+        });
+      }
     }
 
     // 3. Kỹ năng tạo động lực nhóm
@@ -1066,33 +1123,56 @@ export class FormService {
           },
         },
         { content: "Điểm số" },
+        { content: "Điểm số" },
+        { content: "Điểm số" },
+        { content: "Điểm số" },
       ],
     ];
 
+    let statisticSelf5: any = [];
+    let statisticSenior5: any = [];
+    let statisticPeer5: any = [];
+    let statisticSubordinate5: any = [];
     let bodyTable5: any = [];
     for (let record of statisticReviewQuestions) {
       let checkQ = tao_dong_luc_nhom_question_ids.find(
         (item) => item === record.id
       );
       if (checkQ) {
-        let countPoint = 0;
-        if (record.avgPeerPoint != 0) countPoint = countPoint + 1;
-        if (record.avgSeniorPoint != 0) countPoint = countPoint + 1;
-        if (record.avgSubordinatePoint != 0) countPoint = countPoint + 1;
+        bodyTable5.push([
+          record.index,
+          record.title,
+          record.selfPoint,
+          record.avgSeniorPoint,
+          record.avgPeerPoint,
+          record.avgSubordinatePoint,
+        ]);
 
-        let avgPoint = 0;
-        if (countPoint > 0)
-          avgPoint =
-            (record.avgPeerPoint +
-              record.avgSeniorPoint +
-              record.avgSubordinatePoint) /
-            countPoint;
-
-        avgPoint = Math.round(avgPoint * 100) / 100;
-        let stt = indexsTable[record.index - 1];
-        bodyTable5.push([record.index, record.title, avgPoint]);
+        statisticSelf5.push(record.selfPoint.toFixed(1));
+        statisticSenior5.push(record.avgSeniorPoint.toFixed(1));
+        statisticPeer5.push(record.avgPeerPoint.toFixed(1));
+        statisticSubordinate5.push(record.avgSubordinatePoint.toFixed(1));
       }
     }
+
+    let statisticCriteria5 = [
+      {
+        title: "Tự đánh giá",
+        data: statisticSelf5,
+      },
+      {
+        title: "Cấp trên",
+        data: statisticSenior5,
+      },
+      {
+        title: "Ngang cấp",
+        data: statisticPeer5,
+      },
+      {
+        title: "Cấp dưới",
+        data: statisticSubordinate5,
+      },
+    ];
 
     let titleChart5 = "Biểu đồ Kỹ năng Tạo động lực nhóm";
 
@@ -1102,8 +1182,42 @@ export class FormService {
     }
 
     let dataChart5: any = [];
-    for (let record of bodyTable5) {
-      dataChart5.push(record[2]);
+    // for (let record of bodyTable5) {
+    //   dataChart5.push(record[2]);
+    // }
+    for (let record of statisticCriteria5) {
+      if (record.title === "Tự đánh giá") {
+        dataChart5.push({
+          label: "Tự đánh giá",
+          data: record.data,
+          borderColor: "rgb(146, 208, 80)",
+          fill: false,
+        });
+      }
+      if (record.title === "Cấp trên") {
+        dataChart5.push({
+          label: "Cấp trên",
+          data: record.data,
+          borderColor: "rgb(0, 176, 80)",
+          fill: false,
+        });
+      }
+      if (record.title === "Ngang cấp") {
+        dataChart5.push({
+          label: "Ngang cấp",
+          data: record.data,
+          borderColor: "rgb(255, 255, 0)",
+          fill: false,
+        });
+      }
+      if (record.title === "Cấp dưới") {
+        dataChart5.push({
+          label: "Cấp dưới",
+          data: record.data,
+          borderColor: "rgb(0, 176, 240)",
+          fill: false,
+        });
+      }
     }
 
     // 4. Kỹ năng giải quyết xung đột
@@ -1137,33 +1251,56 @@ export class FormService {
           },
         },
         { content: "Điểm số" },
+        { content: "Điểm số" },
+        { content: "Điểm số" },
+        { content: "Điểm số" },
       ],
     ];
 
+    let statisticSelf6: any = [];
+    let statisticSenior6: any = [];
+    let statisticPeer6: any = [];
+    let statisticSubordinate6: any = [];
     let bodyTable6: any = [];
     for (let record of statisticReviewQuestions) {
       let checkQ = giai_quyet_xung_dot_question_ids.find(
         (item) => item === record.id
       );
       if (checkQ) {
-        let countPoint = 0;
-        if (record.avgPeerPoint != 0) countPoint = countPoint + 1;
-        if (record.avgSeniorPoint != 0) countPoint = countPoint + 1;
-        if (record.avgSubordinatePoint != 0) countPoint = countPoint + 1;
+        bodyTable4.push([
+          record.index,
+          record.title,
+          record.selfPoint,
+          record.avgSeniorPoint,
+          record.avgPeerPoint,
+          record.avgSubordinatePoint,
+        ]);
 
-        let avgPoint = 0;
-        if (countPoint > 0)
-          avgPoint =
-            (record.avgPeerPoint +
-              record.avgSeniorPoint +
-              record.avgSubordinatePoint) /
-            countPoint;
-
-        avgPoint = Math.round(avgPoint * 100) / 100;
-        let stt = indexsTable[record.index - 1];
-        bodyTable6.push([record.index, record.title, avgPoint]);
+        statisticSelf4.push(record.selfPoint.toFixed(1));
+        statisticSenior4.push(record.avgSeniorPoint.toFixed(1));
+        statisticPeer4.push(record.avgPeerPoint.toFixed(1));
+        statisticSubordinate4.push(record.avgSubordinatePoint.toFixed(1));
       }
     }
+
+    let statisticCriteria6 = [
+      {
+        title: "Tự đánh giá",
+        data: statisticSelf6,
+      },
+      {
+        title: "Cấp trên",
+        data: statisticSenior6,
+      },
+      {
+        title: "Ngang cấp",
+        data: statisticPeer6,
+      },
+      {
+        title: "Cấp dưới",
+        data: statisticSubordinate6,
+      },
+    ];
 
     let titleChart6 = "Biểu đồ Kỹ năng Giải quyết xung đột";
 
@@ -1173,8 +1310,42 @@ export class FormService {
     }
 
     let dataChart6: any = [];
-    for (let record of bodyTable6) {
-      dataChart6.push(record[2]);
+    // for (let record of bodyTable6) {
+    //   dataChart6.push(record[2]);
+    // }
+    for (let record of statisticCriteria6) {
+      if (record.title === "Tự đánh giá") {
+        dataChart6.push({
+          label: "Tự đánh giá",
+          data: record.data,
+          borderColor: "rgb(146, 208, 80)",
+          fill: false,
+        });
+      }
+      if (record.title === "Cấp trên") {
+        dataChart6.push({
+          label: "Cấp trên",
+          data: record.data,
+          borderColor: "rgb(0, 176, 80)",
+          fill: false,
+        });
+      }
+      if (record.title === "Ngang cấp") {
+        dataChart6.push({
+          label: "Ngang cấp",
+          data: record.data,
+          borderColor: "rgb(255, 255, 0)",
+          fill: false,
+        });
+      }
+      if (record.title === "Cấp dưới") {
+        dataChart6.push({
+          label: "Cấp dưới",
+          data: record.data,
+          borderColor: "rgb(0, 176, 240)",
+          fill: false,
+        });
+      }
     }
 
     let chartName = (formInfo.user as User).userName + ".jpg";
@@ -1572,6 +1743,7 @@ export class FormService {
     doc.setFontSize(12);
     currentY = 20;
 
+    console.log("IVVV");
     doc.text("IV. PHÂN TÍCH TỔNG QUÁT", 15, currentY);
     doc.setTextColor(0, 0, 0);
 
@@ -1770,6 +1942,9 @@ export class FormService {
     const imageResponse7 = await axios.get(imageUrl7, {
       responseType: "arraybuffer",
     });
+
+    console.log("imagePath7", imagePath7);
+    console.log("imageResponse7", imageResponse7);
     fs.writeFileSync(imagePath7, imageResponse7.data);
 
     // Tạo PDF và chèn hình ảnh vào
@@ -1841,13 +2016,23 @@ export class FormService {
     currentY = currentY + 15;
 
     // biểu đồ 4
-    let imageUrl1 = await this.chartService.getLineChart(
-      titleChart4,
-      labelChart4,
-      dataChart4,
-      0,
-      5
-    );
+    // let imageUrl1 = await this.chartService.getLineChart(
+    //   titleChart4,
+    //   labelChart4,
+    //   dataChart4,
+    //   0,
+    //   5
+    // );
+
+    const chartConfig4 = {
+      type: "line",
+      data: {
+        labels: labelChart4,
+        datasets: dataChart4,
+      },
+    };
+    console.log("chartConfig4", chartConfig4);
+    let imageUrl1 = await this.chartService.getMultiLineChart(chartConfig4);
 
     const imagePath4 = path.join(directory, chartName);
     const imageResponse4 = await axios.get(imageUrl1, {

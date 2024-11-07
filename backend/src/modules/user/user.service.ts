@@ -433,7 +433,7 @@ export class UserService {
       .exec();
     if (!user) throw `Cập nhật thông tin tài khoản bị lỗi.`;
 
-    return user;
+    return await this.findOne(String(user._id));
   }
 
   // forgot password user
