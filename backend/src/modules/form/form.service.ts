@@ -938,13 +938,21 @@ export class FormService {
       }
 
       let sumAvgSelfPoint =
-        Math.round((sumSelfPoint / countSelfPoint) * 10) / 10;
+        countSelfPoint > 0
+          ? Math.round((sumSelfPoint / countSelfPoint) * 10) / 10
+          : 0;
       let sumAvgSeniorPoint =
-        Math.round((sumSeniorPoint / countSeniorPoint) * 10) / 10;
+        countSeniorPoint > 0
+          ? Math.round((sumSeniorPoint / countSeniorPoint) * 10) / 10
+          : 0;
       let sumAvgPeerPoint =
-        Math.round((sumPeerPoint / countPeerPoint) * 10) / 10;
+        countPeerPoint > 0
+          ? Math.round((sumPeerPoint / countPeerPoint) * 10) / 10
+          : 0;
       let sumAvgSubordinatePoint =
-        Math.round((sumSubordinatePoint / countSubordinatPoint) * 10) / 10;
+        countSubordinatPoint > 0
+          ? Math.round((sumSubordinatePoint / countSubordinatPoint) * 10) / 10
+          : 0;
 
       let data = [
         cate.stt,
@@ -2150,48 +2158,54 @@ export class FormService {
     //   5
     // );
 
-    const chartConfig4 = {
-      type: "line",
-      data: {
-        labels: labelChart4,
-        datasets: dataChart4,
-      },
-      options: {
-        title: {
-          display: true,
-          text: "titleChart",
-          fontSize: 12, // Kích thước font cho tiêu đề
-          fontColor: "#333333", // Màu cho tiêu đề
-        },
-        scales: {
-          xAxes: [
-            {
-              ticks: {
-                minRotation: 45, // Xoay labels 90 độ
-                maxRotation: 45,
-                fontSize: 10, // Cỡ chữ cho các label trục x
-                fontFamily: "Arial", // Font chữ cho các label trục x
-                fontColor: "#333333", // Màu chữ cho các label trục x
-              },
-            },
-          ],
-          yAxes: [
-            {
-              ticks: {
-                min: 0,
-                max: 5,
-                stepSize: 1,
-                fontSize: 10, // Cỡ chữ cho các label trục y
-                fontFamily: "Arial", // Font chữ cho các label trục y
-                fontColor: "#333333", // Màu chữ cho các label trục y
-              },
-            },
-          ],
-        },
-      },
-    };
-    console.log("chartConfig4", chartConfig4);
-    let imageUrl1 = await this.chartService.getMultiLineChart(chartConfig4);
+    // const chartConfig4 = {
+    //   type: "line",
+    //   data: {
+    //     labels: labelChart4,
+    //     datasets: dataChart4,
+    //   },
+    //   options: {
+    //     title: {
+    //       display: true,
+    //       text: "titleChart",
+    //       fontSize: 12, // Kích thước font cho tiêu đề
+    //       fontColor: "#333333", // Màu cho tiêu đề
+    //     },
+    //     scales: {
+    //       xAxes: [
+    //         {
+    //           ticks: {
+    //             minRotation: 45, // Xoay labels 90 độ
+    //             maxRotation: 45,
+    //             fontSize: 10, // Cỡ chữ cho các label trục x
+    //             fontFamily: "Arial", // Font chữ cho các label trục x
+    //             fontColor: "#333333", // Màu chữ cho các label trục x
+    //           },
+    //         },
+    //       ],
+    //       yAxes: [
+    //         {
+    //           ticks: {
+    //             min: 0,
+    //             max: 5,
+    //             stepSize: 1,
+    //             fontSize: 10, // Cỡ chữ cho các label trục y
+    //             fontFamily: "Arial", // Font chữ cho các label trục y
+    //             fontColor: "#333333", // Màu chữ cho các label trục y
+    //           },
+    //         },
+    //       ],
+    //     },
+    //   },
+    // };
+    // console.log("chartConfig4", chartConfig4);
+    let imageUrl1 = await this.chartService.getMultiLineChart(
+      titleChart4,
+      labelChart4,
+      dataChart4,
+      0,
+      5
+    );
 
     const imagePath4 = path.join(directory, chartName);
     const imageResponse4 = await axios.get(imageUrl1, {
