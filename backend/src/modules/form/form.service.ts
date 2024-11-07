@@ -1410,10 +1410,10 @@ export class FormService {
           record.avgSubordinatePoint,
         ]);
 
-        statisticSelf4.push(record.selfPoint.toFixed(1));
-        statisticSenior4.push(record.avgSeniorPoint.toFixed(1));
-        statisticPeer4.push(record.avgPeerPoint.toFixed(1));
-        statisticSubordinate4.push(record.avgSubordinatePoint.toFixed(1));
+        statisticSelf6.push(record.selfPoint.toFixed(1));
+        statisticSenior6.push(record.avgSeniorPoint.toFixed(1));
+        statisticPeer6.push(record.avgPeerPoint.toFixed(1));
+        statisticSubordinate6.push(record.avgSubordinatePoint.toFixed(1));
       }
     }
 
@@ -1877,7 +1877,6 @@ export class FormService {
     doc.setFontSize(12);
     currentY = 20;
 
-    console.log("IVVV");
     doc.text("IV. PHÂN TÍCH TỔNG QUÁT", 15, currentY);
     doc.setTextColor(0, 0, 0);
 
@@ -2077,8 +2076,6 @@ export class FormService {
       responseType: "arraybuffer",
     });
 
-    console.log("imagePath7", imagePath7);
-    console.log("imageResponse7", imageResponse7);
     fs.writeFileSync(imagePath7, imageResponse7.data);
 
     // Tạo PDF và chèn hình ảnh vào
