@@ -534,24 +534,24 @@ export class FormService {
       statisticSubordinate.push(record.avgSubordinatePoint.toFixed(1));
     }
 
-    let statisticCriteria = [
-      {
-        title: "Tự đánh giá",
-        data: statisticSelf,
-      },
-      {
-        title: "Cấp trên",
-        data: statisticSenior,
-      },
-      {
-        title: "Ngang cấp",
-        data: statisticPeer,
-      },
-      {
-        title: "Cấp dưới",
-        data: statisticSubordinate,
-      },
-    ];
+    // let statisticCriteria = [
+    //   {
+    //     title: "Tự đánh giá",
+    //     data: statisticSelf,
+    //   },
+    //   {
+    //     title: "Cấp trên",
+    //     data: statisticSenior,
+    //   },
+    //   {
+    //     title: "Ngang cấp",
+    //     data: statisticPeer,
+    //   },
+    //   {
+    //     title: "Cấp dưới",
+    //     data: statisticSubordinate,
+    //   },
+    // ];
 
     // câu hỏi góp ý
     let statisticAnswerQuestions: any = [];
