@@ -27,10 +27,10 @@ import { AuthPayload } from "../auth/auth.interface";
 import { Form } from "../form/form.model";
 import { Template } from "../template/template.model";
 import { EmailService } from "@app/processors/helper/helper.service.email";
-import excelJS from "exceljs";
-import moment from "moment";
 import { generatePassword } from "@app/utils/generatePassword";
 import { forgotPasswordEmail } from "@app/utils/template-email";
+import excelJS from "exceljs";
+import moment from "moment";
 
 @Injectable()
 export class UserService {
@@ -65,7 +65,8 @@ export class UserService {
       .exec()
       .then(
         (result) =>
-          result || Promise.reject(`Username "${userName}" isn't found!`)
+          result ||
+          Promise.reject(`Tên tài khoản "${userName}" không được tìm thấy!`)
       );
   }
 
@@ -83,11 +84,12 @@ export class UserService {
       .exec()
       .then(
         (result) =>
-          result || Promise.reject(`Username "${userName}" isn't found!`)
+          result ||
+          Promise.reject(`Tên tài khoản "${userName}" không được tìm thấy!`)
       );
 
     const check = await this.comparePassword(password.password, user.password);
-    if (!check) throw `The current password is not right!`;
+    if (!check) throw `Mật khẩu hiện tại không đúng!`;
 
     if (password.newPassword) {
       const hashedPassword = await this.hashPassword(password.newPassword);
@@ -101,7 +103,7 @@ export class UserService {
         { new: true }
       )
       .exec();
-    if (!userObj) throw `User id "${user._id}" isn't found!`;
+    if (!userObj) throw `Người dùng "${user._id}" không được tìm thấy!`;
     return userObj;
   }
 
@@ -111,7 +113,7 @@ export class UserService {
       .findOne({ userName: CreateSuperAdminDto.userName })
       .exec();
     if (existedUserName)
-      throw `Username "${CreateSuperAdminDto.userName}" is existed!`;
+      throw `Tên tài khoản "${CreateSuperAdminDto.userName}" đã tồn tại!`;
 
     let user = await this.userModel.create(CreateSuperAdminDto);
     return await this.findOne(String(user._id));
@@ -123,7 +125,7 @@ export class UserService {
       .findOne({ userName: createUserDto.userName })
       .exec();
     if (existedUserName)
-      throw `Username "${createUserDto.userName}" is existed!`;
+      throw `Tên tài khoản "${createUserDto.userName}" đã tồn tại!`;
 
     createUserDto.fullname = createUserDto.fullname
       ? createUserDto.fullname
@@ -177,7 +179,8 @@ export class UserService {
       .populate(["avatar"])
       .exec()
       .then(
-        (result) => result || Promise.reject(`User id "${userID}" isn't found`)
+        (result) =>
+          result || Promise.reject(`Người dùng"${userID}" không được tìm thấy`)
       );
   }
 
@@ -192,7 +195,9 @@ export class UserService {
       .then(
         (result) =>
           result ||
-          Promise.reject(`Username "${userName}" isn't found or is inactive!`)
+          Promise.reject(
+            `Tên tài khoản "${userName}" không được tìm thấy hoặc không hoạt động!`
+          )
       );
   }
 
@@ -204,7 +209,7 @@ export class UserService {
     const user = await this.userModel
       .findByIdAndUpdate(userID, updateUserDto, { new: true })
       .exec();
-    if (!user) throw `User id "${userID}" isn't found`;
+    if (!user) throw `Người dùng"${userID}" không được tìm thấy`;
     return await this.findOne(String(user._id));
   }
 
@@ -216,7 +221,7 @@ export class UserService {
     const user = await this.userModel
       .findByIdAndUpdate(userID, { status: status }, { new: true })
       .exec();
-    if (!user) throw `User id "${userID}" isn't found`;
+    if (!user) throw `Người dùng"${userID}" không được tìm thấy`;
     return await this.findOne(String(user._id));
   }
 
@@ -228,7 +233,7 @@ export class UserService {
     let userInfo = await this.findByUserName(user.userName);
 
     const userObj = await this.userModel.findByIdAndRemove(userID).exec();
-    if (!userObj) throw `User id "${userID}" isn't found!`;
+    if (!userObj) throw `Người dùng"${userID}" không được tìm thấy!`;
     return userObj;
   }
 
@@ -237,7 +242,7 @@ export class UserService {
     let userInfo = await this.findByUserName(user.userName);
 
     const users = await this.userModel.find({ _id: { $in: userIDs } }).exec();
-    if (!users) throw `Users aren't found!`;
+    if (!users) throw `Người dùng không được tìm thấy!`;
     return await this.userModel.deleteMany({ _id: { $in: userIDs } }).exec();
   }
 
@@ -415,7 +420,7 @@ export class UserService {
         _id: { $ne: checkUsername._id },
       })
       .exec();
-    if (checkExistEmail) throw `Email "${newEmailAddress}" đã tồn tại.`;
+    if (checkExistEmail) throw `E-mail "${newEmailAddress}" đã tồn tại.`;
 
     let data = {
       userName: newUserName,

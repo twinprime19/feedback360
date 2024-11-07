@@ -1133,7 +1133,7 @@ export class FormService {
       },
     ];
 
-    let titleChart4 = "Biểu đồ Kỹ năng lãnh đạo";
+    let titleChart4 = "Biểu đồ Kỹ năng Lãnh đạo";
 
     let labelChart4: any = [];
     for (let record of bodyTable4) {
@@ -1864,15 +1864,7 @@ export class FormService {
 
     // Add four section
     doc.setFont("Roboto", "bold");
-    currentY = this.checkCoordinatesY(
-      doc,
-      currentY,
-      currentY + 85,
-      maxHeight + 25
-    );
-    currentY = currentY != 20 ? currentY + 10 : currentY;
     doc.setTextColor(223, 153, 7);
-
     doc.addPage("a4", "l");
     doc.setFontSize(12);
     currentY = 20;
