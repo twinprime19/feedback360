@@ -600,61 +600,6 @@ export class FormService {
       statisticAnswerQuestions.push(statisticQuestion);
     }
 
-    let indexsTable = [
-      "1.1",
-      "1.2",
-      "1.3",
-      "1.4",
-      "1.5",
-      "1.6",
-      "1.7",
-      "2.1",
-      "2.2",
-      "2.3",
-      "2.4",
-      "3.1",
-      "3.2",
-
-      "1.1",
-      "1.2",
-      "1.3",
-      "1.4",
-      "1.5",
-      "1.6",
-      "1.7",
-      "1.8",
-      "1.9",
-      "1.10",
-      "1.11",
-      "2.1",
-      "2.2",
-      "2.3",
-      "2.4",
-      "2.5",
-      "2.6",
-      "3.1",
-      "3.2",
-      "3.3",
-      "3.4",
-
-      "1.1",
-      "1.2",
-      "1.3",
-      "2.1",
-      "2.2",
-      "2.3",
-      "3.1",
-      "3.2",
-      "3.3",
-      "4.1",
-      "4.2",
-      "4.3",
-      "4.4",
-      "5.1",
-      "5.2",
-      "5.3",
-    ];
-
     // tạo bảng đầu tiên
     const headRows1 = [
       [
@@ -816,7 +761,7 @@ export class FormService {
       },
       {
         stt: "2",
-        title: "Ra quyết định và giải quyết vấn đề:",
+        title: "Ra quyết định và giải quyết vấn đề",
         questions: [
           "671b13f1cbf5c70d45d2eb4d",
           "671b13fccbf5c70d45d2eb52",
@@ -848,7 +793,7 @@ export class FormService {
       },
       {
         stt: "5",
-        title: "Tạo cơ hội phát triển:",
+        title: "Tạo cơ hội phát triển",
         questions: [
           "671b1740cbf5c70d45d2ebb2",
           "671b174acbf5c70d45d2ebb7",
@@ -860,7 +805,7 @@ export class FormService {
       },
       {
         stt: "6",
-        title: "Đạo đức và liêm chính:",
+        title: "Đạo đức và liêm chính",
         questions: [
           "671b177ccbf5c70d45d2ebd0",
           "671b1784cbf5c70d45d2ebd5",
@@ -879,7 +824,7 @@ export class FormService {
       },
       {
         stt: "8",
-        title: "Công bằng, vô tư:",
+        title: "Công bằng, vô tư",
         questions: [
           "671b17c9cbf5c70d45d2ebf3",
           "671b17dacbf5c70d45d2ebf8",
@@ -917,42 +862,124 @@ export class FormService {
     ];
 
     const headRows7 = [
-      [{ content: "" }, { content: "" }, { content: "Điểm số" }],
+      [
+        { content: "", colSpan: 1, rowSpan: 2 },
+        {
+          content: "TỔNG QUAN",
+          colSpan: 1,
+          rowSpan: 2,
+          styles: {
+            halign: "left",
+            valign: "middle",
+          },
+        },
+        { content: "Điểm số trung bình", colSpan: 4, rowSpan: 1 },
+      ],
+      [
+        {
+          content: "Tự đánh giá",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp trên",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Ngang cấp",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp dưới",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+      ],
     ];
 
+    let statisticSelf7: any = [];
+    let statisticSenior7: any = [];
+    let statisticPeer7: any = [];
+    let statisticSubordinate7: any = [];
     let bodyTable7: any = [];
     for (let cate of summary_meta) {
-      let sumAvgPoint = 0;
-      let countAvgPoint = 0;
+      let sumSelfPoint = 0;
+      let sumSeniorPoint = 0;
+      let sumPeerPoint = 0;
+      let sumSubordinatePoint = 0;
+      let countSelfPoint = 0;
+      let countSeniorPoint = 0;
+      let countPeerPoint = 0;
+      let countSubordinatPoint = 0;
 
       for (let record of statisticReviewQuestions) {
         let checkQ = cate.questions.find((item) => item === record.id);
         if (checkQ) {
-          let countPoint = 0;
-          if (record.avgPeerPoint != 0) countPoint = countPoint + 1;
-          if (record.avgSeniorPoint != 0) countPoint = countPoint + 1;
-          if (record.avgSubordinatePoint != 0) countPoint = countPoint + 1;
-
-          let avgPoint = 0;
-          if (countPoint > 0)
-            avgPoint =
-              (record.avgPeerPoint +
-                record.avgSeniorPoint +
-                record.avgSubordinatePoint) /
-              countPoint;
-
-          if (avgPoint != 0) {
-            sumAvgPoint = sumAvgPoint + avgPoint;
-            countAvgPoint = countAvgPoint + 1;
+          if (record.selfPoint != 0) {
+            sumSelfPoint = sumSelfPoint + record.selfPoint;
+            countSelfPoint = countSelfPoint + 1;
+          }
+          if (record.avgSeniorPoint != 0) {
+            sumSeniorPoint = sumSeniorPoint + record.avgSeniorPoint;
+            countSeniorPoint = countSeniorPoint + 1;
+          }
+          if (record.avgPeerPoint != 0) {
+            sumPeerPoint = sumPeerPoint + record.avgPeerPoint;
+            countPeerPoint = countPeerPoint + 1;
+          }
+          if (record.avgSubordinatePoint != 0) {
+            sumSubordinatePoint =
+              sumSubordinatePoint + record.avgSubordinatePoint;
+            countSubordinatPoint = countSubordinatPoint + 1;
           }
         }
       }
 
-      sumAvgPoint = Math.round((sumAvgPoint / countAvgPoint) * 100) / 100;
+      let sumAvgSelfPoint =
+        Math.round((sumSelfPoint / countSelfPoint) * 10) / 10;
+      let sumAvgSeniorPoint =
+        Math.round((sumSeniorPoint / countSeniorPoint) * 10) / 10;
+      let sumAvgPeerPoint =
+        Math.round((sumPeerPoint / countPeerPoint) * 10) / 10;
+      let sumAvgSubordinatePoint =
+        Math.round((sumSubordinatePoint / countSubordinatPoint) * 10) / 10;
 
-      let data = [cate.stt, cate.title, sumAvgPoint];
+      let data = [
+        cate.stt,
+        cate.title,
+        sumAvgSelfPoint,
+        sumAvgSeniorPoint,
+        sumAvgPeerPoint,
+        sumAvgSubordinatePoint,
+      ];
       bodyTable7.push(data);
+
+      statisticSelf7.push(sumAvgSelfPoint.toFixed(1));
+      statisticSenior7.push(sumAvgSeniorPoint.toFixed(1));
+      statisticPeer7.push(sumAvgPeerPoint.toFixed(1));
+      statisticSubordinate7.push(sumAvgSubordinatePoint.toFixed(1));
     }
+
+    let statisticCriteria7 = [
+      {
+        title: "Tự đánh giá",
+        data: statisticSelf7,
+      },
+      {
+        title: "Cấp trên",
+        data: statisticSenior7,
+      },
+      {
+        title: "Ngang cấp",
+        data: statisticPeer7,
+      },
+      {
+        title: "Cấp dưới",
+        data: statisticSubordinate7,
+      },
+    ];
 
     let titleChart7 = "Biểu đồ Tổng hợp";
 
@@ -962,8 +989,42 @@ export class FormService {
     }
 
     let dataChart7: any = [];
-    for (let record of bodyTable7) {
-      dataChart7.push(record[2]);
+    // for (let record of bodyTable7) {
+    //   dataChart7.push(record[2]);
+    // }
+    for (let record of statisticCriteria7) {
+      if (record.title === "Tự đánh giá") {
+        dataChart7.push({
+          label: "Tự đánh giá",
+          data: record.data,
+          borderColor: "rgb(146, 208, 80)",
+          fill: false,
+        });
+      }
+      if (record.title === "Cấp trên") {
+        dataChart7.push({
+          label: "Cấp trên",
+          data: record.data,
+          borderColor: "rgb(0, 176, 80)",
+          fill: false,
+        });
+      }
+      if (record.title === "Ngang cấp") {
+        dataChart7.push({
+          label: "Ngang cấp",
+          data: record.data,
+          borderColor: "rgb(255, 255, 0)",
+          fill: false,
+        });
+      }
+      if (record.title === "Cấp dưới") {
+        dataChart7.push({
+          label: "Cấp dưới",
+          data: record.data,
+          borderColor: "rgb(0, 176, 240)",
+          fill: false,
+        });
+      }
     }
 
     // 2. Kỹ năng lãnh đạo, quản lý
@@ -982,20 +1043,42 @@ export class FormService {
       "671b141ecbf5c70d45d2eb61",
       "671b142acbf5c70d45d2eb66",
     ];
+
     const headRows4 = [
       [
-        { content: "I" },
+        { content: "I", colSpan: 1, rowSpan: 2 },
         {
           content: "KỸ NĂNG LÃNH ĐẠO",
+          colSpan: 1,
+          rowSpan: 2,
           styles: {
             halign: "left",
             valign: "middle",
           },
         },
-        { content: "Điểm số" },
-        { content: "Điểm số" },
-        { content: "Điểm số" },
-        { content: "Điểm số" },
+        { content: "Điểm số trung bình", colSpan: 4, rowSpan: 1 },
+      ],
+      [
+        {
+          content: "Tự đánh giá",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp trên",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Ngang cấp",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp dưới",
+          colSpan: 1,
+          rowSpan: 1,
+        },
       ],
     ];
 
@@ -1112,20 +1195,42 @@ export class FormService {
       "671b178bcbf5c70d45d2ebda",
       "671b1795cbf5c70d45d2ebdf",
     ];
+
     const headRows5 = [
       [
-        { content: "II" },
+        { content: "II", colSpan: 1, rowSpan: 2 },
         {
           content: "KỸ NĂNG TẠO ĐỘNG LỰC CHO NHÓM",
+          colSpan: 1,
+          rowSpan: 2,
           styles: {
             halign: "left",
             valign: "middle",
           },
         },
-        { content: "Điểm số" },
-        { content: "Điểm số" },
-        { content: "Điểm số" },
-        { content: "Điểm số" },
+        { content: "Điểm số trung bình", colSpan: 4, rowSpan: 1 },
+      ],
+      [
+        {
+          content: "Tự đánh giá",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp trên",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Ngang cấp",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp dưới",
+          colSpan: 1,
+          rowSpan: 1,
+        },
       ],
     ];
 
@@ -1242,18 +1347,39 @@ export class FormService {
 
     const headRows6 = [
       [
-        { content: "III" },
+        { content: "III", colSpan: 1, rowSpan: 2 },
         {
           content: "KỸ NĂNG GIẢI QUYẾT XUNG ĐỘT",
+          colSpan: 1,
+          rowSpan: 2,
           styles: {
             halign: "left",
             valign: "middle",
           },
         },
-        { content: "Điểm số" },
-        { content: "Điểm số" },
-        { content: "Điểm số" },
-        { content: "Điểm số" },
+        { content: "Điểm số trung bình", colSpan: 4, rowSpan: 1 },
+      ],
+      [
+        {
+          content: "Tự đánh giá",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp trên",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Ngang cấp",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp dưới",
+          colSpan: 1,
+          rowSpan: 1,
+        },
       ],
     ];
 
@@ -2029,6 +2155,39 @@ export class FormService {
       data: {
         labels: labelChart4,
         datasets: dataChart4,
+      },
+      options: {
+        title: {
+          display: true,
+          text: "titleChart",
+          fontSize: 12, // Kích thước font cho tiêu đề
+          fontColor: "#333333", // Màu cho tiêu đề
+        },
+        scales: {
+          xAxes: [
+            {
+              ticks: {
+                minRotation: 45, // Xoay labels 90 độ
+                maxRotation: 45,
+                fontSize: 10, // Cỡ chữ cho các label trục x
+                fontFamily: "Arial", // Font chữ cho các label trục x
+                fontColor: "#333333", // Màu chữ cho các label trục x
+              },
+            },
+          ],
+          yAxes: [
+            {
+              ticks: {
+                min: 0,
+                max: 5,
+                stepSize: 1,
+                fontSize: 10, // Cỡ chữ cho các label trục y
+                fontFamily: "Arial", // Font chữ cho các label trục y
+                fontColor: "#333333", // Màu chữ cho các label trục y
+              },
+            },
+          ],
+        },
       },
     };
     console.log("chartConfig4", chartConfig4);
