@@ -121,17 +121,32 @@ export class UserService {
 
   // create user
   async create(createUserDto: CreateUserDto): Promise<MongooseDoc<User>> {
+    let userName = createUserDto.userName.trim();
+    let emailAddress = createUserDto.emailAddress.trim();
+    let fullname = createUserDto.fullname
+      ? createUserDto.fullname.trim()
+      : userName;
+    let position = createUserDto.position ? createUserDto.position.trim() : "";
+    let status = createUserDto.status;
+
     const existedUserName = await this.userModel
-      .findOne({ userName: createUserDto.userName })
+      .findOne({ userName: userName })
       .exec();
-    if (existedUserName)
-      throw `Tên tài khoản "${createUserDto.userName}" đã tồn tại!`;
+    if (existedUserName) throw `Tên tài khoản "${userName}" đã tồn tại!`;
 
-    createUserDto.fullname = createUserDto.fullname
-      ? createUserDto.fullname
-      : createUserDto.userName;
+    let password = await this.hashPassword("123456");
 
-    let userInfo = await this.userModel.create(createUserDto);
+    let data = {
+      userName: userName,
+      fullname: fullname,
+      password: password,
+      emailAddress: emailAddress,
+      position: position,
+      status: status,
+      isSuperAdmin: false,
+    };
+
+    let userInfo = await this.userModel.create(data);
 
     let templates = await this.templateModel
       .find({ deletedAt: null })
@@ -206,8 +221,30 @@ export class UserService {
     userID: string,
     updateUserDto: UpdateUserDto
   ): Promise<MongooseDoc<User>> {
+    let userName = updateUserDto.userName.trim();
+    let emailAddress = updateUserDto.emailAddress.trim();
+    let fullname = updateUserDto.fullname
+      ? updateUserDto.fullname.trim()
+      : userName;
+    let position = updateUserDto.position ? updateUserDto.position.trim() : "";
+    let status = updateUserDto.status;
+
+    const existedUserName = await this.userModel
+      .findOne({ userName: userName, _id: { $ne: userID } })
+      .exec();
+    if (existedUserName) throw `Tên tài khoản "${userName}" đã tồn tại!`;
+
+    let data = {
+      userName: userName,
+      fullname: fullname,
+      emailAddress: emailAddress,
+      position: position,
+      status: status,
+      isSuperAdmin: false,
+    };
+
     const user = await this.userModel
-      .findByIdAndUpdate(userID, updateUserDto, { new: true })
+      .findByIdAndUpdate(userID, data, { new: true })
       .exec();
     if (!user) throw `Người dùng"${userID}" không được tìm thấy`;
     return await this.findOne(String(user._id));

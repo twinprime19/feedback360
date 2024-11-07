@@ -49,9 +49,6 @@ export class UserController {
   async create(
     @Body() createUserDto: CreateUserDto
   ): Promise<MongooseDoc<User>> {
-    createUserDto.password = await this.userService.hashPassword(
-      createUserDto.password
-    );
     return this.userService.create(createUserDto);
   }
 

@@ -24,11 +24,6 @@ export class CreateUserDto {
   @IsString()
   userName: string;
 
-  @IsNotEmpty({ message: "password?" })
-  @IsDefined()
-  @IsString()
-  password: string;
-
   @IsString()
   @IsNotEmpty()
   fullname: string;
