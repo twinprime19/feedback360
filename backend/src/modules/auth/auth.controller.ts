@@ -37,23 +37,23 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get("auth-token")
   getProfile(@Request() req) {
-    let userName = req.user.userName;
-    return this.userService.authToken(userName);
+    let userID = req.user.id;
+    return this.userService.authToken(userID);
   }
 
   // change password
   @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Post("change-password")
   changePassword(@Request() req, @Body() password: PasswordDTO) {
-    let userName = req.user.userName;
-    return this.userService.changePassword(userName, password);
+    let userID = req.user.id;
+    return this.userService.changePassword(userID, password);
   }
 
   @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Post("/update-profile")
   updateProfile(@Request() req, @Body() user: UpdateUserSADto) {
-    let userName = req.user.userName;
-    return this.userService.updateProfile(userName, user);
+    let userID = req.user.id;
+    return this.userService.updateProfile(userID, user);
   }
 
   // forgot password user

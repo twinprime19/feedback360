@@ -47,7 +47,7 @@ export class MediaService {
       .exec()
       .then(
         (result) =>
-          result || Promise.reject(`Media id "${mediaID}" isn't found!`)
+          result || Promise.reject(`Media id "${mediaID}" isn't found.`)
       );
   }
 
@@ -68,7 +68,7 @@ export class MediaService {
   }
 
   public async uploadMultiple(files: any): Promise<MongooseDoc<any>> {
-    if (!files.length) throw `Files isn't found!`;
+    if (!files.length) throw `Files isn't found.`;
 
     let data: object[] = [];
     for (let file of files) {
@@ -127,7 +127,7 @@ export class MediaService {
     const existedMedia = await this.mediaModel
       .findOne({ _id: mediaID, deletedAt: null })
       .exec();
-    if (!existedMedia) throw `Media id "${mediaID}" isn't found!`;
+    if (!existedMedia) throw `Media id "${mediaID}" isn't found.`;
 
     await this.mediaModel
       .findByIdAndUpdate(mediaID, newMedia, { new: true })
@@ -147,7 +147,7 @@ export class MediaService {
         { new: true }
       )
       .exec();
-    if (!media) throw `Media id "${mediaID}" isn't found!`;
+    if (!media) throw `Media id "${mediaID}" isn't found.`;
     return media;
   }
 
@@ -156,7 +156,7 @@ export class MediaService {
     const medias = await this.mediaModel
       .find({ _id: { $in: mediaIDs } })
       .exec();
-    if (!medias) throw `List medias aren't found!`;
+    if (!medias) throw `List medias aren't found.`;
 
     return await this.mediaModel
       .updateMany(

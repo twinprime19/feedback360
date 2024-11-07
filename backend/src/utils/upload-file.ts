@@ -11,7 +11,7 @@ export const uploadThumbnail = async (file: any) => {
   let maxMB = 20;
   let maxBytes = maxMB * 1024 * 1024;
   if (file && file.size > maxBytes) {
-    throw `File #${file.originalname} too big !`;
+    throw `File #${file.originalname} too big .`;
   }
   //make dir current YYYY/MM/DD
   fs.mkdir(
@@ -81,7 +81,7 @@ export const uploadPdf = async (file: any) => {
   let maxMB = 20;
   let maxBytes = maxMB * 1024 * 1024;
   if (file && file.size > maxBytes) {
-    throw `File #${file.originalname} too big !`;
+    throw `File #${file.originalname} too big .`;
   }
   let uploadPath =
     require("path").resolve(uploadConfig.PATH_FOLDER) +
@@ -159,7 +159,7 @@ export const importFileExcel = async (file: any) => {
   let maxMB = 20;
   let maxBytes = maxMB * 1024 * 1024;
   if (file && file.size > maxBytes) {
-    throw `File #${file.originalname} too big !`;
+    throw `File #${file.originalname} too big .`;
   }
 
   try {
@@ -171,7 +171,7 @@ export const importFileExcel = async (file: any) => {
     let data = xlsx.utils.sheet_to_json(worksheet);
     return data;
   } catch (error) {
-    throw `Data of file ${file.originalname} is error !`;
+    throw `Data of file ${file.originalname} is error .`;
   }
 };
 
@@ -179,7 +179,7 @@ export const importFileTxt = async (file: any) => {
   let maxMB = 20;
   let maxBytes = maxMB * 1024 * 1024;
   if (file && file.size > maxBytes) {
-    throw `File #${file.originalname} too big !`;
+    throw `File #${file.originalname} too big .`;
   }
 
   try {
@@ -201,6 +201,6 @@ export const importFileTxt = async (file: any) => {
 
     return rows;
   } catch (error) {
-    throw `Data of file ${file.originalname} is error !`;
+    throw `Data of file ${file.originalname} is error .`;
   }
 };
