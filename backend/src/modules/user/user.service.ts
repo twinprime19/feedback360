@@ -271,11 +271,8 @@ export class UserService {
     const data = users.map((item) => ({
       FullName: item.fullname,
       UserName: item.userName,
-      Password: item.password,
       Email: item.emailAddress,
-      Phone: item.phone,
       Position: item.position,
-      Gender: item.gender === GenderState.Male ? "Nam" : "Nữ",
     }));
 
     const listUsers = JSON.parse(JSON.stringify(data));
@@ -288,8 +285,6 @@ export class UserService {
       { header: "Tên tài khoản", key: "UserName", width: 35 },
       { header: "E-mail", key: "Email", width: 35 },
       { header: "Chức vụ", key: "Position", width: 35 },
-      { header: "Số điện thoại", key: "Phone", width: 35 },
-      { header: "Giới tính", key: "Gender", width: 35 },
     ];
 
     listUsers.forEach((user) => {
@@ -336,14 +331,14 @@ export class UserService {
       if (!fullname)
         throw `Họ tên tại dòng thứ 2 "${index + 2}" là trường bắt buộc!`;
 
-      let gender = GenderState.Male;
-      if (
-        user["Giới tính"] &&
-        user["Giới tính"].trim() &&
-        user["Giới tính"].trim().toLowerCase() == "nam"
-      )
-        gender = GenderState.Male;
-      else gender = GenderState.Female;
+      // let gender = GenderState.Male;
+      // if (
+      //   user["Giới tính"] &&
+      //   user["Giới tính"].trim() &&
+      //   user["Giới tính"].trim().toLowerCase() == "nam"
+      // )
+      //   gender = GenderState.Male;
+      // else gender = GenderState.Female;
 
       let data = {
         fullname: fullname,
@@ -351,9 +346,6 @@ export class UserService {
         password: password,
         emailAddress: user["E-mail"] ? user["E-mail"] : "",
         position: user["Chức vụ"] ? user["Chức vụ"] : "",
-        phone: user["Số điện thoại"] ? user["Số điện thoại"] : "",
-        address: user["Địa chỉ"] ? user["Địa chỉ"] : "",
-        gender: gender,
         status: 1,
         isSuperAdmin: false,
         createdBy: userInfo._id,
@@ -427,10 +419,6 @@ export class UserService {
       fullname: userDTO.fullname ? userDTO.fullname : "",
       emailAddress: newEmailAddress,
       position: userDTO.position ? userDTO.position : "",
-      phone: userDTO.phone ? userDTO.phone : "",
-      address: userDTO.address ? userDTO.address : "",
-      avatar: userDTO.avatar ? userDTO.avatar : null,
-      gender: userDTO.gender ? userDTO.gender : GenderState.Male,
     };
 
     const user = await this.userModel

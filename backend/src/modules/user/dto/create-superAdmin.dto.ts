@@ -30,7 +30,7 @@ export class CreateSuperAdminDto {
 
   @IsString()
   @IsOptional()
-  phone?: string;
+  position: string;
 
   @IsBoolean()
   isSuperAdmin: boolean;

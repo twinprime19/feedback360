@@ -1,6 +1,5 @@
 import {
   IsString,
-  IsBoolean,
   IsInt,
   IsOptional,
   IsEmail,
@@ -25,23 +24,8 @@ export class UpdateUserDto {
   @IsOptional()
   position: string;
 
-  @IsString()
-  @IsOptional()
-  phone: string;
-
-  @IsString()
-  @IsOptional()
-  address: string;
-
-  @IsBoolean()
-  @IsOptional()
-  isSuperAdmin?: boolean;
-
   @IsInt()
   status: number;
-
-  @IsInt()
-  gender: number;
 }
 
 export class UpdateUserSADto {
@@ -54,10 +38,6 @@ export class UpdateUserSADto {
   fullname: string;
 
   @IsString()
-  @IsOptional()
-  password?: string;
-
-  @IsString()
   @IsEmail()
   @IsNotEmpty()
   emailAddress: string;
@@ -65,28 +45,4 @@ export class UpdateUserSADto {
   @IsString()
   @IsOptional()
   position: string;
-
-  @IsString()
-  @IsOptional()
-  phone: string;
-
-  @IsString()
-  @IsOptional()
-  address: string;
-
-  @IsBoolean()
-  @IsOptional()
-  isSuperAdmin?: boolean;
-
-  @IsInt()
-  @IsOptional()
-  status: number;
-
-  @IsInt()
-  @IsOptional()
-  gender: number;
-
-  @IsString()
-  @IsOptional()
-  avatar: string;
 }

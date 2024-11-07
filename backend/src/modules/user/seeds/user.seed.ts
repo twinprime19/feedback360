@@ -20,6 +20,7 @@ export class UserSeed {
       emailAddress: "supperAdmin@gmail.com",
       fullname: "Super Admin",
       password: hashPassword,
+      position: "",
       isSuperAdmin: true,
       status: UserStatus.ONLINE,
     };

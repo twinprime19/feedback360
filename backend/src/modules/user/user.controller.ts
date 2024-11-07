@@ -70,8 +70,8 @@ export class UserController {
       paginateQuery.$or = [
         { fullname: keywordRegExp },
         { userName: keywordRegExp },
-        { phone: keywordRegExp },
         { emailAddress: keywordRegExp },
+        { position: keywordRegExp },
       ];
     }
     // status
@@ -125,7 +125,6 @@ export class UserController {
       paginateQuery.$or = [
         { fullname: keywordRegExp },
         { userName: keywordRegExp },
-        { phone: keywordRegExp },
         { emailAddress: keywordRegExp },
         { position: keywordRegExp },
       ];

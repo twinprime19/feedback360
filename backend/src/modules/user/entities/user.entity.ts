@@ -79,25 +79,8 @@ export class User {
 
   @IsString()
   @IsOptional()
-  @prop({ required: false, default: "" })
-  phone: string;
-
-  @IsString()
-  @IsOptional()
-  @prop({ required: false, default: "" })
-  address: string;
-
-  @IsString()
-  @IsOptional()
   @prop({ ref: () => Media, default: null })
   avatar: Ref<Media>;
-
-  @IsIn(USER_GENDER_STATES)
-  @IsInt()
-  @IsDefined()
-  @IsOptional()
-  @prop({ enum: GenderState, default: GenderState.Male, index: true })
-  gender: GenderState;
 
   @IsIn(USER_STATUS)
   @IsInt()

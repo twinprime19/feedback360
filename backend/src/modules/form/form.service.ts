@@ -1513,9 +1513,7 @@ export class FormService {
     const textWidth1 = doc.getTextWidth(text1);
     const xCoordinate1 = (pageWidth - textWidth1) / 2; // Tính toạ độ x để căn giữa
 
-    const text2 = `${
-      (formInfo.user as User).gender === GenderState.Male ? "Anh" : "Chị"
-    } ${(formInfo.user as User).fullname} – ${
+    const text2 = `${(formInfo.user as User).fullname} – ${
       (formInfo.user as User).position
     }`;
     const textWidth2 = doc.getTextWidth(text2);
