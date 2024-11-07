@@ -1401,7 +1401,7 @@ export class FormService {
         (item) => item === record.id
       );
       if (checkQ) {
-        bodyTable4.push([
+        bodyTable6.push([
           record.index,
           record.title,
           record.selfPoint,
@@ -2064,7 +2064,7 @@ export class FormService {
     currentY = currentY + 15;
 
     // biểu đồ tổng hợp
-    let imageUrl7 = await this.chartService.getLineChart(
+    let imageUrl7 = await this.chartService.getMultiLineChart(
       titleChart7,
       labelChart7,
       dataChart7,
@@ -2150,56 +2150,7 @@ export class FormService {
     currentY = currentY + 15;
 
     // biểu đồ 4
-    // let imageUrl1 = await this.chartService.getLineChart(
-    //   titleChart4,
-    //   labelChart4,
-    //   dataChart4,
-    //   0,
-    //   5
-    // );
-
-    // const chartConfig4 = {
-    //   type: "line",
-    //   data: {
-    //     labels: labelChart4,
-    //     datasets: dataChart4,
-    //   },
-    //   options: {
-    //     title: {
-    //       display: true,
-    //       text: "titleChart",
-    //       fontSize: 12, // Kích thước font cho tiêu đề
-    //       fontColor: "#333333", // Màu cho tiêu đề
-    //     },
-    //     scales: {
-    //       xAxes: [
-    //         {
-    //           ticks: {
-    //             minRotation: 45, // Xoay labels 90 độ
-    //             maxRotation: 45,
-    //             fontSize: 10, // Cỡ chữ cho các label trục x
-    //             fontFamily: "Arial", // Font chữ cho các label trục x
-    //             fontColor: "#333333", // Màu chữ cho các label trục x
-    //           },
-    //         },
-    //       ],
-    //       yAxes: [
-    //         {
-    //           ticks: {
-    //             min: 0,
-    //             max: 5,
-    //             stepSize: 1,
-    //             fontSize: 10, // Cỡ chữ cho các label trục y
-    //             fontFamily: "Arial", // Font chữ cho các label trục y
-    //             fontColor: "#333333", // Màu chữ cho các label trục y
-    //           },
-    //         },
-    //       ],
-    //     },
-    //   },
-    // };
-    // console.log("chartConfig4", chartConfig4);
-    let imageUrl1 = await this.chartService.getMultiLineChart(
+    let imageUrl4 = await this.chartService.getMultiLineChart(
       titleChart4,
       labelChart4,
       dataChart4,
@@ -2208,7 +2159,7 @@ export class FormService {
     );
 
     const imagePath4 = path.join(directory, chartName);
-    const imageResponse4 = await axios.get(imageUrl1, {
+    const imageResponse4 = await axios.get(imageUrl4, {
       responseType: "arraybuffer",
     });
     fs.writeFileSync(imagePath4, imageResponse4.data);
@@ -2282,7 +2233,7 @@ export class FormService {
     currentY = currentY + 15;
 
     // biểu đồ 5
-    let imageUrl5 = await this.chartService.getLineChart(
+    let imageUrl5 = await this.chartService.getMultiLineChart(
       titleChart5,
       labelChart5,
       dataChart5,
@@ -2365,7 +2316,7 @@ export class FormService {
     currentY = currentY + 15;
 
     // biểu đồ 6
-    let imageUrl6 = await this.chartService.getLineChart(
+    let imageUrl6 = await this.chartService.getMultiLineChart(
       titleChart6,
       labelChart6,
       dataChart6,
