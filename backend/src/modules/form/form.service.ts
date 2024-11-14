@@ -1094,7 +1094,7 @@ export class FormService {
       },
     ];
 
-    let titleChart8 = "Biểu đồ Tổng quan";
+    let titleChart8 = "Thống kê Tổng quát";
 
     let labelChart8: any = [];
     for (let record of bodyTable8) {
@@ -1227,9 +1227,6 @@ export class FormService {
     }
 
     let dataChart4: any = [];
-    // for (let record of bodyTable4) {
-    //   dataChart4.push(record[2]);
-    // }
     for (let record of statisticCriteria4) {
       if (record.title === "Tự đánh giá") {
         dataChart4.push({
@@ -1381,9 +1378,6 @@ export class FormService {
     }
 
     let dataChart5: any = [];
-    // for (let record of bodyTable5) {
-    //   dataChart5.push(record[2]);
-    // }
     for (let record of statisticCriteria5) {
       if (record.title === "Tự đánh giá") {
         dataChart5.push({
@@ -1530,9 +1524,6 @@ export class FormService {
     }
 
     let dataChart6: any = [];
-    // for (let record of bodyTable6) {
-    //   dataChart6.push(record[2]);
-    // }
     for (let record of statisticCriteria6) {
       if (record.title === "Tự đánh giá") {
         dataChart6.push({
@@ -1567,6 +1558,46 @@ export class FormService {
         });
       }
     }
+
+    // tạo biểu đồ
+    const [imageUrl8, imageUrl7, imageUrl6, imageUrl5, imageUrl4] =
+      await Promise.all([
+        this.chartService.getMultiLineChart(
+          titleChart8,
+          labelChart8,
+          dataChart8,
+          0,
+          5
+        ),
+        this.chartService.getMultiLineChart(
+          titleChart7,
+          labelChart7,
+          dataChart7,
+          0,
+          5
+        ),
+        this.chartService.getMultiLineChart(
+          titleChart6,
+          labelChart6,
+          dataChart6,
+          0,
+          5
+        ),
+        this.chartService.getMultiLineChart(
+          titleChart5,
+          labelChart5,
+          dataChart5,
+          0,
+          5
+        ),
+        this.chartService.getMultiLineChart(
+          titleChart4,
+          labelChart4,
+          dataChart4,
+          0,
+          5
+        ),
+      ]);
 
     let chartName = (formInfo.user as User).userName + ".jpg";
 
@@ -1955,293 +1986,30 @@ export class FormService {
 
     doc.text("IV. PHÂN TÍCH TỔNG QUÁT", 15, currentY);
     doc.setTextColor(0, 0, 0);
-
     currentY = currentY + 10;
-    // doc.text((formInfo.user as User).position, 50, currentY);
-    // doc.setFont("Roboto", "normal");
-
-    // // Thêm bảng vào PDF
-    // (doc as any).autoTable({
-    //   head: headRows2,
-    //   body: bodyTable2,
-    //   startY: currentY + 5,
-    //   styles: {
-    //     fontSize: 10,
-    //     font: "Roboto", // Use the custom font for the table
-    //     textColor: [0, 0, 0], // Set header text color
-    //     lineWidth: 0.1, // Độ dày của viền
-    //     lineColor: [0, 0, 0], // Màu sắc viền (đen)
-    //     halign: "center", // Center-align table text
-    //   },
-    //   headStyles: {
-    //     fontStyle: "bold", // Make the header bold
-    //     fillColor: [0, 123, 76], // Màu nền tiêu đề
-    //     textColor: [255, 255, 255], // Set header text color
-    //     lineWidth: 0.1, // Độ dày của viền
-    //     lineColor: [0, 0, 0], // Màu sắc viền (đen)
-    //     halign: "center", // Center-align table text
-    //     valign: "middle", // Middle-align table text
-    //   },
-    //   bodyStyles: {
-    //     textColor: [0, 0, 0], // Set header text color
-    //     lineWidth: 0.1, // Độ dày của viền
-    //     lineColor: [0, 0, 0], // Màu sắc viền (đen)
-    //     halign: "center", // Center-align table text
-    //     valign: "middle", // Middle-align table text
-    //   },
-    //   columnStyles: {
-    //     0: { halign: "left" },
-    //   },
-    //   // Hàm để thay đổi màu nền cho từng hàng
-    //   didParseCell: function (data) {
-    //     if (data.section === "body") {
-    //       // Áp dụng màu nền cho từng hàng theo chỉ số index của row
-    //       // if (data.row.index === 0) {
-    //       //   data.cell.styles.fillColor = [146, 208, 80]; // Hàng đầu tiên - xanh nhạt
-    //       // } else if (data.row.index === 1) {
-    //       //   data.cell.styles.fillColor = [0, 176, 80]; // Hàng thứ hai - xanh lá đậm
-    //       // } else if (data.row.index === 2) {
-    //       //   data.cell.styles.fillColor = [255, 255, 0]; // Hàng thứ ba - vàng
-    //       // } else if (data.row.index === 3) {
-    //       //   data.cell.styles.fillColor = [0, 176, 240]; // Hàng thứ tư - xanh dương
-    //       // }
-    //     }
-    //   },
-    //   tableWidth: 115, // chiều rộng của bảng
-    // });
-
-    // chèn biểu đồ từ hình ảnh
-    // Cấu hình yêu cầu API QuickChart
-    // let datasetsChart: any = [];
-    // for (let record of statisticCriteria) {
-    //   if (record.title === "Tự đánh giá") {
-    //     datasetsChart.push({
-    //       label: "Tự đánh giá",
-    //       data: record.data,
-    //       borderColor: "rgb(146, 208, 80)",
-    //       fill: false,
-    //     });
-    //   }
-    //   if (record.title === "Cấp trên") {
-    //     datasetsChart.push({
-    //       label: "Cấp trên",
-    //       data: record.data,
-    //       borderColor: "rgb(0, 176, 80)",
-    //       fill: false,
-    //     });
-    //   }
-    //   if (record.title === "Ngang cấp") {
-    //     datasetsChart.push({
-    //       label: "Ngang cấp",
-    //       data: record.data,
-    //       borderColor: "rgb(255, 255, 0)",
-    //       fill: false,
-    //     });
-    //   }
-    //   if (record.title === "Cấp dưới") {
-    //     datasetsChart.push({
-    //       label: "Cấp dưới",
-    //       data: record.data,
-    //       borderColor: "rgb(0, 176, 240)",
-    //       fill: false,
-    //     });
-    //   }
-    // }
-
-    // const chartConfig = {
-    //   type: "line",
-    //   data: {
-    //     labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    //     datasets: datasetsChart,
-    //   },
-    // };
-
-    // // Tải xuống hình ảnh từ URL mà QuickChart trả về
-    // const imageUrl = await this.chartService.getMultiLineChart(chartConfig);
-
-    // const imagePath = path.join(directory, chartName);
-    // const imageResponse = await axios.get(imageUrl, {
-    //   responseType: "arraybuffer",
-    // });
-    // fs.writeFileSync(imagePath, imageResponse.data);
-
-    // // Tạo PDF và chèn hình ảnh vào
-    // const imageData = fs.readFileSync(imagePath).toString("base64");
-    // doc.addImage({
-    //   imageData: `data:image/jpeg;base64,${imageData}`,
-    //   format: "JPEG",
-    //   x: 140,
-    //   y: currentY - 5,
-    //   width: 130,
-    //   height: 80,
-    //   compression: "MEDIUM",
-    // });
-
-    // currentY = currentY + 80;
-
-    // currentY = this.checkCoordinatesY(doc, currentY, currentY + 10, maxHeight);
-    // currentY = currentY != 20 ? currentY + 10 : currentY;
-    // doc.setFontSize(12);
-    // doc.setFont("Roboto", "normal");
-
-    // // Thêm bảng vào PDF
-    // (doc as any).autoTable({
-    //   head: headRows3,
-    //   body: bodyTable3,
-    //   startY: currentY,
-    //   styles: {
-    //     fontSize: 10,
-    //     font: "Roboto", // Use the custom font for the table
-    //     textColor: [0, 0, 0], // Set header text color
-    //     lineWidth: 0.1, // Độ dày của viền
-    //     lineColor: [0, 0, 0], // Màu sắc viền (đen)
-    //     halign: "center", // Center-align table text
-    //   },
-    //   headStyles: {
-    //     fillColor: [0, 123, 76], // Màu nền tiêu đề
-    //     textColor: [255, 255, 255], // Set header text color
-    //     halign: "center", // Center-align table text
-    //     valign: "middle", // Middle-align table text
-    //   },
-    //   bodyStyles: {
-    //     textColor: [0, 0, 0], // Set header text color
-    //     lineWidth: 0.1, // Độ dày của viền
-    //     lineColor: [0, 0, 0], // Màu sắc viền (đen)
-    //     halign: "center", // Center-align table text
-    //     valign: "middle", // Middle-align table text
-    //   },
-    //   columnStyles: {
-    //     0: { halign: "center" },
-    //     1: { halign: "left" },
-    //   },
-    //   // Hàm để thay đổi màu nền cho từng hàng
-    //   didParseCell: function (data) {
-    //     if (data.section === "body") {
-    //       // Áp dụng màu nền cho từng hàng
-    //       // data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
-    //     }
-    //   },
-    // });
-
-    // currentY = (doc as any).lastAutoTable.finalY;
-    // currentY = this.checkCoordinatesY(doc, currentY, currentY + 10, maxHeight);
-    // currentY = currentY != 20 ? currentY + 10 : currentY;
-
-    // doc.setFontSize(12);
-    // doc.setFont("Roboto", "normal");
 
     doc.setFontSize(12);
     doc.setFont("Roboto", "bold");
     doc.setTextColor(45, 67, 50);
-    doc.text("1. Biểu đồ Tổng hợp", 15, currentY);
+    doc.text("1. Thống kê Tổng quát", 15, currentY);
     doc.setTextColor(0, 0, 0);
     doc.setFont("Roboto", "normal");
     currentY = currentY + 15;
 
-    // biểu đồ tổng hợp
-    let imageUrl7 = await this.chartService.getMultiLineChart(
-      titleChart7,
-      labelChart7,
-      dataChart7,
-      0,
-      5
-    );
-
-    const imagePath7 = path.join(directory, chartName);
-    const imageResponse7 = await axios.get(imageUrl7, {
-      responseType: "arraybuffer",
-    });
-
-    fs.writeFileSync(imagePath7, imageResponse7.data);
-
-    // Tạo PDF và chèn hình ảnh vào
-    const imageData7 = fs.readFileSync(imagePath7).toString("base64");
-    doc.addImage({
-      imageData: `data:image/jpeg;base64,${imageData7}`,
-      format: "JPEG",
-      x: 20,
-      y: currentY - 5,
-      width: 250,
-      height: 150,
-      compression: "MEDIUM",
-    });
-
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "normal");
-    currentY = 20;
-
-    // bảng 7
-    // Thêm bảng vào PDF
-    (doc as any).autoTable({
-      head: headRows7,
-      body: bodyTable7,
-      startY: currentY,
-      styles: {
-        fontSize: 10,
-        font: "Roboto", // Use the custom font for the table
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-      },
-      headStyles: {
-        fillColor: [0, 123, 76], // Màu nền tiêu đề
-        textColor: [255, 255, 255], // Set header text color
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      bodyStyles: {
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      columnStyles: {
-        0: { halign: "center" },
-        1: { halign: "left" },
-        2: { halign: "center" },
-      },
-      // Hàm để thay đổi màu nền cho từng hàng
-      didParseCell: function (data) {
-        if (data.section === "body") {
-          // Áp dụng màu nền cho từng hàng
-          // data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
-        }
-      },
-    });
-
-    ////////
-
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "bold");
-    currentY = 20;
-    doc.setTextColor(45, 67, 50);
-    //doc.text("2. Biểu đồ Kỹ năng Lãnh đạo", 15, currentY);
-    doc.setTextColor(0, 0, 0);
-    doc.setFont("Roboto", "normal");
-    currentY = currentY + 15;
-
-    // biểu đồ tổng hợp
-    let imageUrl8 = await this.chartService.getMultiLineChart(
-      titleChart8,
-      labelChart8,
-      dataChart8,
-      0,
-      5
-    );
-
-    const imagePath8 = path.join(directory, chartName);
+    // biểu đồ tổng quát
     const imageResponse8 = await axios.get(imageUrl8, {
       responseType: "arraybuffer",
     });
 
-    fs.writeFileSync(imagePath8, imageResponse8.data);
+    //const imagePath8 = path.join(directory, chartName);
+    // fs.writeFileSync(imagePath8, imageResponse8.data);
+    // const imageData8 = fs.readFileSync(imagePath8).toString("base64");
 
-    // Tạo PDF và chèn hình ảnh vào
-    const imageData8 = fs.readFileSync(imagePath8).toString("base64");
+    // Chuyển dữ liệu ảnh thành base64
+    const imageData8 = Buffer.from(imageResponse8.data, "binary").toString(
+      "base64"
+    );
+
     doc.addImage({
       imageData: `data:image/jpeg;base64,${imageData8}`,
       format: "JPEG",
@@ -2298,35 +2066,100 @@ export class FormService {
       },
     });
 
-    ////////////
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    currentY = 20;
+    doc.setTextColor(45, 67, 50);
+    doc.text("2. Biểu đồ Tổng hợp", 15, currentY);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("Roboto", "normal");
+    currentY = currentY + 15;
+
+    // biểu đồ 7
+    const imageResponse7 = await axios.get(imageUrl7, {
+      responseType: "arraybuffer",
+    });
+
+    // Chuyển dữ liệu ảnh thành base64
+    const imageData7 = Buffer.from(imageResponse7.data, "binary").toString(
+      "base64"
+    );
+    doc.addImage({
+      imageData: `data:image/jpeg;base64,${imageData7}`,
+      format: "JPEG",
+      x: 20,
+      y: currentY - 5,
+      width: 250,
+      height: 150,
+      compression: "MEDIUM",
+    });
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "normal");
+    currentY = 20;
+
+    // bảng 7
+    // Thêm bảng vào PDF
+    (doc as any).autoTable({
+      head: headRows7,
+      body: bodyTable7,
+      startY: currentY,
+      styles: {
+        fontSize: 10,
+        font: "Roboto", // Use the custom font for the table
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+      },
+      headStyles: {
+        fillColor: [0, 123, 76], // Màu nền tiêu đề
+        textColor: [255, 255, 255], // Set header text color
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      bodyStyles: {
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      columnStyles: {
+        0: { halign: "center" },
+        1: { halign: "left" },
+        2: { halign: "center" },
+      },
+      // Hàm để thay đổi màu nền cho từng hàng
+      didParseCell: function (data) {
+        if (data.section === "body") {
+          // Áp dụng màu nền cho từng hàng
+          // data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
+        }
+      },
+    });
 
     doc.addPage("a4", "l");
     doc.setFontSize(12);
     doc.setFont("Roboto", "bold");
     currentY = 20;
     doc.setTextColor(45, 67, 50);
-    doc.text("2. Biểu đồ Kỹ năng Lãnh đạo", 15, currentY);
+    doc.text("3. Biểu đồ Kỹ năng Lãnh đạo", 15, currentY);
     doc.setTextColor(0, 0, 0);
     doc.setFont("Roboto", "normal");
     currentY = currentY + 15;
 
     // biểu đồ 4
-    let imageUrl4 = await this.chartService.getMultiLineChart(
-      titleChart4,
-      labelChart4,
-      dataChart4,
-      0,
-      5
-    );
-
-    const imagePath4 = path.join(directory, chartName);
     const imageResponse4 = await axios.get(imageUrl4, {
       responseType: "arraybuffer",
     });
-    fs.writeFileSync(imagePath4, imageResponse4.data);
+    // Chuyển dữ liệu ảnh thành base64
+    const imageData4 = Buffer.from(imageResponse4.data, "binary").toString(
+      "base64"
+    );
 
-    // Tạo PDF và chèn hình ảnh vào
-    const imageData4 = fs.readFileSync(imagePath4).toString("base64");
     doc.addImage({
       imageData: `data:image/jpeg;base64,${imageData4}`,
       format: "JPEG",
@@ -2388,28 +2221,21 @@ export class FormService {
     doc.setFont("Roboto", "bold");
     currentY = 20;
     doc.setTextColor(45, 67, 50);
-    doc.text("3. Biểu đồ Kỹ năng Tạo động lực nhóm", 15, currentY);
+    doc.text("4. Biểu đồ Kỹ năng Tạo động lực nhóm", 15, currentY);
     doc.setTextColor(0, 0, 0);
     doc.setFont("Roboto", "normal");
     currentY = currentY + 15;
 
     // biểu đồ 5
-    let imageUrl5 = await this.chartService.getMultiLineChart(
-      titleChart5,
-      labelChart5,
-      dataChart5,
-      0,
-      5
-    );
-
-    const imagePath5 = path.join(directory, chartName);
     const imageResponse5 = await axios.get(imageUrl5, {
       responseType: "arraybuffer",
     });
-    fs.writeFileSync(imagePath5, imageResponse5.data);
 
-    // Tạo PDF và chèn hình ảnh vào
-    const imageData5 = fs.readFileSync(imagePath5).toString("base64");
+    // Chuyển dữ liệu ảnh thành base64
+    const imageData5 = Buffer.from(imageResponse5.data, "binary").toString(
+      "base64"
+    );
+
     doc.addImage({
       imageData: `data:image/jpeg;base64,${imageData5}`,
       format: "JPEG",
@@ -2471,28 +2297,21 @@ export class FormService {
     doc.setFont("Roboto", "bold");
     currentY = 20;
     doc.setTextColor(45, 67, 50);
-    doc.text("4. Biểu đồ Kỹ năng Giải quyết xung đột", 15, currentY);
+    doc.text("5. Biểu đồ Kỹ năng Giải quyết xung đột", 15, currentY);
     doc.setTextColor(0, 0, 0);
     doc.setFont("Roboto", "normal");
     currentY = currentY + 15;
 
     // biểu đồ 6
-    let imageUrl6 = await this.chartService.getMultiLineChart(
-      titleChart6,
-      labelChart6,
-      dataChart6,
-      0,
-      5
-    );
-
-    const imagePath6 = path.join(directory, chartName);
     const imageResponse6 = await axios.get(imageUrl6, {
       responseType: "arraybuffer",
     });
-    fs.writeFileSync(imagePath6, imageResponse6.data);
 
-    // Tạo PDF và chèn hình ảnh vào
-    const imageData6 = fs.readFileSync(imagePath6).toString("base64");
+    // Chuyển dữ liệu ảnh thành base64
+    const imageData6 = Buffer.from(imageResponse6.data, "binary").toString(
+      "base64"
+    );
+
     doc.addImage({
       imageData: `data:image/jpeg;base64,${imageData6}`,
       format: "JPEG",

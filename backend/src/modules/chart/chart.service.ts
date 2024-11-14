@@ -162,8 +162,8 @@ export class ChartService {
 
     const response = await axios.post("https://quickchart.io/chart/create", {
       chart: chartConfig,
-      // width: 600,
-      // height: 400,
+      //  width: 500,
+      //  height: 300,
       format: "jpeg", // Đặt định dạng ảnh là JPEG, mặc định là PNG
     });
 
