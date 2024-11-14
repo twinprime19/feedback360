@@ -904,6 +904,10 @@ export class FormService {
     let statisticPeer7: any = [];
     let statisticSubordinate7: any = [];
     let bodyTable7: any = [];
+
+    let statisticLevel8: any = [];
+    let bodyTable8: any = [];
+
     for (let cate of summary_meta) {
       let sumSelfPoint = 0;
       let sumSeniorPoint = 0;
@@ -954,6 +958,20 @@ export class FormService {
           ? Math.round((sumSubordinatePoint / countSubordinatPoint) * 10) / 10
           : 0;
 
+      let countSumAvgLevels = 0;
+      if (sumAvgSeniorPoint > 0) countSumAvgLevels = countSumAvgLevels + 1;
+      if (sumAvgPeerPoint > 0) countSumAvgLevels = countSumAvgLevels + 1;
+      if (sumAvgSubordinatePoint > 0) countSumAvgLevels = countSumAvgLevels + 1;
+
+      let sumAvgLevels =
+        countSumAvgLevels > 0
+          ? Math.round(
+              ((sumAvgSeniorPoint + sumAvgPeerPoint + sumAvgSubordinatePoint) /
+                countSumAvgLevels) *
+                10
+            ) / 10
+          : 0;
+
       let data = [
         cate.stt,
         cate.title,
@@ -968,6 +986,10 @@ export class FormService {
       statisticSenior7.push(sumAvgSeniorPoint.toFixed(1));
       statisticPeer7.push(sumAvgPeerPoint.toFixed(1));
       statisticSubordinate7.push(sumAvgSubordinatePoint.toFixed(1));
+
+      let data2 = [cate.stt, cate.title, sumAvgSelfPoint, sumAvgLevels];
+      bodyTable8.push(data2);
+      statisticLevel8.push(sumAvgLevels.toFixed(1));
     }
 
     let statisticCriteria7 = [
@@ -997,9 +1019,6 @@ export class FormService {
     }
 
     let dataChart7: any = [];
-    // for (let record of bodyTable7) {
-    //   dataChart7.push(record[2]);
-    // }
     for (let record of statisticCriteria7) {
       if (record.title === "Tự đánh giá") {
         dataChart7.push({
@@ -1030,6 +1049,73 @@ export class FormService {
           label: "Cấp dưới",
           data: record.data,
           borderColor: "rgb(0, 176, 240)",
+          fill: false,
+        });
+      }
+    }
+
+    // 5. tổng hợp tổng quan
+    const headRows8 = [
+      [
+        { content: "", colSpan: 1, rowSpan: 2 },
+        {
+          content: "TỔNG QUAN",
+          colSpan: 1,
+          rowSpan: 2,
+          styles: {
+            halign: "left",
+            valign: "middle",
+          },
+        },
+        { content: "Điểm số trung bình", colSpan: 2, rowSpan: 1 },
+      ],
+      [
+        {
+          content: "Tự đánh giá",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Các cấp khác",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+      ],
+    ];
+
+    let statisticCriteria8 = [
+      {
+        title: "Tự đánh giá",
+        data: statisticSelf7,
+      },
+      {
+        title: "Các cấp khác",
+        data: statisticLevel8,
+      },
+    ];
+
+    let titleChart8 = "Biểu đồ Tổng quan";
+
+    let labelChart8: any = [];
+    for (let record of bodyTable8) {
+      labelChart8.push(record[1]);
+    }
+
+    let dataChart8: any = [];
+    for (let record of statisticCriteria8) {
+      if (record.title === "Tự đánh giá") {
+        dataChart8.push({
+          label: "Tự đánh giá",
+          data: record.data,
+          borderColor: "rgb(146, 208, 80)",
+          fill: false,
+        });
+      }
+      if (record.title === "Các cấp khác") {
+        dataChart8.push({
+          label: "Các cấp khác",
+          data: record.data,
+          borderColor: "rgb(0, 176, 80)",
           fill: false,
         });
       }
@@ -2125,6 +2211,94 @@ export class FormService {
         }
       },
     });
+
+    ////////
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    currentY = 20;
+    doc.setTextColor(45, 67, 50);
+    //doc.text("2. Biểu đồ Kỹ năng Lãnh đạo", 15, currentY);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("Roboto", "normal");
+    currentY = currentY + 15;
+
+    // biểu đồ tổng hợp
+    let imageUrl8 = await this.chartService.getMultiLineChart(
+      titleChart8,
+      labelChart8,
+      dataChart8,
+      0,
+      5
+    );
+
+    const imagePath8 = path.join(directory, chartName);
+    const imageResponse8 = await axios.get(imageUrl8, {
+      responseType: "arraybuffer",
+    });
+
+    fs.writeFileSync(imagePath8, imageResponse8.data);
+
+    // Tạo PDF và chèn hình ảnh vào
+    const imageData8 = fs.readFileSync(imagePath8).toString("base64");
+    doc.addImage({
+      imageData: `data:image/jpeg;base64,${imageData8}`,
+      format: "JPEG",
+      x: 20,
+      y: currentY - 5,
+      width: 250,
+      height: 150,
+      compression: "MEDIUM",
+    });
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "normal");
+    currentY = 20;
+
+    // bảng 8
+    // Thêm bảng vào PDF
+    (doc as any).autoTable({
+      head: headRows8,
+      body: bodyTable8,
+      startY: currentY,
+      styles: {
+        fontSize: 10,
+        font: "Roboto", // Use the custom font for the table
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+      },
+      headStyles: {
+        fillColor: [0, 123, 76], // Màu nền tiêu đề
+        textColor: [255, 255, 255], // Set header text color
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      bodyStyles: {
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      columnStyles: {
+        0: { halign: "center" },
+        1: { halign: "left" },
+        2: { halign: "center" },
+      },
+      // Hàm để thay đổi màu nền cho từng hàng
+      didParseCell: function (data) {
+        if (data.section === "body") {
+          // Áp dụng màu nền cho từng hàng
+          // data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
+        }
+      },
+    });
+
+    ////////////
 
     doc.addPage("a4", "l");
     doc.setFontSize(12);
