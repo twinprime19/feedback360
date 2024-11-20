@@ -2069,7 +2069,7 @@ export class FormService {
     doc.text("1. Biểu đồ tổng quát", 15, currentY);
     doc.setTextColor(0, 0, 0);
     doc.setFont("Roboto", "normal");
-    currentY = currentY + 0;
+    currentY = currentY + 2;
 
     const imageResponse1 = await axios.get(imageUrl1, {
       responseType: "arraybuffer",
@@ -2088,9 +2088,9 @@ export class FormService {
     doc.addImage({
       imageData: `data:image/jpeg;base64,${imageData1}`,
       format: "JPEG",
-      x: 60,
-      y: currentY - 5,
-      width: 150,
+      x: 40,
+      y: currentY,
+      width: 200,
       height: 95,
       compression: "MEDIUM",
     });
@@ -2098,15 +2098,16 @@ export class FormService {
     //doc.addPage("a4", "l");
     doc.setFontSize(12);
     doc.setFont("Roboto", "normal");
-    currentY = 105;
+    currentY = 110;
 
     // bảng 1
     (doc as any).autoTable({
       head: headRows1,
       body: bodyTable1,
       startY: currentY,
+      margin: { bottom: 5 }, // Điều chỉnh lề cho bảng
       styles: {
-        fontSize: 8,
+        fontSize: 7,
         font: "Roboto", // Use the custom font for the table
         textColor: [0, 0, 0], // Set header text color
         lineWidth: 0.1, // Độ dày của viền
@@ -2128,7 +2129,7 @@ export class FormService {
         valign: "middle", // Middle-align table text
       },
       columnStyles: {
-        0: { cellWidth: 30, fontStyle: "bold"},
+        0: { cellWidth: 30, fontStyle: "bold" },
         1: { halign: "center" },
         2: { halign: "left" },
       },
@@ -2136,7 +2137,7 @@ export class FormService {
       didParseCell: function (data) {
         if (data.section === "body") {
           // Áp dụng màu nền cho từng hàng
-          data.cell.styles.fillColor = [255, 255, 255]; // xám nhạt
+          data.cell.styles.fillColor = [255, 255, 255];
         }
       },
     });
@@ -2153,7 +2154,7 @@ export class FormService {
     );
     doc.setTextColor(0, 0, 0);
     doc.setFont("Roboto", "normal");
-    currentY = currentY + 5;
+    currentY = currentY + 2;
 
     const imageResponse2 = await axios.get(imageUrl2, {
       responseType: "arraybuffer",
@@ -2167,9 +2168,9 @@ export class FormService {
     doc.addImage({
       imageData: `data:image/jpeg;base64,${imageData2}`,
       format: "JPEG",
-      x: 60,
-      y: currentY - 5,
-      width: 150,
+      x: 40,
+      y: currentY,
+      width: 200,
       height: 95,
       compression: "MEDIUM",
     });
@@ -2184,8 +2185,9 @@ export class FormService {
       head: headRows2,
       body: bodyTable2,
       startY: currentY,
+      margin: { bottom: 5 }, // Điều chỉnh lề cho bảng
       styles: {
-        fontSize: 8,
+        fontSize: 7,
         font: "Roboto", // Use the custom font for the table
         textColor: [0, 0, 0], // Set header text color
         lineWidth: 0.1, // Độ dày của viền
@@ -2207,7 +2209,7 @@ export class FormService {
         valign: "middle", // Middle-align table text
       },
       columnStyles: {
-        0: { cellWidth: 30, fontStyle: "bold"},
+        0: { cellWidth: 30, fontStyle: "bold" },
         1: { halign: "center" },
         2: { halign: "left" },
       },
@@ -2215,7 +2217,7 @@ export class FormService {
       didParseCell: function (data) {
         if (data.section === "body") {
           // Áp dụng màu nền cho từng hàng
-          data.cell.styles.fillColor = [255, 255, 255]; // xám nhạt
+          data.cell.styles.fillColor = [255, 255, 255];
         }
       },
     });
@@ -2228,7 +2230,7 @@ export class FormService {
     doc.text("3. Biểu đồ Kỹ năng Lãnh đạo", 15, currentY);
     doc.setTextColor(0, 0, 0);
     doc.setFont("Roboto", "normal");
-    currentY = currentY + 5;
+    currentY = currentY + 2;
 
     const imageResponse3 = await axios.get(imageUrl3, {
       responseType: "arraybuffer",
@@ -2241,172 +2243,24 @@ export class FormService {
     doc.addImage({
       imageData: `data:image/jpeg;base64,${imageData3}`,
       format: "JPEG",
-      x: 60,
-      y: currentY - 10,
-      width: 150,
-      height: 90,
+      x: 40,
+      y: currentY,
+      width: 200,
+      height: 95,
       compression: "MEDIUM",
     });
 
     //doc.addPage("a4", "l");
     doc.setFontSize(12);
     doc.setFont("Roboto", "normal");
-    currentY = 90;
+    currentY = 105;
 
     // bảng 3
     (doc as any).autoTable({
       head: headRows3,
       body: bodyTable3,
       startY: currentY,
-      styles: {
-        fontSize: 8,
-        font: "Roboto", // Use the custom font for the table
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-      },
-      headStyles: {
-        fillColor: [0, 123, 76], // Màu nền tiêu đề
-        textColor: [255, 255, 255], // Set header text color
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      bodyStyles: {
-        fillColor: [255, 255, 255], // Loại bỏ màu nền cho tất cả các ô
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      columnStyles: {
-        0: { cellWidth: 30, fontStyle: "bold"},
-        1: { halign: "center" },
-        2: { halign: "left" },
-      },
-      // Hàm để thay đổi màu nền cho từng hàng
-      didParseCell: function (data) {
-        if (data.section === "body") {
-          // Áp dụng màu nền cho từng hàng
-          data.cell.styles.fillColor = [255, 255, 255]; // xám nhạt
-        }
-      },
-    });
-
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "bold");
-    currentY = 5;
-    doc.setTextColor(45, 67, 50);
-    doc.text("4. Biểu đồ Kỹ năng Tạo động lực nhóm", 15, currentY);
-    doc.setTextColor(0, 0, 0);
-    doc.setFont("Roboto", "normal");
-    currentY = currentY + 5;
-
-    const imageResponse4 = await axios.get(imageUrl4, {
-      responseType: "arraybuffer",
-    });
-    const imageData4 = Buffer.from(imageResponse4.data, "binary").toString(
-      "base64"
-    );
-
-    // biểu đồ 4
-    doc.addImage({
-      imageData: `data:image/jpeg;base64,${imageData4}`,
-      format: "JPEG",
-      x: 60,
-      y: currentY - 10,
-      width: 150,
-      height: 85,
-      compression: "MEDIUM",
-    });
-
-    //doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "normal");
-    currentY = 85;
-
-    // bảng 4
-    (doc as any).autoTable({
-      head: headRows4,
-      body: bodyTable4,
-      startY: currentY,
-      styles: {
-        fontSize: 6,
-        font: "Roboto", // Use the custom font for the table
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-        cellPadding: 1,
-      },
-      headStyles: {
-        fillColor: [0, 123, 76], // Màu nền tiêu đề
-        textColor: [255, 255, 255], // Set header text color
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      bodyStyles: {
-        fillColor: [255, 255, 255], // Loại bỏ màu nền cho tất cả các ô
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      columnStyles: {
-        0: { cellWidth: 30, fontStyle: "bold"},
-        1: { halign: "center" },
-        2: { halign: "left" },
-      },
-      // Hàm để thay đổi màu nền cho từng hàng
-      didParseCell: function (data) {
-        if (data.section === "body") {
-          // Áp dụng màu nền cho từng hàng
-          data.cell.styles.fillColor = [255, 255, 255]; // xám nhạt
-        }
-      },
-    });
-
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "bold");
-    currentY = 5;
-    doc.setTextColor(45, 67, 50);
-    doc.text("5. Biểu đồ Kỹ năng Giải quyết xung đột", 15, currentY);
-    doc.setTextColor(0, 0, 0);
-    doc.setFont("Roboto", "normal");
-    currentY = currentY + 5;
-
-    const imageResponse5 = await axios.get(imageUrl5, {
-      responseType: "arraybuffer",
-    });
-    const imageData5 = Buffer.from(imageResponse5.data, "binary").toString(
-      "base64"
-    );
-
-    // biểu đồ 5
-    doc.addImage({
-      imageData: `data:image/jpeg;base64,${imageData5}`,
-      format: "JPEG",
-      x: 60,
-      y: currentY - 10,
-      width: 150,
-      height: 85,
-      compression: "MEDIUM",
-    });
-
-    //doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "normal");
-    currentY = 85;
-
-    // bảng 5
-    (doc as any).autoTable({
-      head: headRows5,
-      body: bodyTable5,
-      startY: currentY,
+      margin: { bottom: 5 }, // Điều chỉnh lề cho bảng
       styles: {
         fontSize: 7,
         font: "Roboto", // Use the custom font for the table
@@ -2431,7 +2285,7 @@ export class FormService {
         valign: "middle", // Middle-align table text
       },
       columnStyles: {
-        0: { cellWidth: 30, fontStyle: "bold"},
+        0: { cellWidth: 30, fontStyle: "bold" },
         1: { halign: "center" },
         2: { halign: "left" },
       },
@@ -2439,7 +2293,159 @@ export class FormService {
       didParseCell: function (data) {
         if (data.section === "body") {
           // Áp dụng màu nền cho từng hàng
-          data.cell.styles.fillColor = [255, 255, 255]; // xám nhạt
+          data.cell.styles.fillColor = [255, 255, 255];
+        }
+      },
+    });
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    currentY = 5;
+    doc.setTextColor(45, 67, 50);
+    doc.text("4. Biểu đồ Kỹ năng Tạo động lực nhóm", 15, currentY);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("Roboto", "normal");
+    currentY = currentY + 2;
+
+    const imageResponse4 = await axios.get(imageUrl4, {
+      responseType: "arraybuffer",
+    });
+    const imageData4 = Buffer.from(imageResponse4.data, "binary").toString(
+      "base64"
+    );
+
+    // biểu đồ 4
+    doc.addImage({
+      imageData: `data:image/jpeg;base64,${imageData4}`,
+      format: "JPEG",
+      x: 40,
+      y: currentY,
+      width: 200,
+      height: 90,
+      compression: "MEDIUM",
+    });
+
+    //doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "normal");
+    currentY = 100;
+
+    // bảng 4
+    (doc as any).autoTable({
+      head: headRows4,
+      body: bodyTable4,
+      startY: currentY,
+      margin: { bottom: 5 }, // Điều chỉnh lề cho bảng
+      styles: {
+        fontSize: 6,
+        font: "Roboto", // Use the custom font for the table
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        cellPadding: 1,
+      },
+      headStyles: {
+        fillColor: [0, 123, 76], // Màu nền tiêu đề
+        textColor: [255, 255, 255], // Set header text color
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      bodyStyles: {
+        fillColor: [255, 255, 255], // Loại bỏ màu nền cho tất cả các ô
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      columnStyles: {
+        0: { cellWidth: 30, fontStyle: "bold" },
+        1: { halign: "center" },
+        2: { halign: "left" },
+      },
+      // Hàm để thay đổi màu nền cho từng hàng
+      didParseCell: function (data) {
+        if (data.section === "body") {
+          // Áp dụng màu nền cho từng hàng
+          data.cell.styles.fillColor = [255, 255, 255];
+        }
+      },
+    });
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    currentY = 5;
+    doc.setTextColor(45, 67, 50);
+    doc.text("5. Biểu đồ Kỹ năng Giải quyết xung đột", 15, currentY);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("Roboto", "normal");
+    currentY = currentY + 2;
+
+    const imageResponse5 = await axios.get(imageUrl5, {
+      responseType: "arraybuffer",
+    });
+    const imageData5 = Buffer.from(imageResponse5.data, "binary").toString(
+      "base64"
+    );
+
+    // biểu đồ 5
+    doc.addImage({
+      imageData: `data:image/jpeg;base64,${imageData5}`,
+      format: "JPEG",
+      x: 40,
+      y: currentY,
+      width: 200,
+      height: 95,
+      compression: "MEDIUM",
+    });
+
+    //doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "normal");
+    currentY = 105;
+
+    // bảng 5
+    (doc as any).autoTable({
+      head: headRows5,
+      body: bodyTable5,
+      startY: currentY,
+      margin: { bottom: 5 }, // Điều chỉnh lề cho bảng
+      styles: {
+        fontSize: 7,
+        font: "Roboto", // Use the custom font for the table
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        cellPadding: 1,
+      },
+      headStyles: {
+        fillColor: [0, 123, 76], // Màu nền tiêu đề
+        textColor: [255, 255, 255], // Set header text color
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      bodyStyles: {
+        fillColor: [255, 255, 255], // Loại bỏ màu nền cho tất cả các ô
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      columnStyles: {
+        0: { cellWidth: 30, fontStyle: "bold" },
+        1: { halign: "center" },
+        2: { halign: "left" },
+      },
+      // Hàm để thay đổi màu nền cho từng hàng
+      didParseCell: function (data) {
+        if (data.section === "body") {
+          // Áp dụng màu nền cho từng hàng
+          data.cell.styles.fillColor = [255, 255, 255];
         }
       },
     });

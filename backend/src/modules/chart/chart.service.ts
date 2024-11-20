@@ -136,8 +136,8 @@ export class ChartService {
           xAxes: [
             {
               ticks: {
-                minRotation: 35, // Xoay labels 90 độ
-                maxRotation: 35,
+                minRotation: 30, // Xoay labels 90 độ
+                maxRotation: 30,
                 fontSize: 10, // Cỡ chữ cho các label trục x
                 fontFamily: "Arial", // Font chữ cho các label trục x
                 fontColor: "#333333", // Màu chữ cho các label trục x
