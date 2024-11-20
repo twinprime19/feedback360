@@ -20,7 +20,7 @@ export const APP = {
   NAME: "Tiến Phước",
   URL: "127.0.0.1",
   ADMIN_EMAIL: argv.admin_email || "admin@example.com",
-  FE_NAME: "Tiến Phước",
+  FE_NAME: "TP Pro_360o",
   FE_URL: process.env.FE_URL || "https://feedback360.tienphuoc.com",
   STATIC_URL: process.env.STATIC_URL || "https://feedback360.tienphuoc.com",
   SIGNATURE: "Tiến Phước",
