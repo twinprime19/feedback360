@@ -113,8 +113,8 @@ export class ChartService {
 
     // Thêm dấu ba chấm nếu độ dài lớn hơn 30 ký tự
     const formattedLabels = labels.map((label) => {
-      if (label.length > 20) {
-        return label.slice(0, 20) + "..."; // Cắt chuỗi và thêm dấu "..."
+      if (label.length > 15) {
+        return label.slice(0, 15) + "..."; // Cắt chuỗi và thêm dấu "..."
       }
       return label;
     });
@@ -136,8 +136,8 @@ export class ChartService {
           xAxes: [
             {
               ticks: {
-                minRotation: 45, // Xoay labels 90 độ
-                maxRotation: 45,
+                minRotation: 35, // Xoay labels 90 độ
+                maxRotation: 35,
                 fontSize: 10, // Cỡ chữ cho các label trục x
                 fontFamily: "Arial", // Font chữ cho các label trục x
                 fontColor: "#333333", // Màu chữ cho các label trục x

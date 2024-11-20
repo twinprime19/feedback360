@@ -38,6 +38,7 @@ import { sendForm } from "@app/utils/template-email";
 import * as APP_CONFIG from "@app/app.config";
 import { FormRelationship } from "../form_relationship/form_relationship.model";
 import { ChartService } from "../chart/chart.service";
+import autoTable from "jspdf-autotable";
 
 @Injectable()
 export class FormService {
@@ -534,25 +535,6 @@ export class FormService {
       statisticSubordinate.push(record.avgSubordinatePoint.toFixed(1));
     }
 
-    // let statisticCriteria = [
-    //   {
-    //     title: "Tự đánh giá",
-    //     data: statisticSelf,
-    //   },
-    //   {
-    //     title: "Cấp trên",
-    //     data: statisticSenior,
-    //   },
-    //   {
-    //     title: "Ngang cấp",
-    //     data: statisticPeer,
-    //   },
-    //   {
-    //     title: "Cấp dưới",
-    //     data: statisticSubordinate,
-    //   },
-    // ];
-
     // câu hỏi góp ý
     let statisticAnswerQuestions: any = [];
     let indexAnswerQuestion = 1;
@@ -600,8 +582,8 @@ export class FormService {
       statisticAnswerQuestions.push(statisticQuestion);
     }
 
-    // tạo bảng đầu tiên
-    const headRows1 = [
+    // header của table
+    const headRows0 = [
       [
         {
           content: "STT",
@@ -715,36 +697,201 @@ export class FormService {
       ],
     ];
 
-    // // Tạo bảng thứ 2
-    // const headRows2 = [
-    //   [
-    //     { content: "Tiêu Chí Số" },
-    //     { content: "1" },
-    //     { content: "2" },
-    //     { content: "3" },
-    //     { content: "4" },
-    //     { content: "5" },
-    //     { content: "6" },
-    //     { content: "7" },
-    //     { content: "8" },
-    //     { content: "9" },
-    //   ],
-    // ];
+    const headRows1 = [
+      [
+        {
+          content: "TỔNG QUAN",
+          colSpan: 3,
+          rowSpan: 2,
+          styles: {
+            halign: "left",
+            valign: "middle",
+          },
+        },
+        { content: "Điểm số trung bình", colSpan: 2, rowSpan: 1 },
+      ],
+      [
+        {
+          content: "Tự đánh giá",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "TB 03 cấp phản hồi",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+      ],
+    ];
 
-    // let bodyTable2: any = [];
-    // for (let record of statisticCriteria) {
-    //   bodyTable2.push([record.title, ...record.data]);
-    // }
+    const headRows2 = [
+      [
+        {
+          content: "TỔNG QUAN",
+          colSpan: 3,
+          rowSpan: 2,
+          styles: {
+            halign: "left",
+            valign: "middle",
+          },
+        },
+        { content: "Điểm số trung bình", colSpan: 5, rowSpan: 1 },
+      ],
+      [
+        {
+          content: "Tự đánh giá",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp trên",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Ngang cấp",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp dưới",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "TB 03 cấp phản hồi",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+      ],
+    ];
 
-    // // tạo bảng thứ 3
-    // const headRows3 = [[{ content: "STT" }, { content: "Nội dung tiêu chí" }]];
+    const headRows3 = [
+      [
+        {
+          content: "KỸ NĂNG LÃNH ĐẠO",
+          colSpan: 3,
+          rowSpan: 2,
+          styles: {
+            halign: "left",
+            valign: "middle",
+          },
+        },
+        { content: "Điểm số trung bình", colSpan: 5, rowSpan: 1 },
+      ],
+      [
+        {
+          content: "Tự đánh giá",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp trên",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Ngang cấp",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp dưới",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "TB 03 cấp phản hồi",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+      ],
+    ];
 
-    // let bodyTable3: any = [];
-    // for (let record of statisticReviewQuestions) {
-    //   bodyTable3.push([record.index, record.title]);
-    // }
+    const headRows4 = [
+      [
+        {
+          content: "KỸ NĂNG TẠO ĐỘNG LỰC CHO NHÓM",
+          colSpan: 3,
+          rowSpan: 2,
+          styles: {
+            halign: "left",
+            valign: "middle",
+          },
+        },
+        { content: "Điểm số trung bình", colSpan: 5, rowSpan: 1 },
+      ],
+      [
+        {
+          content: "Tự đánh giá",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp trên",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Ngang cấp",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp dưới",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "TB 03 cấp phản hồi",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+      ],
+    ];
 
-    // 1. tổng hợp
+    const headRows5 = [
+      [
+        {
+          content: "KỸ NĂNG GIẢI QUYẾT XUNG ĐỘT",
+          colSpan: 3,
+          rowSpan: 2,
+          styles: {
+            halign: "left",
+            valign: "middle",
+          },
+        },
+        { content: "Điểm số trung bình", colSpan: 5, rowSpan: 1 },
+      ],
+      [
+        {
+          content: "Tự đánh giá",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp trên",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Ngang cấp",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp dưới",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "TB 03 cấp phản hồi",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+      ],
+    ];
+
     let summary_meta = [
       {
         stt: "1",
@@ -861,52 +1008,81 @@ export class FormService {
       },
     ];
 
-    const headRows7 = [
-      [
-        { content: "", colSpan: 1, rowSpan: 2 },
-        {
-          content: "TỔNG QUAN",
-          colSpan: 1,
-          rowSpan: 2,
-          styles: {
-            halign: "left",
-            valign: "middle",
-          },
-        },
-        { content: "Điểm số trung bình", colSpan: 4, rowSpan: 1 },
-      ],
-      [
-        {
-          content: "Tự đánh giá",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-        {
-          content: "Cấp trên",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-        {
-          content: "Ngang cấp",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-        {
-          content: "Cấp dưới",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-      ],
+    let meta_index_3 = [
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.4",
+      "1.5",
+      "1.6",
+      "1.7",
+
+      "2.1",
+      "2.2",
+      "2.3",
+      "2.4",
+
+      "3.1",
+      "3.2",
     ];
 
-    let statisticSelf7: any = [];
-    let statisticSenior7: any = [];
-    let statisticPeer7: any = [];
-    let statisticSubordinate7: any = [];
-    let bodyTable7: any = [];
+    let meta_index_4 = [
+      "1.1",
+      "1.2",
+      "1.3",
+      "1.4",
+      "1.5",
+      "1.6",
+      "1.7",
+      "1.8",
+      "1.9",
+      "1.10",
+      "1.11",
 
-    let statisticLevel8: any = [];
-    let bodyTable8: any = [];
+      "2.1",
+      "2.2",
+      "2.3",
+      "2.4",
+      "2.5",
+      "2.6",
+
+      "3.1",
+      "3.2",
+      "3.3",
+      "3.4",
+    ];
+
+    let meta_index_5 = [
+      "1.1",
+      "1.2",
+      "1.3",
+
+      "2.1",
+      "2.2",
+      "2.3",
+
+      "3.1",
+      "3.2",
+      "3.3",
+
+      "4.1",
+      "4.2",
+      "4.3",
+      "4.4",
+
+      "5.1",
+      "5.2",
+      "5.3",
+    ];
+
+    let statisticLevel1: any = [];
+    let bodyData1: any = [];
+
+    let statisticSelf2: any = [];
+    let statisticSenior2: any = [];
+    let statisticPeer2: any = [];
+    let statisticSubordinate2: any = [];
+    let bodyData2: any = [];
 
     for (let cate of summary_meta) {
       let sumSelfPoint = 0;
@@ -972,56 +1148,127 @@ export class FormService {
             ) / 10
           : 0;
 
-      let data = [
+      let data2 = [
         cate.stt,
         cate.title,
         sumAvgSelfPoint,
         sumAvgSeniorPoint,
         sumAvgPeerPoint,
         sumAvgSubordinatePoint,
+        sumAvgLevels,
       ];
-      bodyTable7.push(data);
+      bodyData2.push(data2);
 
-      statisticSelf7.push(sumAvgSelfPoint.toFixed(1));
-      statisticSenior7.push(sumAvgSeniorPoint.toFixed(1));
-      statisticPeer7.push(sumAvgPeerPoint.toFixed(1));
-      statisticSubordinate7.push(sumAvgSubordinatePoint.toFixed(1));
+      statisticSelf2.push(sumAvgSelfPoint.toFixed(1));
+      statisticSenior2.push(sumAvgSeniorPoint.toFixed(1));
+      statisticPeer2.push(sumAvgPeerPoint.toFixed(1));
+      statisticSubordinate2.push(sumAvgSubordinatePoint.toFixed(1));
 
-      let data2 = [cate.stt, cate.title, sumAvgSelfPoint, sumAvgLevels];
-      bodyTable8.push(data2);
-      statisticLevel8.push(sumAvgLevels.toFixed(1));
+      let data1 = [cate.stt, cate.title, sumAvgSelfPoint, sumAvgLevels];
+      bodyData1.push(data1);
+      statisticLevel1.push(sumAvgLevels.toFixed(1));
     }
 
-    let statisticCriteria7 = [
+    // 1. Biểu đồ tổng quát
+    let statisticCriteria1 = [
       {
         title: "Tự đánh giá",
-        data: statisticSelf7,
+        data: statisticSelf2,
       },
       {
-        title: "Cấp trên",
-        data: statisticSenior7,
-      },
-      {
-        title: "Ngang cấp",
-        data: statisticPeer7,
-      },
-      {
-        title: "Cấp dưới",
-        data: statisticSubordinate7,
+        title: "TB 03 cấp phản hồi",
+        data: statisticLevel1,
       },
     ];
 
-    let titleChart7 = "Biểu đồ Tổng hợp";
+    let titleChart1 = "Biểu đồ tổng quát";
 
-    let labelChart7: any = [];
-    for (let record of bodyTable7) {
-      labelChart7.push(record[1]);
+    let labelChart1: any = [];
+    for (let record of bodyData1) {
+      labelChart1.push(record[1]);
     }
 
-    let dataChart7: any = [];
-    for (let record of statisticCriteria7) {
+    let dataChart1: any = [];
+    for (let record of statisticCriteria1) {
       if (record.title === "Tự đánh giá") {
-        dataChart7.push({
+        dataChart1.push({
+          label: "Tự đánh giá",
+          data: record.data,
+          borderColor: "rgb(146, 208, 80)",
+          fill: false,
+        });
+      }
+      if (record.title === "TB 03 cấp phản hồi") {
+        dataChart1.push({
+          label: "TB 03 cấp phản hồi",
+          data: record.data,
+          borderColor: "rgb(0, 176, 80)",
+          fill: false,
+        });
+      }
+    }
+
+    let bodyTable1: any = [];
+    for (var i = 0; i < bodyData1.length; i++) {
+      var row: any = [];
+      for (var key in bodyData1[i]) {
+        row.push(bodyData1[i][key]);
+      }
+      if (i === 0) {
+        row.unshift({
+          rowSpan: 3,
+          content: "I. Kỹ năng lãnh đạo",
+          styles: { valign: "middle", halign: "left" },
+        });
+      }
+      if (i === 3) {
+        row.unshift({
+          rowSpan: 3,
+          content: "II. Kỹ năng tạo động lực cho nhóm",
+          styles: { valign: "middle", halign: "left" },
+        });
+      }
+      if (i === 6) {
+        row.unshift({
+          rowSpan: 5,
+          content: "III. Kỹ năng giải quyết xung đột",
+          styles: { valign: "middle", halign: "left" },
+        });
+      }
+      bodyTable1.push(row);
+    }
+
+    // 2. Biểu đồ Tổng – So sánh theo từng nhóm đối tượng
+    let statisticCriteria2 = [
+      {
+        title: "Tự đánh giá",
+        data: statisticSelf2,
+      },
+      {
+        title: "Cấp trên",
+        data: statisticSenior2,
+      },
+      {
+        title: "Ngang cấp",
+        data: statisticPeer2,
+      },
+      {
+        title: "Cấp dưới",
+        data: statisticSubordinate2,
+      },
+    ];
+
+    let titleChart2 = "Biểu đồ Tổng – So sánh theo từng nhóm đối tượng";
+
+    let labelChart2: any = [];
+    for (let record of bodyData2) {
+      labelChart2.push(record[1]);
+    }
+
+    let dataChart2: any = [];
+    for (let record of statisticCriteria2) {
+      if (record.title === "Tự đánh giá") {
+        dataChart2.push({
           label: "Tự đánh giá",
           data: record.data,
           borderColor: "rgb(146, 208, 80)",
@@ -1029,7 +1276,7 @@ export class FormService {
         });
       }
       if (record.title === "Cấp trên") {
-        dataChart7.push({
+        dataChart2.push({
           label: "Cấp trên",
           data: record.data,
           borderColor: "rgb(0, 176, 80)",
@@ -1037,7 +1284,7 @@ export class FormService {
         });
       }
       if (record.title === "Ngang cấp") {
-        dataChart7.push({
+        dataChart2.push({
           label: "Ngang cấp",
           data: record.data,
           borderColor: "rgb(255, 255, 0)",
@@ -1045,7 +1292,7 @@ export class FormService {
         });
       }
       if (record.title === "Cấp dưới") {
-        dataChart7.push({
+        dataChart2.push({
           label: "Cấp dưới",
           data: record.data,
           borderColor: "rgb(0, 176, 240)",
@@ -1054,74 +1301,37 @@ export class FormService {
       }
     }
 
-    // 5. tổng hợp tổng quan
-    const headRows8 = [
-      [
-        { content: "", colSpan: 1, rowSpan: 2 },
-        {
-          content: "TỔNG QUAN",
-          colSpan: 1,
-          rowSpan: 2,
-          styles: {
-            halign: "left",
-            valign: "middle",
-          },
-        },
-        { content: "Điểm số trung bình", colSpan: 2, rowSpan: 1 },
-      ],
-      [
-        {
-          content: "Tự đánh giá",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-        {
-          content: "Các cấp khác",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-      ],
-    ];
-
-    let statisticCriteria8 = [
-      {
-        title: "Tự đánh giá",
-        data: statisticSelf7,
-      },
-      {
-        title: "Các cấp khác",
-        data: statisticLevel8,
-      },
-    ];
-
-    let titleChart8 = "Thống kê Tổng quát";
-
-    let labelChart8: any = [];
-    for (let record of bodyTable8) {
-      labelChart8.push(record[1]);
-    }
-
-    let dataChart8: any = [];
-    for (let record of statisticCriteria8) {
-      if (record.title === "Tự đánh giá") {
-        dataChart8.push({
-          label: "Tự đánh giá",
-          data: record.data,
-          borderColor: "rgb(146, 208, 80)",
-          fill: false,
+    var bodyTable2: any = [];
+    for (var i = 0; i < bodyData2.length; i++) {
+      var row: any = [];
+      for (var key in bodyData2[i]) {
+        row.push(bodyData2[i][key]);
+      }
+      if (i === 0) {
+        row.unshift({
+          rowSpan: 3,
+          content: "I. Kỹ năng lãnh đạo",
+          styles: { valign: "middle", halign: "left" },
         });
       }
-      if (record.title === "Các cấp khác") {
-        dataChart8.push({
-          label: "Các cấp khác",
-          data: record.data,
-          borderColor: "rgb(0, 176, 80)",
-          fill: false,
+      if (i === 3) {
+        row.unshift({
+          rowSpan: 3,
+          content: "II. Kỹ năng tạo động lực cho nhóm",
+          styles: { valign: "middle", halign: "left" },
         });
       }
+      if (i === 6) {
+        row.unshift({
+          rowSpan: 5,
+          content: "III. Kỹ năng giải quyết xung đột",
+          styles: { valign: "middle", halign: "left" },
+        });
+      }
+      bodyTable2.push(row);
     }
 
-    // 2. Kỹ năng lãnh đạo, quản lý
+    // 3. Biểu đồ Kỹ năng Lãnh đạo
     let lanh_dao_quan_ly_ids = [
       "671b1390cbf5c70d45d2eb22",
       "671b13b2cbf5c70d45d2eb2f",
@@ -1138,65 +1348,208 @@ export class FormService {
       "671b142acbf5c70d45d2eb66",
     ];
 
-    const headRows4 = [
-      [
-        { content: "I", colSpan: 1, rowSpan: 2 },
-        {
-          content: "KỸ NĂNG LÃNH ĐẠO",
-          colSpan: 1,
+    let statisticSelf3: any = [];
+    let statisticSenior3: any = [];
+    let statisticPeer3: any = [];
+    let statisticSubordinate3: any = [];
+    let bodyData3: any = [];
+    let index3 = 0;
+    for (let record of statisticReviewQuestions) {
+      let checkQ = lanh_dao_quan_ly_ids.find((item) => item === record.id);
+      if (checkQ) {
+        let countAvg3Level = 0;
+        if (record.avgSeniorPoint > 0) countAvg3Level += 1;
+        if (record.avgPeerPoint > 0) countAvg3Level += 1;
+        if (record.avgSubordinatePoint > 0) countAvg3Level += 1;
+        let sumAvg3Level =
+          countAvg3Level > 0
+            ? Math.round(
+                ((record.avgSeniorPoint +
+                  record.avgPeerPoint +
+                  record.avgSubordinatePoint) /
+                  countAvg3Level) *
+                  10
+              ) / 10
+            : 0;
+
+        bodyData3.push([
+          meta_index_3[index3],
+          record.title,
+          record.selfPoint,
+          record.avgSeniorPoint,
+          record.avgPeerPoint,
+          record.avgSubordinatePoint,
+          sumAvg3Level,
+        ]);
+
+        statisticSelf3.push(record.selfPoint.toFixed(1));
+        statisticSenior3.push(record.avgSeniorPoint.toFixed(1));
+        statisticPeer3.push(record.avgPeerPoint.toFixed(1));
+        statisticSubordinate3.push(record.avgSubordinatePoint.toFixed(1));
+
+        index3 = index3 + 1;
+      }
+    }
+
+    let statisticCriteria3 = [
+      {
+        title: "Tự đánh giá",
+        data: statisticSelf3,
+      },
+      {
+        title: "Cấp trên",
+        data: statisticSenior3,
+      },
+      {
+        title: "Ngang cấp",
+        data: statisticPeer3,
+      },
+      {
+        title: "Cấp dưới",
+        data: statisticSubordinate3,
+      },
+    ];
+
+    let titleChart3 = "Biểu đồ Kỹ năng Lãnh đạo";
+
+    let labelChart3: any = [];
+    for (let record of bodyData3) {
+      labelChart3.push(record[1]);
+    }
+
+    let dataChart3: any = [];
+    for (let record of statisticCriteria3) {
+      if (record.title === "Tự đánh giá") {
+        dataChart3.push({
+          label: "Tự đánh giá",
+          data: record.data,
+          borderColor: "rgb(146, 208, 80)",
+          fill: false,
+        });
+      }
+      if (record.title === "Cấp trên") {
+        dataChart3.push({
+          label: "Cấp trên",
+          data: record.data,
+          borderColor: "rgb(0, 176, 80)",
+          fill: false,
+        });
+      }
+      if (record.title === "Ngang cấp") {
+        dataChart3.push({
+          label: "Ngang cấp",
+          data: record.data,
+          borderColor: "rgb(255, 255, 0)",
+          fill: false,
+        });
+      }
+      if (record.title === "Cấp dưới") {
+        dataChart3.push({
+          label: "Cấp dưới",
+          data: record.data,
+          borderColor: "rgb(0, 176, 240)",
+          fill: false,
+        });
+      }
+    }
+
+    var bodyTable3: any = [];
+    for (var i = 0; i < bodyData3.length; i++) {
+      var row: any = [];
+      for (var key in bodyData3[i]) {
+        row.push(bodyData3[i][key]);
+      }
+      if (i === 0) {
+        row.unshift({
+          rowSpan: 7,
+          content: "1. Xây dựng mục tiêu và định hướng thực hiện",
+          styles: { valign: "middle", halign: "left" },
+        });
+      }
+      if (i === 7) {
+        row.unshift({
+          rowSpan: 4,
+          content: "2. Kỹ năng tạo động lực cho nhóm",
+          styles: { valign: "middle", halign: "left" },
+        });
+      }
+      if (i === 11) {
+        row.unshift({
           rowSpan: 2,
-          styles: {
-            halign: "left",
-            valign: "middle",
-          },
-        },
-        { content: "Điểm số trung bình", colSpan: 4, rowSpan: 1 },
-      ],
-      [
-        {
-          content: "Tự đánh giá",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-        {
-          content: "Cấp trên",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-        {
-          content: "Ngang cấp",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-        {
-          content: "Cấp dưới",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-      ],
+          content: "3. Giao tiếp",
+          styles: { valign: "middle", halign: "left" },
+        });
+      }
+      bodyTable3.push(row);
+    }
+
+    // 4. Biểu đồ Kỹ năng Tạo động lực nhóm
+    let tao_dong_luc_nhom_question_ids = [
+      "671b143ccbf5c70d45d2eb6b",
+      "671b1444cbf5c70d45d2eb70",
+      "671b144ccbf5c70d45d2eb75",
+      "671b145fcbf5c70d45d2eb7f",
+      "671b1469cbf5c70d45d2eb84",
+      "671b1471cbf5c70d45d2eb89",
+      "671b147ccbf5c70d45d2eb8e",
+      "671b1485cbf5c70d45d2eb93",
+      "671b1490cbf5c70d45d2eb98",
+      "671b149acbf5c70d45d2eb9d",
+      "671b14a6cbf5c70d45d2eba2",
+      "671b1740cbf5c70d45d2ebb2",
+      "671b174acbf5c70d45d2ebb7",
+      "671b1752cbf5c70d45d2ebbc",
+      "671b1760cbf5c70d45d2ebc1",
+      "671b1769cbf5c70d45d2ebc6",
+      "671b1773cbf5c70d45d2ebcb",
+      "671b177ccbf5c70d45d2ebd0",
+      "671b1784cbf5c70d45d2ebd5",
+      "671b178bcbf5c70d45d2ebda",
+      "671b1795cbf5c70d45d2ebdf",
     ];
 
     let statisticSelf4: any = [];
     let statisticSenior4: any = [];
     let statisticPeer4: any = [];
     let statisticSubordinate4: any = [];
-    let bodyTable4: any = [];
+    let bodyData4: any = [];
+    let index4 = 0;
     for (let record of statisticReviewQuestions) {
-      let checkQ = lanh_dao_quan_ly_ids.find((item) => item === record.id);
+      let checkQ = tao_dong_luc_nhom_question_ids.find(
+        (item) => item === record.id
+      );
       if (checkQ) {
-        bodyTable4.push([
-          record.index,
+        let countAvg3Level = 0;
+        if (record.avgSeniorPoint > 0) countAvg3Level += 1;
+        if (record.avgPeerPoint > 0) countAvg3Level += 1;
+        if (record.avgSubordinatePoint > 0) countAvg3Level += 1;
+        let sumAvg3Level =
+          countAvg3Level > 0
+            ? Math.round(
+                ((record.avgSeniorPoint +
+                  record.avgPeerPoint +
+                  record.avgSubordinatePoint) /
+                  countAvg3Level) *
+                  10
+              ) / 10
+            : 0;
+
+        bodyData4.push([
+          meta_index_4[index4],
           record.title,
           record.selfPoint,
           record.avgSeniorPoint,
           record.avgPeerPoint,
           record.avgSubordinatePoint,
+          sumAvg3Level,
         ]);
 
         statisticSelf4.push(record.selfPoint.toFixed(1));
         statisticSenior4.push(record.avgSeniorPoint.toFixed(1));
         statisticPeer4.push(record.avgPeerPoint.toFixed(1));
         statisticSubordinate4.push(record.avgSubordinatePoint.toFixed(1));
+
+        index4 = index4 + 1;
       }
     }
 
@@ -1219,10 +1572,10 @@ export class FormService {
       },
     ];
 
-    let titleChart4 = "Biểu đồ Kỹ năng Lãnh đạo";
+    let titleChart4 = "Biểu đồ Kỹ năng Tạo động lực nhóm";
 
     let labelChart4: any = [];
-    for (let record of bodyTable4) {
+    for (let record of bodyData4) {
       labelChart4.push(record[1]);
     }
 
@@ -1262,92 +1615,98 @@ export class FormService {
       }
     }
 
-    // 3. Kỹ năng tạo động lực nhóm
-    let tao_dong_luc_nhom_question_ids = [
-      "671b143ccbf5c70d45d2eb6b",
-      "671b1444cbf5c70d45d2eb70",
-      "671b144ccbf5c70d45d2eb75",
-      "671b145fcbf5c70d45d2eb7f",
-      "671b1469cbf5c70d45d2eb84",
-      "671b1471cbf5c70d45d2eb89",
-      "671b147ccbf5c70d45d2eb8e",
-      "671b1485cbf5c70d45d2eb93",
-      "671b1490cbf5c70d45d2eb98",
-      "671b149acbf5c70d45d2eb9d",
-      "671b14a6cbf5c70d45d2eba2",
-      "671b1740cbf5c70d45d2ebb2",
-      "671b174acbf5c70d45d2ebb7",
-      "671b1752cbf5c70d45d2ebbc",
-      "671b1760cbf5c70d45d2ebc1",
-      "671b1769cbf5c70d45d2ebc6",
-      "671b1773cbf5c70d45d2ebcb",
-      "671b177ccbf5c70d45d2ebd0",
-      "671b1784cbf5c70d45d2ebd5",
-      "671b178bcbf5c70d45d2ebda",
-      "671b1795cbf5c70d45d2ebdf",
-    ];
+    var bodyTable4: any = [];
+    for (var i = 0; i < bodyData4.length; i++) {
+      var row: any = [];
+      for (var key in bodyData4[i]) {
+        row.push(bodyData4[i][key]);
+      }
+      if (i === 0) {
+        row.unshift({
+          rowSpan: 11,
+          content: "1. Động lực và sự gắn kết",
+          styles: { valign: "middle", halign: "left" },
+        });
+      }
+      if (i === 11) {
+        row.unshift({
+          rowSpan: 6,
+          content: "2. Tạo cơ hội phát triển",
+          styles: { valign: "middle", halign: "left" },
+        });
+      }
+      if (i === 17) {
+        row.unshift({
+          rowSpan: 4,
+          content: "3. Đạo đức và liêm chính",
+          styles: { valign: "middle", halign: "left" },
+        });
+      }
+      bodyTable4.push(row);
+    }
 
-    const headRows5 = [
-      [
-        { content: "II", colSpan: 1, rowSpan: 2 },
-        {
-          content: "KỸ NĂNG TẠO ĐỘNG LỰC CHO NHÓM",
-          colSpan: 1,
-          rowSpan: 2,
-          styles: {
-            halign: "left",
-            valign: "middle",
-          },
-        },
-        { content: "Điểm số trung bình", colSpan: 4, rowSpan: 1 },
-      ],
-      [
-        {
-          content: "Tự đánh giá",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-        {
-          content: "Cấp trên",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-        {
-          content: "Ngang cấp",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-        {
-          content: "Cấp dưới",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-      ],
+    // 5. Biểu đồ Kỹ năng Giải quyết xung đột
+    let giai_quyet_xung_dot_question_ids = [
+      "671b17a5cbf5c70d45d2ebe4",
+      "671b62acda17663bcc132e83",
+      "671b17bdcbf5c70d45d2ebee",
+      "671b17c9cbf5c70d45d2ebf3",
+      "671b17dacbf5c70d45d2ebf8",
+      "671b17e2cbf5c70d45d2ebfd",
+      "671b17f9cbf5c70d45d2ec05",
+      "671b1802cbf5c70d45d2ec0a",
+      "671b180acbf5c70d45d2ec0f",
+      "671b1812cbf5c70d45d2ec14",
+      "671b181acbf5c70d45d2ec19",
+      "671b1821cbf5c70d45d2ec1e",
+      "671b1829cbf5c70d45d2ec23",
+      "671b1831cbf5c70d45d2ec28",
+      "671b1838cbf5c70d45d2ec2d",
+      "671b184acbf5c70d45d2ec32",
     ];
 
     let statisticSelf5: any = [];
     let statisticSenior5: any = [];
     let statisticPeer5: any = [];
     let statisticSubordinate5: any = [];
-    let bodyTable5: any = [];
+    let bodyData5: any = [];
+    let index5 = 0;
     for (let record of statisticReviewQuestions) {
-      let checkQ = tao_dong_luc_nhom_question_ids.find(
+      let checkQ = giai_quyet_xung_dot_question_ids.find(
         (item) => item === record.id
       );
       if (checkQ) {
-        bodyTable5.push([
-          record.index,
+        let countAvg3Level = 0;
+        if (record.avgSeniorPoint > 0) countAvg3Level += 1;
+        if (record.avgPeerPoint > 0) countAvg3Level += 1;
+        if (record.avgSubordinatePoint > 0) countAvg3Level += 1;
+        let sumAvg3Level =
+          countAvg3Level > 0
+            ? Math.round(
+                ((record.avgSeniorPoint +
+                  record.avgPeerPoint +
+                  record.avgSubordinatePoint) /
+                  countAvg3Level) *
+                  10
+              ) / 10
+            : 0;
+
+        bodyData5.push([
+          meta_index_5[index5],
           record.title,
           record.selfPoint,
           record.avgSeniorPoint,
           record.avgPeerPoint,
           record.avgSubordinatePoint,
+          sumAvg3Level,
         ]);
 
         statisticSelf5.push(record.selfPoint.toFixed(1));
         statisticSenior5.push(record.avgSeniorPoint.toFixed(1));
         statisticPeer5.push(record.avgPeerPoint.toFixed(1));
         statisticSubordinate5.push(record.avgSubordinatePoint.toFixed(1));
+
+        index5 = index5 + 1;
       }
     }
 
@@ -1370,10 +1729,10 @@ export class FormService {
       },
     ];
 
-    let titleChart5 = "Biểu đồ Kỹ năng Tạo động lực nhóm";
+    let titleChart5 = "Biểu đồ Kỹ năng Giải quyết xung đột";
 
     let labelChart5: any = [];
-    for (let record of bodyTable5) {
+    for (let record of bodyData5) {
       labelChart5.push(record[1]);
     }
 
@@ -1413,180 +1772,71 @@ export class FormService {
       }
     }
 
-    // 4. Kỹ năng giải quyết xung đột
-    let giai_quyet_xung_dot_question_ids = [
-      "671b17a5cbf5c70d45d2ebe4",
-      "671b62acda17663bcc132e83",
-      "671b17bdcbf5c70d45d2ebee",
-      "671b17c9cbf5c70d45d2ebf3",
-      "671b17dacbf5c70d45d2ebf8",
-      "671b17e2cbf5c70d45d2ebfd",
-      "671b17f9cbf5c70d45d2ec05",
-      "671b1802cbf5c70d45d2ec0a",
-      "671b180acbf5c70d45d2ec0f",
-      "671b1812cbf5c70d45d2ec14",
-      "671b181acbf5c70d45d2ec19",
-      "671b1821cbf5c70d45d2ec1e",
-      "671b1829cbf5c70d45d2ec23",
-      "671b1831cbf5c70d45d2ec28",
-      "671b1838cbf5c70d45d2ec2d",
-      "671b184acbf5c70d45d2ec32",
-    ];
-
-    const headRows6 = [
-      [
-        { content: "III", colSpan: 1, rowSpan: 2 },
-        {
-          content: "KỸ NĂNG GIẢI QUYẾT XUNG ĐỘT",
-          colSpan: 1,
-          rowSpan: 2,
-          styles: {
-            halign: "left",
-            valign: "middle",
-          },
-        },
-        { content: "Điểm số trung bình", colSpan: 4, rowSpan: 1 },
-      ],
-      [
-        {
-          content: "Tự đánh giá",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-        {
-          content: "Cấp trên",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-        {
-          content: "Ngang cấp",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-        {
-          content: "Cấp dưới",
-          colSpan: 1,
-          rowSpan: 1,
-        },
-      ],
-    ];
-
-    let statisticSelf6: any = [];
-    let statisticSenior6: any = [];
-    let statisticPeer6: any = [];
-    let statisticSubordinate6: any = [];
-    let bodyTable6: any = [];
-    for (let record of statisticReviewQuestions) {
-      let checkQ = giai_quyet_xung_dot_question_ids.find(
-        (item) => item === record.id
-      );
-      if (checkQ) {
-        bodyTable6.push([
-          record.index,
-          record.title,
-          record.selfPoint,
-          record.avgSeniorPoint,
-          record.avgPeerPoint,
-          record.avgSubordinatePoint,
-        ]);
-
-        statisticSelf6.push(record.selfPoint.toFixed(1));
-        statisticSenior6.push(record.avgSeniorPoint.toFixed(1));
-        statisticPeer6.push(record.avgPeerPoint.toFixed(1));
-        statisticSubordinate6.push(record.avgSubordinatePoint.toFixed(1));
+    var bodyTable5: any = [];
+    for (var i = 0; i < bodyData5.length; i++) {
+      var row: any = [];
+      for (var key in bodyData5[i]) {
+        row.push(bodyData5[i][key]);
       }
-    }
-
-    let statisticCriteria6 = [
-      {
-        title: "Tự đánh giá",
-        data: statisticSelf6,
-      },
-      {
-        title: "Cấp trên",
-        data: statisticSenior6,
-      },
-      {
-        title: "Ngang cấp",
-        data: statisticPeer6,
-      },
-      {
-        title: "Cấp dưới",
-        data: statisticSubordinate6,
-      },
-    ];
-
-    let titleChart6 = "Biểu đồ Kỹ năng Giải quyết xung đột";
-
-    let labelChart6: any = [];
-    for (let record of bodyTable6) {
-      labelChart6.push(record[1]);
-    }
-
-    let dataChart6: any = [];
-    for (let record of statisticCriteria6) {
-      if (record.title === "Tự đánh giá") {
-        dataChart6.push({
-          label: "Tự đánh giá",
-          data: record.data,
-          borderColor: "rgb(146, 208, 80)",
-          fill: false,
+      if (i === 0) {
+        row.unshift({
+          rowSpan: 3,
+          content: "1. Cách tiếp cận vấn đề xung đột",
+          styles: { valign: "middle", halign: "left" },
         });
       }
-      if (record.title === "Cấp trên") {
-        dataChart6.push({
-          label: "Cấp trên",
-          data: record.data,
-          borderColor: "rgb(0, 176, 80)",
-          fill: false,
+      if (i === 3) {
+        row.unshift({
+          rowSpan: 3,
+          content: "2. Công bằng, vô tư",
+          styles: { valign: "middle", halign: "left" },
         });
       }
-      if (record.title === "Ngang cấp") {
-        dataChart6.push({
-          label: "Ngang cấp",
-          data: record.data,
-          borderColor: "rgb(255, 255, 0)",
-          fill: false,
+      if (i === 6) {
+        row.unshift({
+          rowSpan: 3,
+          content: "3. Giao tiếp trong tình huống xung đột",
+          styles: { valign: "middle", halign: "left" },
         });
       }
-      if (record.title === "Cấp dưới") {
-        dataChart6.push({
-          label: "Cấp dưới",
-          data: record.data,
-          borderColor: "rgb(0, 176, 240)",
-          fill: false,
+      if (i === 9) {
+        row.unshift({
+          rowSpan: 4,
+          content: "4. Gi ải quyết vấn đề và hòa giải",
+          styles: { valign: "middle", halign: "left" },
         });
       }
+      if (i === 13) {
+        row.unshift({
+          rowSpan: 3,
+          content: "5. Tác động lâu dài",
+          styles: { valign: "middle", halign: "left" },
+        });
+      }
+      bodyTable5.push(row);
     }
 
     // tạo biểu đồ
-    const [imageUrl8, imageUrl7, imageUrl6, imageUrl5, imageUrl4] =
+    const [imageUrl1, imageUrl2, imageUrl3, imageUrl4, imageUrl5] =
       await Promise.all([
         this.chartService.getMultiLineChart(
-          titleChart8,
-          labelChart8,
-          dataChart8,
+          titleChart1,
+          labelChart1,
+          dataChart1,
           0,
           5
         ),
         this.chartService.getMultiLineChart(
-          titleChart7,
-          labelChart7,
-          dataChart7,
+          titleChart2,
+          labelChart2,
+          dataChart2,
           0,
           5
         ),
         this.chartService.getMultiLineChart(
-          titleChart6,
-          labelChart6,
-          dataChart6,
-          0,
-          5
-        ),
-        this.chartService.getMultiLineChart(
-          titleChart5,
-          labelChart5,
-          dataChart5,
+          titleChart3,
+          labelChart3,
+          dataChart3,
           0,
           5
         ),
@@ -1597,9 +1847,14 @@ export class FormService {
           0,
           5
         ),
+        this.chartService.getMultiLineChart(
+          titleChart5,
+          labelChart5,
+          dataChart5,
+          0,
+          5
+        ),
       ]);
-
-    let chartName = (formInfo.user as User).userName + ".jpg";
 
     const doc = new jsPDF({
       orientation: "landscape",
@@ -1642,7 +1897,7 @@ export class FormService {
     doc.setFontSize(12);
     doc.setFont("Roboto", "bold");
     doc.setTextColor(223, 153, 7);
-    doc.text("I. QUY ĐỊNH VỀ BẢO MẬT", 15, 45);
+    doc.text("A. QUY ĐỊNH VỀ BẢO MẬT", 15, 45);
     doc.setTextColor(0, 0, 0);
     doc.setFont("Roboto", "normal");
     doc.text(
@@ -1659,7 +1914,7 @@ export class FormService {
     // Add second section
     doc.setFont("Roboto", "bold");
     doc.setTextColor(223, 153, 7);
-    doc.text("II. MỤC TIÊU CỦA VIỆC PHẢN HỒI NÀY", 15, 70);
+    doc.text("B. MỤC TIÊU CỦA VIỆC PHẢN HỒI NÀY", 15, 70);
     doc.setTextColor(0, 0, 0);
     doc.setFont("Roboto", "normal");
     doc.text("- Nhằm giúp NĐPH biết được ý kiến góp ý xây dựng của:", 15, 80);
@@ -1696,7 +1951,7 @@ export class FormService {
     // Add third section
     doc.setFont("Roboto", "bold");
     doc.setTextColor(223, 153, 7);
-    doc.text("III. KẾT QUẢ", 15, 135);
+    doc.text("C. NGUYÊN TẮC PHẢN HỒI", 15, 135);
     doc.setTextColor(0, 0, 0);
     doc.setFont("Roboto", "normal");
     doc.text(
@@ -1715,21 +1970,143 @@ export class FormService {
       155
     );
 
+    // doc.addPage("a4", "l");
+    // doc.setFontSize(12);
+    // doc.setFont("Roboto", "bold");
+    // doc.setTextColor(45, 67, 50);
+    // doc.text("1. Kết quả thống kê", 15, 20);
+    // doc.setTextColor(0, 0, 0);
+    // doc.setFont("Roboto", "normal");
+
+    // // Add a table to the PDF using autoTable plugin
+    // (doc as any).autoTable({
+    //   head: headRows0,
+    //   body: rowDatas,
+    //   startY: 25,
+    //   styles: {
+    //     fontSize: 10,
+    //     font: "Roboto", // Use the custom font for the table
+    //     textColor: [0, 0, 0], // Set header text color
+    //     lineWidth: 0.1, // Độ dày của viền
+    //     lineColor: [0, 0, 0], // Màu sắc viền (đen)
+    //     halign: "center", // Center-align table text
+    //   },
+    //   headStyles: {
+    //     fontStyle: "bold", // Make the header bold
+    //     fillColor: [0, 123, 76], // Set header background color
+    //     textColor: [255, 255, 255], // Set header text color
+    //     lineWidth: 0.1, // Độ dày của viền
+    //     lineColor: [0, 0, 0], // Màu sắc viền (đen)
+    //     halign: "center", // Center-align table text
+    //     valign: "middle", // Middle-align table text
+    //   },
+    //   bodyStyles: {
+    //     textColor: [0, 0, 0], // Set header text color
+    //     lineWidth: 0.1, // Độ dày của viền
+    //     lineColor: [0, 0, 0], // Màu sắc viền (đen)
+    //     halign: "center", // Center-align table text
+    //     valign: "middle", // Middle-align table text
+    //   },
+    //   columnStyles: {
+    //     1: { halign: "left" },
+    //     2: { cellWidth: 12 },
+    //     3: { cellWidth: 10 },
+    //     4: { cellWidth: 14 },
+    //     5: { cellWidth: 11 },
+
+    //     6: { cellWidth: 8 },
+    //     7: { cellWidth: 8 },
+    //     8: { cellWidth: 8 },
+    //     9: { cellWidth: 8 },
+    //     10: { cellWidth: 8 },
+    //     11: { cellWidth: 8 },
+    //     12: { cellWidth: 8 },
+
+    //     13: { cellWidth: 8 },
+    //     14: { cellWidth: 8 },
+    //     15: { cellWidth: 8 },
+    //     16: { cellWidth: 8 },
+    //     17: { cellWidth: 8 },
+    //     18: { cellWidth: 8 },
+    //     19: { cellWidth: 8 },
+
+    //     20: { cellWidth: 8 },
+    //     21: { cellWidth: 8 },
+    //     22: { cellWidth: 8 },
+    //     23: { cellWidth: 8 },
+    //     24: { cellWidth: 8 },
+    //     25: { cellWidth: 8 },
+    //     26: { cellWidth: 8 },
+    //   },
+    //   // didParseCell: function (data) {
+    //   //   if (data.cell.text.length > 0) {
+    //   //     data.cell.styles.cellWidth = "auto"; // Cho phép điều chỉnh chiều rộng tự động
+    //   //   }
+    //   // },
+    // });
+
+    // // Lấy vị trí Y của dòng cuối cùng của bảng
+    // let finalY = (doc as any).lastAutoTable.finalY + 10;
+    // doc.text("Ghi chú:", 15, finalY);
+    // //doc.text("- Ko: Số người không ý kiến ở tiêu chí đánh giá đó;", 35, finalY);
+    // //doc.text("- TC: Tổng cộng số người tham gia phản hồi.", 35, finalY + 5);
+    // doc.text("- TC: Tổng cộng số người tham gia phản hồi.", 35, finalY);
+
+    // Add four section
+    doc.setFont("Roboto", "bold");
+    doc.setTextColor(223, 153, 7);
     doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    let currentY = 5;
+
+    doc.text("IV. PHÂN TÍCH TỔNG QUÁT KẾT QUẢ PHẢN HỒI", 15, currentY);
+    doc.setTextColor(0, 0, 0);
+    currentY = currentY + 5;
+
     doc.setFontSize(12);
     doc.setFont("Roboto", "bold");
     doc.setTextColor(45, 67, 50);
-    doc.text("1. Kết quả thống kê", 15, 20);
+    doc.text("1. Biểu đồ tổng quát", 15, currentY);
     doc.setTextColor(0, 0, 0);
     doc.setFont("Roboto", "normal");
+    currentY = currentY + 0;
 
-    // Add a table to the PDF using autoTable plugin
+    const imageResponse1 = await axios.get(imageUrl1, {
+      responseType: "arraybuffer",
+    });
+
+    //const imagePath1 = path.join(directory, chartName);
+    // fs.writeFileSync(imagePath1, imageResponse1.data);
+    // const imageData1 = fs.readFileSync(imagePath1).toString("base64");
+
+    // Chuyển dữ liệu ảnh thành base64
+    const imageData1 = Buffer.from(imageResponse1.data, "binary").toString(
+      "base64"
+    );
+
+    // Biểu đồ 1
+    doc.addImage({
+      imageData: `data:image/jpeg;base64,${imageData1}`,
+      format: "JPEG",
+      x: 60,
+      y: currentY - 5,
+      width: 150,
+      height: 95,
+      compression: "MEDIUM",
+    });
+
+    //doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "normal");
+    currentY = 105;
+
+    // bảng 1
     (doc as any).autoTable({
       head: headRows1,
-      body: rowDatas,
-      startY: 25,
+      body: bodyTable1,
+      startY: currentY,
       styles: {
-        fontSize: 10,
+        fontSize: 8,
         font: "Roboto", // Use the custom font for the table
         textColor: [0, 0, 0], // Set header text color
         lineWidth: 0.1, // Độ dày của viền
@@ -1737,15 +2114,13 @@ export class FormService {
         halign: "center", // Center-align table text
       },
       headStyles: {
-        fontStyle: "bold", // Make the header bold
-        fillColor: [0, 123, 76], // Set header background color
+        fillColor: [0, 123, 76], // Màu nền tiêu đề
         textColor: [255, 255, 255], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
         halign: "center", // Center-align table text
         valign: "middle", // Middle-align table text
       },
       bodyStyles: {
+        fillColor: [255, 255, 255], // Loại bỏ màu nền cho tất cả các ô
         textColor: [0, 0, 0], // Set header text color
         lineWidth: 0.1, // Độ dày của viền
         lineColor: [0, 0, 0], // Màu sắc viền (đen)
@@ -1753,49 +2128,321 @@ export class FormService {
         valign: "middle", // Middle-align table text
       },
       columnStyles: {
-        1: { halign: "left" },
-        2: { cellWidth: 12 },
-        3: { cellWidth: 10 },
-        4: { cellWidth: 14 },
-        5: { cellWidth: 11 },
-
-        6: { cellWidth: 8 },
-        7: { cellWidth: 8 },
-        8: { cellWidth: 8 },
-        9: { cellWidth: 8 },
-        10: { cellWidth: 8 },
-        11: { cellWidth: 8 },
-        12: { cellWidth: 8 },
-
-        13: { cellWidth: 8 },
-        14: { cellWidth: 8 },
-        15: { cellWidth: 8 },
-        16: { cellWidth: 8 },
-        17: { cellWidth: 8 },
-        18: { cellWidth: 8 },
-        19: { cellWidth: 8 },
-
-        20: { cellWidth: 8 },
-        21: { cellWidth: 8 },
-        22: { cellWidth: 8 },
-        23: { cellWidth: 8 },
-        24: { cellWidth: 8 },
-        25: { cellWidth: 8 },
-        26: { cellWidth: 8 },
+        0: { cellWidth: 30, fontStyle: "bold"},
+        1: { halign: "center" },
+        2: { halign: "left" },
       },
-      // didParseCell: function (data) {
-      //   if (data.cell.text.length > 0) {
-      //     data.cell.styles.cellWidth = "auto"; // Cho phép điều chỉnh chiều rộng tự động
-      //   }
-      // },
+      // Hàm để thay đổi màu nền cho từng hàng
+      didParseCell: function (data) {
+        if (data.section === "body") {
+          // Áp dụng màu nền cho từng hàng
+          data.cell.styles.fillColor = [255, 255, 255]; // xám nhạt
+        }
+      },
     });
 
-    // Lấy vị trí Y của dòng cuối cùng của bảng
-    let finalY = (doc as any).lastAutoTable.finalY + 10;
-    doc.text("Ghi chú:", 15, finalY);
-    //doc.text("- Ko: Số người không ý kiến ở tiêu chí đánh giá đó;", 35, finalY);
-    //doc.text("- TC: Tổng cộng số người tham gia phản hồi.", 35, finalY + 5);
-    doc.text("- TC: Tổng cộng số người tham gia phản hồi.", 35, finalY);
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    currentY = 5;
+    doc.setTextColor(45, 67, 50);
+    doc.text(
+      "2. Biểu đồ Tổng – So sánh theo từng nhóm đối tượng",
+      15,
+      currentY
+    );
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("Roboto", "normal");
+    currentY = currentY + 5;
+
+    const imageResponse2 = await axios.get(imageUrl2, {
+      responseType: "arraybuffer",
+    });
+
+    const imageData2 = Buffer.from(imageResponse2.data, "binary").toString(
+      "base64"
+    );
+
+    // Biểu đồ 2
+    doc.addImage({
+      imageData: `data:image/jpeg;base64,${imageData2}`,
+      format: "JPEG",
+      x: 60,
+      y: currentY - 5,
+      width: 150,
+      height: 95,
+      compression: "MEDIUM",
+    });
+
+    //doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "normal");
+    currentY = 105;
+
+    // bảng 2
+    (doc as any).autoTable({
+      head: headRows2,
+      body: bodyTable2,
+      startY: currentY,
+      styles: {
+        fontSize: 8,
+        font: "Roboto", // Use the custom font for the table
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+      },
+      headStyles: {
+        fillColor: [0, 123, 76], // Màu nền tiêu đề
+        textColor: [255, 255, 255], // Set header text color
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      bodyStyles: {
+        fillColor: [255, 255, 255], // Loại bỏ màu nền cho tất cả các ô
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      columnStyles: {
+        0: { cellWidth: 30, fontStyle: "bold"},
+        1: { halign: "center" },
+        2: { halign: "left" },
+      },
+      // Hàm để thay đổi màu nền cho từng hàng
+      didParseCell: function (data) {
+        if (data.section === "body") {
+          // Áp dụng màu nền cho từng hàng
+          data.cell.styles.fillColor = [255, 255, 255]; // xám nhạt
+        }
+      },
+    });
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    currentY = 5;
+    doc.setTextColor(45, 67, 50);
+    doc.text("3. Biểu đồ Kỹ năng Lãnh đạo", 15, currentY);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("Roboto", "normal");
+    currentY = currentY + 5;
+
+    const imageResponse3 = await axios.get(imageUrl3, {
+      responseType: "arraybuffer",
+    });
+    const imageData3 = Buffer.from(imageResponse3.data, "binary").toString(
+      "base64"
+    );
+
+    // biểu đồ 3
+    doc.addImage({
+      imageData: `data:image/jpeg;base64,${imageData3}`,
+      format: "JPEG",
+      x: 60,
+      y: currentY - 10,
+      width: 150,
+      height: 90,
+      compression: "MEDIUM",
+    });
+
+    //doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "normal");
+    currentY = 90;
+
+    // bảng 3
+    (doc as any).autoTable({
+      head: headRows3,
+      body: bodyTable3,
+      startY: currentY,
+      styles: {
+        fontSize: 8,
+        font: "Roboto", // Use the custom font for the table
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+      },
+      headStyles: {
+        fillColor: [0, 123, 76], // Màu nền tiêu đề
+        textColor: [255, 255, 255], // Set header text color
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      bodyStyles: {
+        fillColor: [255, 255, 255], // Loại bỏ màu nền cho tất cả các ô
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      columnStyles: {
+        0: { cellWidth: 30, fontStyle: "bold"},
+        1: { halign: "center" },
+        2: { halign: "left" },
+      },
+      // Hàm để thay đổi màu nền cho từng hàng
+      didParseCell: function (data) {
+        if (data.section === "body") {
+          // Áp dụng màu nền cho từng hàng
+          data.cell.styles.fillColor = [255, 255, 255]; // xám nhạt
+        }
+      },
+    });
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    currentY = 5;
+    doc.setTextColor(45, 67, 50);
+    doc.text("4. Biểu đồ Kỹ năng Tạo động lực nhóm", 15, currentY);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("Roboto", "normal");
+    currentY = currentY + 5;
+
+    const imageResponse4 = await axios.get(imageUrl4, {
+      responseType: "arraybuffer",
+    });
+    const imageData4 = Buffer.from(imageResponse4.data, "binary").toString(
+      "base64"
+    );
+
+    // biểu đồ 4
+    doc.addImage({
+      imageData: `data:image/jpeg;base64,${imageData4}`,
+      format: "JPEG",
+      x: 60,
+      y: currentY - 10,
+      width: 150,
+      height: 85,
+      compression: "MEDIUM",
+    });
+
+    //doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "normal");
+    currentY = 85;
+
+    // bảng 4
+    (doc as any).autoTable({
+      head: headRows4,
+      body: bodyTable4,
+      startY: currentY,
+      styles: {
+        fontSize: 6,
+        font: "Roboto", // Use the custom font for the table
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        cellPadding: 1,
+      },
+      headStyles: {
+        fillColor: [0, 123, 76], // Màu nền tiêu đề
+        textColor: [255, 255, 255], // Set header text color
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      bodyStyles: {
+        fillColor: [255, 255, 255], // Loại bỏ màu nền cho tất cả các ô
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      columnStyles: {
+        0: { cellWidth: 30, fontStyle: "bold"},
+        1: { halign: "center" },
+        2: { halign: "left" },
+      },
+      // Hàm để thay đổi màu nền cho từng hàng
+      didParseCell: function (data) {
+        if (data.section === "body") {
+          // Áp dụng màu nền cho từng hàng
+          data.cell.styles.fillColor = [255, 255, 255]; // xám nhạt
+        }
+      },
+    });
+
+    doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    currentY = 5;
+    doc.setTextColor(45, 67, 50);
+    doc.text("5. Biểu đồ Kỹ năng Giải quyết xung đột", 15, currentY);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("Roboto", "normal");
+    currentY = currentY + 5;
+
+    const imageResponse5 = await axios.get(imageUrl5, {
+      responseType: "arraybuffer",
+    });
+    const imageData5 = Buffer.from(imageResponse5.data, "binary").toString(
+      "base64"
+    );
+
+    // biểu đồ 5
+    doc.addImage({
+      imageData: `data:image/jpeg;base64,${imageData5}`,
+      format: "JPEG",
+      x: 60,
+      y: currentY - 10,
+      width: 150,
+      height: 85,
+      compression: "MEDIUM",
+    });
+
+    //doc.addPage("a4", "l");
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "normal");
+    currentY = 85;
+
+    // bảng 5
+    (doc as any).autoTable({
+      head: headRows5,
+      body: bodyTable5,
+      startY: currentY,
+      styles: {
+        fontSize: 7,
+        font: "Roboto", // Use the custom font for the table
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        cellPadding: 1,
+      },
+      headStyles: {
+        fillColor: [0, 123, 76], // Màu nền tiêu đề
+        textColor: [255, 255, 255], // Set header text color
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      bodyStyles: {
+        fillColor: [255, 255, 255], // Loại bỏ màu nền cho tất cả các ô
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      columnStyles: {
+        0: { cellWidth: 30, fontStyle: "bold"},
+        1: { halign: "center" },
+        2: { halign: "left" },
+      },
+      // Hàm để thay đổi màu nền cho từng hàng
+      didParseCell: function (data) {
+        if (data.section === "body") {
+          // Áp dụng màu nền cho từng hàng
+          data.cell.styles.fillColor = [255, 255, 255]; // xám nhạt
+        }
+      },
+    });
 
     doc.addPage("a4", "l");
     doc.setFontSize(12);
@@ -1806,16 +2453,18 @@ export class FormService {
     let oldCurrentY = 0;
 
     doc.setFont("Roboto", "bold");
+    doc.setTextColor(223, 153, 7);
+    doc.text("E. GÓP Ý CHO NĐPH:", 15, 10);
     doc.setTextColor(45, 67, 50);
-    doc.text("2. Những điểm mạnh nổi bật của NĐPN", 15, 20);
+    doc.text("1. Những điểm mạnh nổi bật của NĐPN", 15, 20);
     doc.setTextColor(0, 0, 0);
-    doc.text("a/ Nhận xét của cấp trên:", 20, 25);
+    doc.text("a. Nhận xét của cấp trên:", 20, 25);
     doc.setFont("Roboto", "normal");
 
-    let currentY = 30;
+    currentY = 30;
     for (let text of answerQuestion2.stringSeniors) {
       let splitText = doc.splitTextToSize(text, maxWidth);
-      doc.text(splitText, 20, currentY);
+      doc.text(splitText, 25, currentY);
 
       let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
@@ -1826,14 +2475,14 @@ export class FormService {
     doc.setFont("Roboto", "bold");
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = currentY != 20 ? currentY + 5 : currentY;
-    doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
+    doc.text("b. Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
     doc.setFont("Roboto", "normal");
 
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = currentY != 20 ? currentY + 5 : currentY;
     for (let text of answerQuestion2.stringPeers) {
       let splitText = doc.splitTextToSize(text, maxWidth);
-      doc.text(splitText, 20, currentY);
+      doc.text(splitText, 25, currentY);
 
       let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
@@ -1844,14 +2493,14 @@ export class FormService {
     doc.setFont("Roboto", "bold");
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = currentY != 20 ? currentY + 5 : currentY;
-    doc.text("c/ Nhận xét của cấp dưới:", 20, currentY);
+    doc.text("c. Nhận xét của cấp dưới:", 20, currentY);
     doc.setFont("Roboto", "normal");
 
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = currentY != 20 ? currentY + 5 : currentY;
     for (let text of answerQuestion2.stringSubordinates) {
       let splitText = doc.splitTextToSize(text, maxWidth);
-      doc.text(splitText, 20, currentY);
+      doc.text(splitText, 25, currentY);
 
       let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
@@ -1863,18 +2512,18 @@ export class FormService {
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 10, maxHeight);
     currentY = currentY != 20 ? currentY + 10 : currentY;
     doc.setTextColor(45, 67, 50);
-    doc.text("3. Vấn đề mà NĐPH cần hoàn thiện ngay", 15, currentY);
+    doc.text("2. Vấn đề mà NĐPH cần hoàn thiện ngay", 15, currentY);
     doc.setTextColor(0, 0, 0);
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = currentY != 20 ? currentY + 5 : currentY;
-    doc.text("a/ Nhận xét của cấp trên:", 20, currentY);
+    doc.text("a. Nhận xét của cấp trên:", 20, currentY);
     doc.setFont("Roboto", "normal");
 
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = currentY != 20 ? currentY + 5 : currentY;
     for (let text of answerQuestion3.stringSeniors) {
       let splitText = doc.splitTextToSize(text, maxWidth);
-      doc.text(splitText, 20, currentY);
+      doc.text(splitText, 25, currentY);
 
       let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
@@ -1885,14 +2534,14 @@ export class FormService {
     doc.setFont("Roboto", "bold");
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = currentY != 20 ? currentY + 5 : currentY;
-    doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
+    doc.text("b. Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
     doc.setFont("Roboto", "normal");
 
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = currentY != 20 ? currentY + 5 : currentY;
     for (let text of answerQuestion3.stringPeers) {
       let splitText = doc.splitTextToSize(text, maxWidth);
-      doc.text(splitText, 20, currentY);
+      doc.text(splitText, 25, currentY);
 
       let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
@@ -1903,14 +2552,14 @@ export class FormService {
     doc.setFont("Roboto", "bold");
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = currentY != 20 ? currentY + 5 : currentY;
-    doc.text("c/ Nhận xét của cấp dưới:", 20, currentY);
+    doc.text("c. Nhận xét của cấp dưới:", 20, currentY);
     doc.setFont("Roboto", "normal");
 
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = currentY != 20 ? currentY + 5 : currentY;
     for (let text of answerQuestion3.stringSubordinates) {
       let splitText = doc.splitTextToSize(text, maxWidth);
-      doc.text(splitText, 20, currentY);
+      doc.text(splitText, 25, currentY);
 
       let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
@@ -1922,18 +2571,18 @@ export class FormService {
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 10, maxHeight);
     currentY = currentY != 20 ? currentY + 10 : currentY;
     doc.setTextColor(45, 67, 50);
-    doc.text("4. Lời khuyên dành cho NĐPH", 15, currentY);
+    doc.text("3. Lời khuyên dành cho NĐPH", 15, currentY);
     doc.setTextColor(0, 0, 0);
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = currentY != 20 ? currentY + 5 : currentY;
-    doc.text("a/ Nhận xét của cấp trên:", 20, currentY);
+    doc.text("a. Nhận xét của cấp trên:", 20, currentY);
     doc.setFont("Roboto", "normal");
 
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = currentY != 20 ? currentY + 5 : currentY;
     for (let text of answerQuestion4.stringSeniors) {
       let splitText = doc.splitTextToSize(text, maxWidth);
-      doc.text(splitText, 20, currentY);
+      doc.text(splitText, 25, currentY);
 
       let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
@@ -1944,7 +2593,7 @@ export class FormService {
     doc.setFont("Roboto", "bold");
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = oldCurrentY = currentY != 20 ? currentY + 5 : currentY;
-    doc.text("b/ Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
+    doc.text("b. Nhận xét của đồng nghiệp đồng cấp:", 20, currentY);
     doc.setFont("Roboto", "normal");
 
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
@@ -1952,7 +2601,7 @@ export class FormService {
     if (currentY == oldCurrentY) currentY += 5;
     for (let text of answerQuestion4.stringPeers) {
       let splitText = doc.splitTextToSize(text, maxWidth);
-      doc.text(splitText, 20, currentY);
+      doc.text(splitText, 25, currentY);
 
       let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
@@ -1963,410 +2612,19 @@ export class FormService {
     doc.setFont("Roboto", "bold");
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = currentY != 20 ? currentY + 5 : currentY;
-    doc.text("c/ Nhận xét của cấp dưới:", 20, currentY);
+    doc.text("c. Nhận xét của cấp dưới:", 20, currentY);
     doc.setFont("Roboto", "normal");
     currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     currentY = currentY != 20 ? currentY + 5 : currentY;
     for (let text of answerQuestion4.stringSubordinates) {
       let splitText = doc.splitTextToSize(text, maxWidth);
-      doc.text(splitText, 20, currentY);
+      doc.text(splitText, 25, currentY);
 
       let lengthRow = splitText.length;
       currentY = currentY + lengthRow * 5;
       currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     }
     currentY -= 5;
-
-    // Add four section
-    doc.setFont("Roboto", "bold");
-    doc.setTextColor(223, 153, 7);
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    currentY = 20;
-
-    doc.text("IV. PHÂN TÍCH TỔNG QUÁT", 15, currentY);
-    doc.setTextColor(0, 0, 0);
-    currentY = currentY + 10;
-
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "bold");
-    doc.setTextColor(45, 67, 50);
-    doc.text("1. Thống kê Tổng quát", 15, currentY);
-    doc.setTextColor(0, 0, 0);
-    doc.setFont("Roboto", "normal");
-    currentY = currentY + 15;
-
-    // biểu đồ tổng quát
-    const imageResponse8 = await axios.get(imageUrl8, {
-      responseType: "arraybuffer",
-    });
-
-    //const imagePath8 = path.join(directory, chartName);
-    // fs.writeFileSync(imagePath8, imageResponse8.data);
-    // const imageData8 = fs.readFileSync(imagePath8).toString("base64");
-
-    // Chuyển dữ liệu ảnh thành base64
-    const imageData8 = Buffer.from(imageResponse8.data, "binary").toString(
-      "base64"
-    );
-
-    doc.addImage({
-      imageData: `data:image/jpeg;base64,${imageData8}`,
-      format: "JPEG",
-      x: 20,
-      y: currentY - 5,
-      width: 250,
-      height: 150,
-      compression: "MEDIUM",
-    });
-
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "normal");
-    currentY = 20;
-
-    // bảng 8
-    // Thêm bảng vào PDF
-    (doc as any).autoTable({
-      head: headRows8,
-      body: bodyTable8,
-      startY: currentY,
-      styles: {
-        fontSize: 10,
-        font: "Roboto", // Use the custom font for the table
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-      },
-      headStyles: {
-        fillColor: [0, 123, 76], // Màu nền tiêu đề
-        textColor: [255, 255, 255], // Set header text color
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      bodyStyles: {
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      columnStyles: {
-        0: { halign: "center" },
-        1: { halign: "left" },
-        2: { halign: "center" },
-      },
-      // Hàm để thay đổi màu nền cho từng hàng
-      didParseCell: function (data) {
-        if (data.section === "body") {
-          // Áp dụng màu nền cho từng hàng
-          // data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
-        }
-      },
-    });
-
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "bold");
-    currentY = 20;
-    doc.setTextColor(45, 67, 50);
-    doc.text("2. Biểu đồ Tổng hợp", 15, currentY);
-    doc.setTextColor(0, 0, 0);
-    doc.setFont("Roboto", "normal");
-    currentY = currentY + 15;
-
-    // biểu đồ 7
-    const imageResponse7 = await axios.get(imageUrl7, {
-      responseType: "arraybuffer",
-    });
-
-    // Chuyển dữ liệu ảnh thành base64
-    const imageData7 = Buffer.from(imageResponse7.data, "binary").toString(
-      "base64"
-    );
-    doc.addImage({
-      imageData: `data:image/jpeg;base64,${imageData7}`,
-      format: "JPEG",
-      x: 20,
-      y: currentY - 5,
-      width: 250,
-      height: 150,
-      compression: "MEDIUM",
-    });
-
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "normal");
-    currentY = 20;
-
-    // bảng 7
-    // Thêm bảng vào PDF
-    (doc as any).autoTable({
-      head: headRows7,
-      body: bodyTable7,
-      startY: currentY,
-      styles: {
-        fontSize: 10,
-        font: "Roboto", // Use the custom font for the table
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-      },
-      headStyles: {
-        fillColor: [0, 123, 76], // Màu nền tiêu đề
-        textColor: [255, 255, 255], // Set header text color
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      bodyStyles: {
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      columnStyles: {
-        0: { halign: "center" },
-        1: { halign: "left" },
-        2: { halign: "center" },
-      },
-      // Hàm để thay đổi màu nền cho từng hàng
-      didParseCell: function (data) {
-        if (data.section === "body") {
-          // Áp dụng màu nền cho từng hàng
-          // data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
-        }
-      },
-    });
-
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "bold");
-    currentY = 20;
-    doc.setTextColor(45, 67, 50);
-    doc.text("3. Biểu đồ Kỹ năng Lãnh đạo", 15, currentY);
-    doc.setTextColor(0, 0, 0);
-    doc.setFont("Roboto", "normal");
-    currentY = currentY + 15;
-
-    // biểu đồ 4
-    const imageResponse4 = await axios.get(imageUrl4, {
-      responseType: "arraybuffer",
-    });
-    // Chuyển dữ liệu ảnh thành base64
-    const imageData4 = Buffer.from(imageResponse4.data, "binary").toString(
-      "base64"
-    );
-
-    doc.addImage({
-      imageData: `data:image/jpeg;base64,${imageData4}`,
-      format: "JPEG",
-      x: 20,
-      y: currentY - 5,
-      width: 250,
-      height: 150,
-      compression: "MEDIUM",
-    });
-
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "normal");
-    currentY = 20;
-
-    // bảng 4
-    // Thêm bảng vào PDF
-    (doc as any).autoTable({
-      head: headRows4,
-      body: bodyTable4,
-      startY: currentY,
-      styles: {
-        fontSize: 10,
-        font: "Roboto", // Use the custom font for the table
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-      },
-      headStyles: {
-        fillColor: [0, 123, 76], // Màu nền tiêu đề
-        textColor: [255, 255, 255], // Set header text color
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      bodyStyles: {
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      columnStyles: {
-        0: { halign: "center" },
-        1: { halign: "left" },
-        2: { halign: "center" },
-      },
-      // Hàm để thay đổi màu nền cho từng hàng
-      didParseCell: function (data) {
-        if (data.section === "body") {
-          // Áp dụng màu nền cho từng hàng
-          // data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
-        }
-      },
-    });
-
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "bold");
-    currentY = 20;
-    doc.setTextColor(45, 67, 50);
-    doc.text("4. Biểu đồ Kỹ năng Tạo động lực nhóm", 15, currentY);
-    doc.setTextColor(0, 0, 0);
-    doc.setFont("Roboto", "normal");
-    currentY = currentY + 15;
-
-    // biểu đồ 5
-    const imageResponse5 = await axios.get(imageUrl5, {
-      responseType: "arraybuffer",
-    });
-
-    // Chuyển dữ liệu ảnh thành base64
-    const imageData5 = Buffer.from(imageResponse5.data, "binary").toString(
-      "base64"
-    );
-
-    doc.addImage({
-      imageData: `data:image/jpeg;base64,${imageData5}`,
-      format: "JPEG",
-      x: 20,
-      y: currentY - 5,
-      width: 250,
-      height: 150,
-      compression: "MEDIUM",
-    });
-
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "normal");
-    currentY = 20;
-
-    // bảng 5
-    // Thêm bảng vào PDF
-    (doc as any).autoTable({
-      head: headRows5,
-      body: bodyTable5,
-      startY: currentY,
-      styles: {
-        fontSize: 10,
-        font: "Roboto", // Use the custom font for the table
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-      },
-      headStyles: {
-        fillColor: [0, 123, 76], // Màu nền tiêu đề
-        textColor: [255, 255, 255], // Set header text color
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      bodyStyles: {
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      columnStyles: {
-        0: { halign: "center" },
-        1: { halign: "left" },
-        2: { halign: "center" },
-      },
-      // Hàm để thay đổi màu nền cho từng hàng
-      didParseCell: function (data) {
-        if (data.section === "body") {
-          // Áp dụng màu nền cho từng hàng
-          // data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
-        }
-      },
-    });
-
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "bold");
-    currentY = 20;
-    doc.setTextColor(45, 67, 50);
-    doc.text("5. Biểu đồ Kỹ năng Giải quyết xung đột", 15, currentY);
-    doc.setTextColor(0, 0, 0);
-    doc.setFont("Roboto", "normal");
-    currentY = currentY + 15;
-
-    // biểu đồ 6
-    const imageResponse6 = await axios.get(imageUrl6, {
-      responseType: "arraybuffer",
-    });
-
-    // Chuyển dữ liệu ảnh thành base64
-    const imageData6 = Buffer.from(imageResponse6.data, "binary").toString(
-      "base64"
-    );
-
-    doc.addImage({
-      imageData: `data:image/jpeg;base64,${imageData6}`,
-      format: "JPEG",
-      x: 20,
-      y: currentY - 5,
-      width: 250,
-      height: 150,
-      compression: "MEDIUM",
-    });
-
-    doc.addPage("a4", "l");
-    doc.setFontSize(12);
-    doc.setFont("Roboto", "normal");
-    currentY = 20;
-
-    // bảng 6
-    // Thêm bảng vào PDF
-    (doc as any).autoTable({
-      head: headRows6,
-      body: bodyTable6,
-      startY: currentY,
-      styles: {
-        fontSize: 10,
-        font: "Roboto", // Use the custom font for the table
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-      },
-      headStyles: {
-        fillColor: [0, 123, 76], // Màu nền tiêu đề
-        textColor: [255, 255, 255], // Set header text color
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      bodyStyles: {
-        textColor: [0, 0, 0], // Set header text color
-        lineWidth: 0.1, // Độ dày của viền
-        lineColor: [0, 0, 0], // Màu sắc viền (đen)
-        halign: "center", // Center-align table text
-        valign: "middle", // Middle-align table text
-      },
-      columnStyles: {
-        0: { halign: "center" },
-        1: { halign: "left" },
-        2: { halign: "center" },
-      },
-      // Hàm để thay đổi màu nền cho từng hàng
-      didParseCell: function (data) {
-        if (data.section === "body") {
-          // Áp dụng màu nền cho từng hàng
-          // data.cell.styles.fillColor = [216, 216, 216]; // xám nhạt
-        }
-      },
-    });
 
     // Lưu PDF vào buffer
     let filename =
