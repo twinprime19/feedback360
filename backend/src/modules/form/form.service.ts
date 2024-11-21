@@ -128,7 +128,8 @@ export class FormService {
 
     let formRelationshipInfo = await this.formRelationshipModel.create(data);
 
-    let logDatas: any = [];
+    let logDatas: any =
+      formInfo.logDatas && formInfo.logDatas.length ? formInfo.logDatas : [];
     for (let emailAddress of emails) {
       let url = `${APP_CONFIG.APP.FE_URL}/form/${formRelationshipInfo._id}`;
       let to = emailAddress;
@@ -160,7 +161,7 @@ export class FormService {
         time: result.time,
       };
 
-      logDatas.push(logData);
+      logDatas.unshift(logData);
     }
 
     await this.formModel
