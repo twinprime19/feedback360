@@ -18,7 +18,6 @@ import { AuthPayload } from "../auth/auth.interface";
 import {
   FontCustomRobotoBold,
   FontCustomRobotoNormal,
-  GenderState,
   PublishState,
   QuestionTypeState,
   RelationshipState,
@@ -30,7 +29,6 @@ import * as fs from "fs";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import { Feedback } from "../feedback/feedback.model";
-import * as path from "path";
 import axios from "axios";
 import { User } from "../user/entities/user.entity";
 import { EmailService } from "@app/processors/helper/helper.service.email";
@@ -38,7 +36,6 @@ import { sendForm } from "@app/utils/template-email";
 import * as APP_CONFIG from "@app/app.config";
 import { FormRelationship } from "../form_relationship/form_relationship.model";
 import { ChartService } from "../chart/chart.service";
-import autoTable from "jspdf-autotable";
 
 @Injectable()
 export class FormService {
@@ -130,6 +127,8 @@ export class FormService {
     };
 
     let formRelationshipInfo = await this.formRelationshipModel.create(data);
+
+    let logDatas: any = [];
     for (let emailAddress of emails) {
       let url = `${APP_CONFIG.APP.FE_URL}/form/${formRelationshipInfo._id}`;
       let to = emailAddress;
@@ -141,8 +140,32 @@ export class FormService {
       let html = sendForm(templateEmail);
 
       // send email
-      this.emailService.sendMail({ to, subject, text: "", html });
+      let result: any = await this.emailService.sendMailAsync({
+        to,
+        subject,
+        text: "",
+        html,
+      });
+
+      let logData = {
+        link: url,
+        emailAddress: to,
+        code: result.code,
+        status: result.status,
+        accepted: result.accepted,
+        rejected: result.rejected,
+        messageId: result.messageId,
+        envelope: result.envelope,
+        response: result.response,
+        time: result.time,
+      };
+
+      logDatas.push(logData);
     }
+
+    await this.formModel
+      .findByIdAndUpdate(formID, { logDatas: logDatas }, { new: true })
+      .exec();
 
     return true;
   }

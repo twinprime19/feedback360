@@ -5,7 +5,14 @@
 
 import { AutoIncrementID } from "@typegoose/auto-increment";
 import { prop, plugin, modelOptions, Ref } from "@typegoose/typegoose";
-import { IsIn, IsInt, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import {
+  IsArray,
+  IsIn,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from "class-validator";
 import { generalAutoIncrementIDConfig } from "@app/constants/increment.constant";
 import { getProviderByTypegooseClass } from "@app/transformers/model.transformer";
 import { mongoosePaginate } from "@app/utils/paginate";
@@ -58,6 +65,11 @@ export class Form {
   @IsNotEmpty()
   @prop({ required: true })
   time: string; // thời gian tạo form
+
+  @IsArray()
+  @IsOptional()
+  @prop({ default: [] })
+  logDatas: any; // log gửi mail
 
   @prop({ default: Date.now, immutable: true })
   createdAt?: Date;
