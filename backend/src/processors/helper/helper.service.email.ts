@@ -92,7 +92,7 @@ export class EmailService {
         from: APP_CONFIG.EMAIL.from,
       });
       log.info("send succeed.", info.messageId, info.response);
-      console.log("info", info);
+      // console.log("info", info);
       let logData = {
         code: "",
         status: 250,
@@ -106,7 +106,7 @@ export class EmailService {
       return logData;
     } catch (error) {
       log.error("send failed!", getMessageFromNormalError(error));
-      console.log("error", error);
+      // console.log("error", error);
       let logData = {
         code: error.code,
         status: error.responseCode,

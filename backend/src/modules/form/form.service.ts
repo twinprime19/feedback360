@@ -152,6 +152,8 @@ export class FormService {
         html,
       });
 
+      console.log("result", result);
+
       let logData = {
         link: url,
         emailAddress: to,
@@ -163,7 +165,6 @@ export class FormService {
         response: result.response,
         time: result.time,
       };
-
       logDatas.push(logData);
     }
 
