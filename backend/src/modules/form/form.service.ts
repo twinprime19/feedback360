@@ -106,7 +106,11 @@ export class FormService {
     let userInfo = await this.userService.findByUserName(user.userName);
 
     let formInfo = await this.formModel.findById(formID).populate("user");
-    if (!formInfo) throw `Không tìm thấy biểu mẫu`;
+    if (!formInfo) throw `Không tìm thấy biểu mẫu.`;
+
+    if (!listEmailAddress || !listEmailAddress.trim().length)
+      throw `Vui lòng nhập e-mail cần gửi biểu mẫu.`;
+    listEmailAddress = listEmailAddress.replace(/\s+/g, "");
 
     let fullname = (formInfo.user as User).fullname;
     let feedbackUserID = (formInfo.user as MongooseDoc<User>)._id;
@@ -156,7 +160,6 @@ export class FormService {
         accepted: result.accepted,
         rejected: result.rejected,
         messageId: result.messageId,
-        envelope: result.envelope,
         response: result.response,
         time: result.time,
       };
@@ -598,9 +601,9 @@ export class FormService {
         id: String(questionObj._id),
         title: questionObj.title,
         type: questionObj.type,
-        stringSeniors: stringSeniors,
-        stringPeers: stringPeers,
-        stringSubordinates: stringSubordinates,
+        stringSeniors: [...new Set(stringSeniors)],
+        stringPeers: [...new Set(stringPeers)],
+        stringSubordinates: [...new Set(stringSubordinates)],
       };
 
       statisticAnswerQuestions.push(statisticQuestion);
@@ -1175,11 +1178,11 @@ export class FormService {
       let data2 = [
         cate.stt,
         cate.title,
-        sumAvgSelfPoint,
-        sumAvgSeniorPoint,
-        sumAvgPeerPoint,
-        sumAvgSubordinatePoint,
-        sumAvgLevels,
+        sumAvgSelfPoint.toFixed(1),
+        sumAvgSeniorPoint.toFixed(1),
+        sumAvgPeerPoint.toFixed(1),
+        sumAvgSubordinatePoint.toFixed(1),
+        sumAvgLevels.toFixed(1),
       ];
       bodyData2.push(data2);
 
@@ -1188,7 +1191,12 @@ export class FormService {
       statisticPeer2.push(sumAvgPeerPoint.toFixed(1));
       statisticSubordinate2.push(sumAvgSubordinatePoint.toFixed(1));
 
-      let data1 = [cate.stt, cate.title, sumAvgSelfPoint, sumAvgLevels];
+      let data1 = [
+        cate.stt,
+        cate.title,
+        sumAvgSelfPoint.toFixed(1),
+        sumAvgLevels.toFixed(1),
+      ];
       bodyData1.push(data1);
       statisticLevel1.push(sumAvgLevels.toFixed(1));
     }
@@ -1400,10 +1408,10 @@ export class FormService {
           meta_index_3[index3],
           record.title,
           record.selfPoint,
-          record.avgSeniorPoint,
-          record.avgPeerPoint,
-          record.avgSubordinatePoint,
-          sumAvg3Level,
+          record.avgSeniorPoint.toFixed(1),
+          record.avgPeerPoint.toFixed(1),
+          record.avgSubordinatePoint.toFixed(1),
+          sumAvg3Level.toFixed(1),
         ]);
 
         statisticSelf3.push(record.selfPoint.toFixed(1));
@@ -1562,10 +1570,10 @@ export class FormService {
           meta_index_4[index4],
           record.title,
           record.selfPoint,
-          record.avgSeniorPoint,
-          record.avgPeerPoint,
-          record.avgSubordinatePoint,
-          sumAvg3Level,
+          record.avgSeniorPoint.toFixed(1),
+          record.avgPeerPoint.toFixed(1),
+          record.avgSubordinatePoint.toFixed(1),
+          sumAvg3Level.toFixed(1),
         ]);
 
         statisticSelf4.push(record.selfPoint.toFixed(1));
@@ -1719,10 +1727,10 @@ export class FormService {
           meta_index_5[index5],
           record.title,
           record.selfPoint,
-          record.avgSeniorPoint,
-          record.avgPeerPoint,
-          record.avgSubordinatePoint,
-          sumAvg3Level,
+          record.avgSeniorPoint.toFixed(1),
+          record.avgPeerPoint.toFixed(1),
+          record.avgSubordinatePoint.toFixed(1),
+          sumAvg3Level.toFixed(1),
         ]);
 
         statisticSelf5.push(record.selfPoint.toFixed(1));

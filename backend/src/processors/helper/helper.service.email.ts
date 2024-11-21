@@ -100,7 +100,7 @@ export class EmailService {
         rejected: info.rejected,
         messageId: info.messageId,
         response: info.response,
-        envelope: info.envelope,
+        // envelope: info.envelope,
         time: moment().format("DD-MM-YYYY HH:mm:ss"),
       };
       return logData;
@@ -114,7 +114,7 @@ export class EmailService {
         rejected: [],
         messageId: "",
         response: error.response,
-        envelope: {},
+        // envelope: {},
         time: moment().format("DD-MM-YYYY HH:mm:ss"),
       };
       return logData;

@@ -62,8 +62,8 @@ export class ListEmailDTO {
   @IsNotEmpty()
   form: import("mongoose").Types.ObjectId;
 
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty({ message: "Vui lòng nhập e-mail cần gửi biểu mẫu." })
   listEmailAddress: string;
 
   @IsNumber()
