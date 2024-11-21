@@ -161,7 +161,7 @@ export class FormService {
         time: result.time,
       };
 
-      logDatas.unshift(logData);
+      logDatas.push(logData);
     }
 
     await this.formModel
