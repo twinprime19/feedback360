@@ -152,8 +152,6 @@ export class FormService {
         html,
       });
 
-      console.log("result", result);
-
       let logData = {
         link: url,
         emailAddress: to,
@@ -375,6 +373,24 @@ export class FormService {
     let userFeedbacks = await this.feedbackModel.find({
       form: formID,
     });
+
+    let countSeniorFeedback = userFeedbacks.filter(
+      (ele) => ele.relationship === RelationshipState.SENIOR
+    ).length;
+    let countPeerFeedback = userFeedbacks.filter(
+      (ele) => ele.relationship === RelationshipState.PEER
+    ).length;
+    let countSubordinateFeedback = userFeedbacks.filter(
+      (ele) => ele.relationship === RelationshipState.SUBORDINATE
+    ).length;
+
+    let bodyData: any = [];
+    let dataCounter = [
+      countSeniorFeedback,
+      countPeerFeedback,
+      countSubordinateFeedback,
+    ];
+    bodyData.push(dataCounter);
 
     // câu hỏi chấm điểm
     let statisticReviewQuestions: any = [];
@@ -725,6 +741,32 @@ export class FormService {
       ],
     ];
 
+    const headRows = [
+      [
+        {
+          content: "Cấp trên",
+          styles: {
+            halign: "center",
+            valign: "middle",
+          },
+        },
+        {
+          content: "Ngang cấp",
+          styles: {
+            halign: "center",
+            valign: "middle",
+          },
+        },
+        {
+          content: "Cấp dưới",
+          styles: {
+            halign: "center",
+            valign: "middle",
+          },
+        },
+      ],
+    ];
+
     const headRows1 = [
       [
         {
@@ -897,6 +939,32 @@ export class FormService {
           colSpan: 1,
           rowSpan: 1,
         },
+        {
+          content: "Cấp trên",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Ngang cấp",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "Cấp dưới",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+        {
+          content: "TB 03 cấp phản hồi",
+          colSpan: 1,
+          rowSpan: 1,
+        },
+      ],
+    ];
+
+    const headRows6 = [
+      [{ content: "Điểm số trung bình", colSpan: 4, rowSpan: 1 }],
+      [
         {
           content: "Cấp trên",
           colSpan: 1,
@@ -1849,6 +1917,45 @@ export class FormService {
       bodyTable5.push(row);
     }
 
+    // 6. Thống kê mức độ hứng khởi
+    let muc_do_hung_khoi_ids = ["66eaeff9da1266f7b50521d1"];
+
+    let statisticSenior6: any = [];
+    let statisticPeer6: any = [];
+    let statisticSubordinate6: any = [];
+    let bodyData6: any = [];
+
+    for (let record of statisticReviewQuestions) {
+      let checkQ = muc_do_hung_khoi_ids.find((item) => item === record.id);
+      if (checkQ) {
+        let countAvg6Level = 0;
+        if (record.avgSeniorPoint > 0) countAvg6Level += 1;
+        if (record.avgPeerPoint > 0) countAvg6Level += 1;
+        if (record.avgSubordinatePoint > 0) countAvg6Level += 1;
+        let sumAvg6Level =
+          countAvg6Level > 0
+            ? Math.round(
+                ((record.avgSeniorPoint +
+                  record.avgPeerPoint +
+                  record.avgSubordinatePoint) /
+                  countAvg6Level) *
+                  10
+              ) / 10
+            : 0;
+
+        bodyData6.push([
+          record.avgSeniorPoint.toFixed(1),
+          record.avgPeerPoint.toFixed(1),
+          record.avgSubordinatePoint.toFixed(1),
+          sumAvg6Level.toFixed(1),
+        ]);
+
+        statisticSenior6.push(record.avgSeniorPoint.toFixed(1));
+        statisticPeer6.push(record.avgPeerPoint.toFixed(1));
+        statisticSubordinate6.push(record.avgSubordinatePoint.toFixed(1));
+      }
+    }
+
     // tạo biểu đồ
     const [imageUrl1, imageUrl2, imageUrl3, imageUrl4, imageUrl5] =
       await Promise.all([
@@ -1900,10 +2007,6 @@ export class FormService {
     const pageHeight = doc.internal.pageSize.getHeight();
     const maxWidth = pageWidth - 20 - 15; // chiều rộng tối đa chứa 1 dòng text trên trang a4
     const maxHeight = pageHeight - 20 - 15; // chiều cao tối đa chứa 1 dòng text trên trang a4
-    console.log("pageWidth", pageWidth);
-    console.log("pageHeight", pageHeight);
-    console.log("maxWidth", maxWidth);
-    console.log("maxHeight", maxHeight);
 
     // add the font to jsPDF
     doc.addFileToVFS("Roboto.ttf", FontCustomRobotoNormal);
@@ -2092,21 +2195,75 @@ export class FormService {
     doc.setFontSize(12);
     let currentY = 5;
 
-    doc.text("IV. PHÂN TÍCH TỔNG QUÁT KẾT QUẢ PHẢN HỒI", 15, currentY);
+    doc.text("D. PHÂN TÍCH TỔNG QUÁT KẾT QUẢ PHẢN HỒI", 15, currentY);
     doc.setTextColor(0, 0, 0);
     currentY = currentY + 5;
 
     doc.setFontSize(12);
     doc.setFont("Roboto", "bold");
     doc.setTextColor(45, 67, 50);
-    doc.text("1. Biểu đồ tổng quát", 15, currentY);
+    doc.text("Số lượng người phản hồi", 15, currentY);
     doc.setTextColor(0, 0, 0);
     doc.setFont("Roboto", "normal");
     currentY = currentY + 2;
 
+    // bảng thống kê số người phản hồi
+    (doc as any).autoTable({
+      head: headRows,
+      body: bodyData,
+      startY: currentY,
+      tableWidth: maxWidth * 0.5, // Chiều rộng bảng là 50% trang
+      // margin: { bottom: 5 }, // Điều chỉnh lề cho bảng
+      styles: {
+        fontSize: 10,
+        font: "Roboto", // Use the custom font for the table
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+      },
+      headStyles: {
+        fillColor: [0, 123, 76], // Màu nền tiêu đề
+        textColor: [255, 255, 255], // Set header text color
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      bodyStyles: {
+        fillColor: [255, 255, 255], // Loại bỏ màu nền cho tất cả các ô
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      columnStyles: {
+        0: { halign: "center" },
+        1: { halign: "center" },
+        2: { halign: "center" },
+      },
+      // Hàm để thay đổi màu nền cho từng hàng
+      didParseCell: function (data) {
+        if (data.section === "body") {
+          // Áp dụng màu nền cho từng hàng
+          data.cell.styles.fillColor = [255, 255, 255];
+        }
+      },
+      didDrawPage: (data) => {
+        currentY = data.cursor.y; // Lưu tọa độ Y của bảng sau khi vẽ
+      },
+    });
+
     const imageResponse1 = await axios.get(imageUrl1, {
       responseType: "arraybuffer",
     });
+
+    currentY = currentY + 6;
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    doc.setTextColor(45, 67, 50);
+    doc.text("1. Biểu đồ tổng quát", 15, currentY);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("Roboto", "normal");
 
     //const imagePath1 = path.join(directory, chartName);
     // fs.writeFileSync(imagePath1, imageResponse1.data);
@@ -2124,14 +2281,14 @@ export class FormService {
       x: 40,
       y: currentY,
       width: 200,
-      height: 95,
+      height: 85,
       compression: "MEDIUM",
     });
 
     //doc.addPage("a4", "l");
     doc.setFontSize(12);
     doc.setFont("Roboto", "normal");
-    currentY = 110;
+    currentY = 120;
 
     // bảng 1
     (doc as any).autoTable({
@@ -2663,7 +2820,72 @@ export class FormService {
       currentY = currentY + lengthRow * 5;
       currentY = this.checkCoordinatesY(doc, currentY, currentY + 5, maxHeight);
     }
-    currentY -= 5;
+
+    if (currentY + 30 > maxHeight) {
+      doc.addPage("a4", "l");
+      doc.setFontSize(12);
+      currentY = 15;
+    }
+
+    doc.setFontSize(12);
+    doc.setFont("Roboto", "bold");
+    currentY = currentY + 5;
+    doc.setTextColor(45, 67, 50);
+    doc.text(
+      "4. Mức độ hứng khởi của anh/ chị khi làm việc với NĐPH",
+      15,
+      currentY
+    );
+    doc.setTextColor(0, 0, 0);
+    doc.setFont("Roboto", "normal");
+    currentY = currentY + 2;
+
+    // bảng 6
+    (doc as any).autoTable({
+      head: headRows6,
+      body: bodyData6,
+      startY: currentY,
+      tableWidth: maxWidth * 0.5, // Chiều rộng bảng là 50% trang
+      // margin: { bottom: 5 }, // Điều chỉnh lề cho bảng
+      styles: {
+        fontSize: 10,
+        font: "Roboto", // Use the custom font for the table
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+      },
+      headStyles: {
+        fillColor: [0, 123, 76], // Màu nền tiêu đề
+        textColor: [255, 255, 255], // Set header text color
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      bodyStyles: {
+        fillColor: [255, 255, 255], // Loại bỏ màu nền cho tất cả các ô
+        textColor: [0, 0, 0], // Set header text color
+        lineWidth: 0.1, // Độ dày của viền
+        lineColor: [0, 0, 0], // Màu sắc viền (đen)
+        halign: "center", // Center-align table text
+        valign: "middle", // Middle-align table text
+      },
+      columnStyles: {
+        0: { halign: "center" },
+        1: { halign: "center" },
+        2: { halign: "center" },
+        3: { halign: "center" },
+      },
+      // Hàm để thay đổi màu nền cho từng hàng
+      didParseCell: function (data) {
+        if (data.section === "body") {
+          // Áp dụng màu nền cho từng hàng
+          data.cell.styles.fillColor = [255, 255, 255];
+        }
+      },
+      didDrawPage: (data) => {
+        currentY = data.cursor.y; // Lưu tọa độ Y của bảng sau khi vẽ
+      },
+    });
 
     // Lưu PDF vào buffer
     let filename =
