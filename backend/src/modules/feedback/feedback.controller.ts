@@ -12,6 +12,7 @@ import {
   Param,
   Post,
   Body,
+  Delete,
 } from "@nestjs/common";
 import { PermissionPipe } from "@app/pipes/permission.pipe";
 import { ExposePipe } from "@app/pipes/expose.pipe";
@@ -23,7 +24,11 @@ import {
 } from "@app/utils/paginate";
 import { AdminOnlyGuard } from "@app/guards/admin-only.guard";
 import { MongooseDoc } from "@app/interfaces/mongoose.interface";
-import { FeedbackDTO, FeedbackPaginateQueryDTO } from "./feedback.dto";
+import {
+  FeedbackDTO,
+  FeedbackPaginateQueryDTO,
+  FeedbacksDTO,
+} from "./feedback.dto";
 import { FeedbackService } from "./feedback.service";
 import { Feedback } from "./feedback.model";
 import { PoliciesGuard } from "@app/guards/policies.guard";
@@ -34,7 +39,7 @@ export class FeedbackController {
   constructor(private readonly feedbackService: FeedbackService) {}
 
   // get list feedbacks
-  @Get("/getAll")
+  @Get("/list-pagination")
   @UseGuards(AdminOnlyGuard, PoliciesGuard)
   @Responser.paginate()
   @Responser.handle("Get feedbacks")
@@ -42,7 +47,7 @@ export class FeedbackController {
     @Req() req: any,
     @Query(PermissionPipe, ExposePipe) query: FeedbackPaginateQueryDTO
   ): Promise<PaginateResult<Feedback>> {
-    let { page, page_size, field, order, status, ...filters } = query;
+    let { page, page_size, field, order, status, form, ...filters } = query;
     console.log("QUERYDATA", query);
     //let user = await this.userService.findByUserName(req.user.userName);
 
@@ -51,13 +56,12 @@ export class FeedbackController {
     if (filters.keyword) {
       const trimmed = lodash.trim(filters.keyword);
       const keywordRegExp = new RegExp(trimmed, "i");
-      paginateQuery.$or = [
-        { title: keywordRegExp },
-        { description: keywordRegExp },
-      ];
+      paginateQuery.$or = [{ assessor: keywordRegExp }];
     }
     //filter feedback have deletedBy = null
     paginateQuery.deletedBy = null;
+    //filter feedback have form = form id
+    paginateQuery.form = form;
     // status
     if (!lodash.isUndefined(status)) {
       const queryState = status.split(",");
@@ -96,5 +100,24 @@ export class FeedbackController {
     @Body() feedback: FeedbackDTO
   ): Promise<Feedback> {
     return this.feedbackService.create(feedback, req.user);
+  }
+
+  // delete one feedback
+  @Delete("/delete/:id")
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  @Responser.handle("Delete feedback")
+  delFeedback(
+    @Req() req: any,
+    @Param("id") feedbackID: string
+  ): Promise<MongooseDoc<Feedback>> {
+    return this.feedbackService.delete(feedbackID, req.user);
+  }
+
+  // delete many feedbacks
+  @Delete("/delete")
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  @Responser.handle("Delete feedbacks")
+  delFeedbacks(@Req() req: any, @Body() body: FeedbacksDTO) {
+    return this.feedbackService.batchDelete(body.feedbackIds, req.user);
   }
 }

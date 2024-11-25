@@ -5,7 +5,11 @@
 
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@app/transformers/model.transformer";
-import { MongooseDoc, MongooseModel } from "@app/interfaces/mongoose.interface";
+import {
+  MongooseDoc,
+  MongooseID,
+  MongooseModel,
+} from "@app/interfaces/mongoose.interface";
 import { UserService } from "../user/user.service";
 import {
   PaginateOptions,
@@ -49,6 +53,7 @@ export class FeedbackService {
   ): Promise<PaginateResult<Feedback>> {
     return await this.feedbackModel.paginate(query, {
       ...options,
+      select: ["_id relationship_id time relationship"],
       lean: true,
     });
   }
@@ -274,5 +279,34 @@ export class FeedbackService {
           Promise.reject(`Phản hồi có ID "${feedbackID}" không được tìm thấy.`)
       );
     return feedback;
+  }
+
+  // delete feedback
+  public async delete(
+    feedbackID: MongooseID,
+    user: AuthPayload
+  ): Promise<MongooseDoc<Feedback>> {
+    await this.userService.findByUserName(user.userName);
+
+    const feedback = await this.feedbackModel
+      .findByIdAndRemove(feedbackID)
+      .exec();
+    if (!feedback) throw `Phản hồi có ID "${feedbackID}" không được tìm thấy.`;
+
+    return feedback;
+  }
+
+  // delete feedbacks
+  public async batchDelete(feedbackIDs: MongooseID[], user: AuthPayload) {
+    await this.userService.findByUserName(user.userName);
+
+    const feedbacks = await this.feedbackModel
+      .find({ _id: { $in: feedbackIDs } })
+      .exec();
+    if (!feedbacks) throw `Phản hồi không được tìm thấy.`;
+
+    return await this.feedbackModel
+      .deleteMany({ _id: { $in: feedbackIDs } })
+      .exec();
   }
 }

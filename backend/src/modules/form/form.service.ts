@@ -39,6 +39,8 @@ import { ChartService } from "../chart/chart.service";
 
 @Injectable()
 export class FormService {
+  private pageBreak = false;
+
   constructor(
     @InjectModel(Form)
     private readonly formModel: MongooseModel<Form>,
@@ -2905,10 +2907,16 @@ export class FormService {
     newCurrentY: number,
     maxHeight: number
   ) => {
+    if (currentY === 20 && this.pageBreak === true) {
+      currentY = currentY + 5;
+      this.pageBreak = false;
+    }
+
     if (newCurrentY > maxHeight) {
       doc.addPage("a4", "l");
       doc.setFontSize(12);
       currentY = 20;
+      this.pageBreak = true;
     }
 
     return currentY;

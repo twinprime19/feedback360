@@ -12,18 +12,22 @@ import {
   IsNotEmpty,
   IsOptional,
   IsIn,
-  IsNumber,
 } from "class-validator";
 import { Transform } from "class-transformer";
 import { SortType } from "@app/constants/biz.constant";
 import { PaginateOptionDTO } from "@app/models/paginate.model";
-import { KeywordQueryDTO, StatusQueryDTO } from "@app/models/query.model";
+import {
+  FormQueryDTO,
+  KeywordQueryDTO,
+  StatusQueryDTO,
+} from "@app/models/query.model";
 import { unknownToNumber } from "@app/transformers/value.transformer";
 
 export class FeedbackPaginateQueryDTO extends IntersectionType(
   PaginateOptionDTO,
   KeywordQueryDTO,
-  StatusQueryDTO
+  StatusQueryDTO,
+  FormQueryDTO
 ) {
   @IsString()
   field?: string = "createdAt";

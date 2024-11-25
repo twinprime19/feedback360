@@ -69,3 +69,7 @@ export class TypeQueryDTO {
 export class UserQueryDTO {
   user?: string;
 }
+
+export class FormQueryDTO {
+  form?: string;
+}

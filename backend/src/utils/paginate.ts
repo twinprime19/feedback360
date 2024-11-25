@@ -24,6 +24,7 @@ export interface PaginateOptions {
   /** original options */
   projection?: string | object | null
   /** mongoose queryOptions */
+  select?: QueryOptions['select']
   sort?: QueryOptions['sort']
   lean?: QueryOptions['lean']
   populate?: QueryOptions['populate']
