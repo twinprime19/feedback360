@@ -13,7 +13,7 @@ const ROOT_PATH = path.join(__dirname, "..");
 const packageJSON = require(path.resolve(ROOT_PATH, "package.json"));
 
 export const APP = {
-  PORT: 1353,
+  PORT: Number(process.env.PORT) || 1353,
   ROOT_PATH,
   DEFAULT_CACHE_TTL: 60 * 60 * 24,
   MASTER: "Tiến Phước",
@@ -22,7 +22,7 @@ export const APP = {
   ADMIN_EMAIL: argv.admin_email || "admin@example.com",
   FE_NAME: "TP Pro_360o",
   FE_URL: process.env.FE_URL || "https://feedback360.tienphuoc.com",
-  STATIC_URL: process.env.STATIC_URL || "https://feedback360.tienphuoc.com",
+  STATIC_URL: process.env.FE_URL || "https://feedback360.tienphuoc.com",
   SIGNATURE: "Tiến Phước",
 };
 

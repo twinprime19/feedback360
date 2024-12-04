@@ -16,7 +16,6 @@ import { isDevEnv } from '@app/app.environment'
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
-    console.log("exception", exception)
     const request = host.switchToHttp().getRequest()
     const response = host.switchToHttp().getResponse()
     const exceptionStatus = exception.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR

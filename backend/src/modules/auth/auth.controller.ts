@@ -37,7 +37,6 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get("auth-token")
   getProfile(@Request() req) {
-    console.log("first", req.user)
     let userID = req.user.id;
     return this.userService.authToken(userID);
   }

@@ -112,7 +112,6 @@ export class UserController {
     @Res({ passthrough: true }) res: Response
   ): Promise<StreamableFile> {
     const { page, page_size, field, order, status, ...filters } = query;
-    console.log("QUERYDATA", query);
 
     const paginateQuery: PaginateQuery<User> = {};
     // search

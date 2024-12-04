@@ -48,8 +48,6 @@ export class FeedbackController {
     @Query(PermissionPipe, ExposePipe) query: FeedbackPaginateQueryDTO
   ): Promise<PaginateResult<Feedback>> {
     let { page, page_size, field, order, status, form, ...filters } = query;
-    console.log("QUERYDATA", query);
-    //let user = await this.userService.findByUserName(req.user.userName);
 
     const paginateQuery: PaginateQuery<Feedback> = {};
     // search

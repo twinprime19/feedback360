@@ -30,6 +30,5 @@ export class PermissionSeed {
       manyPermission.push(createPermissionDto);
     }
     const permission = await this.permissionService.insertMany(manyPermission);
-    console.log("permission", permission);
   }
 }

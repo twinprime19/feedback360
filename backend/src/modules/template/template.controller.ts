@@ -45,7 +45,6 @@ export class TemplateController {
     @Query(PermissionPipe, ExposePipe) query: TemplatePaginateQueryDTO
   ): Promise<PaginateResult<Template>> {
     let { page, page_size, field, order, status, ...filters } = query;
-    console.log("QUERYDATA", query);
 
     const paginateQuery: PaginateQuery<Template> = {};
     // search

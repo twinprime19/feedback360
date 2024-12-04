@@ -49,7 +49,6 @@ export class QuestionController {
     @Query(PermissionPipe, ExposePipe) query: QuestionPaginateQueryDTO
   ): Promise<PaginateResult<Question>> {
     let { page, page_size, field, order, status, type, ...filters } = query;
-    console.log("QUERYDATA", query);
 
     const paginateQuery: PaginateQuery<Question> = {};
     // search

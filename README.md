@@ -1,3 +1,4 @@
 # Tool Feedback API
 
-NestJS/MongoDB
+BE: NestJS/MongoDB
+FE: ReactJS

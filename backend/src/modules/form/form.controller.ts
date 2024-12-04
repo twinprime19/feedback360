@@ -45,7 +45,6 @@ export class FormController {
     @Query(PermissionPipe, ExposePipe) query: FormPaginateQueryDTO
   ): Promise<PaginateResult<Form>> {
     let { page, page_size, field, order, status, user, ...filters } = query;
-    console.log("QUERYDATA", query);
 
     const paginateQuery: PaginateQuery<Form> = {};
     // search

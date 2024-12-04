@@ -55,7 +55,6 @@ export class PoliciesGuard implements CanActivate {
     permissionAgainst: RoutePayloadInterface
   ) {
     const { path, method } = permissionAgainst;
-    console.log("---->user", user);
     if (typeof user === "undefined") {
       throw new HttpUnauthorizedError();
     }
@@ -77,7 +76,6 @@ export class PoliciesGuard implements CanActivate {
               // loop through all actions
               for (const action of actions) {
                 const hasAction = MapMethodsActions[action];
-                console.log("-----> actions: ", hasAction);
                 // check if the action is allowed
                 if (hasAction.includes(method)) {
                   return true;
