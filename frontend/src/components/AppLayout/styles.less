@@ -1,0 +1,31 @@
+.userDisplayName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+  color: white;
+}
+
+.ant-menu-title-content {
+  font-size: 1rem;
+  top: -7px !important;
+}
+
+@media screen and (width < 576px) {
+  .userDisplayName {
+    display: none;
+  }
+}
+
+.customOkButton {
+  background-color: #007476 !important;
+}
+
+.customOkButton:hover,
+.customCancelButton:hover {
+  border-color: #007476 !important;
+}
+
+.ant-menu-item-selected {
+  background-color: unset !important;
+}

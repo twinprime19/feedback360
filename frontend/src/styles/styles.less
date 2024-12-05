@@ -1,0 +1,40 @@
+#root,
+#root > div {
+  min-height: 100vh;
+}
+
+* {
+  font-family: Arial, sans-serif !important;
+}
+
+.tooltipWrapper,
+.generalTooltipWrapper {
+  background-color: #f1f1f1 !important;
+  color: #777;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.generalTooltipWrapper {
+  font-size: 12px;
+}
+
+.tooltipWrapper span {
+  display: block;
+  margin-bottom: 4px !important;
+}
+
+.tooltipWrapper li {
+  margin-bottom: 4px !important;
+  margin-left: 4px !important;
+}
+
+.tooltipWrapper li:nth-child(odd)::marker {
+  color: #1890ff !important;
+}
+
+.tooltipWrapper li:nth-child(even)::marker {
+  color: #d9d9d9 !important;
+}
