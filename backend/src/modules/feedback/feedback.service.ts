@@ -77,6 +77,9 @@ export class FeedbackService {
     let formInfo = await this.formModel.findById(feedbackDTO.form);
     if (!formInfo) throw `Không tìm thấy form.`;
 
+    if (formInfo.status !== PublishState.Published)
+      throw `Biểu mẫu đã ngừng nhận phản hồi.`;
+
     let formRelationshipInfo = await this.formRelationshipModel.findById(
       feedbackDTO.relationship_id
     );

@@ -7,6 +7,7 @@ import { AutoIncrementID } from "@typegoose/auto-increment";
 import { prop, plugin, modelOptions, Ref } from "@typegoose/typegoose";
 import {
   IsArray,
+  IsDefined,
   IsIn,
   IsInt,
   IsNotEmpty,
@@ -18,13 +19,18 @@ import { getProviderByTypegooseClass } from "@app/transformers/model.transformer
 import { mongoosePaginate } from "@app/utils/paginate";
 import { User } from "../user/entities/user.entity";
 import { Template } from "../template/template.model";
-import { RelationshipState } from "@app/constants/biz.constant";
+import { PublishState, RelationshipState } from "@app/constants/biz.constant";
 
 export const RELATIONSHIP_STATES = [
   RelationshipState.SELF,
   RelationshipState.PEER,
   RelationshipState.SUBORDINATE,
   RelationshipState.SENIOR,
+] as const;
+
+export const FORM_STATUS_STATES = [
+  PublishState.Draft,
+  PublishState.Published,
 ] as const;
 
 @plugin(mongoosePaginate)
@@ -60,6 +66,12 @@ export class Form {
     index: true,
   })
   relationship: RelationshipState;
+
+  @IsIn(FORM_STATUS_STATES)
+  @IsInt()
+  @IsDefined()
+  @prop({ enum: PublishState, default: PublishState.Published, index: true })
+  status: PublishState;
 
   @IsString()
   @IsNotEmpty()

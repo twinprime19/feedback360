@@ -93,6 +93,7 @@ export class FormService {
       user: formDTO.user,
       time: time,
       templateEmail: templateEmail,
+      status: PublishState.Published,
       createdBy: userInfo._id,
     };
     return await this.formModel.create(dataDTO);

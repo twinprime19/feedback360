@@ -18,6 +18,7 @@ import {
 import * as APP_CONFIG from "@app/app.config";
 import {
   GenderState,
+  PublishState,
   UserState,
   UserStatus,
 } from "@app/constants/biz.constant";
@@ -163,6 +164,7 @@ export class UserService {
       user: userInfo._id,
       time: time,
       templateEmail: templateEmail,
+      status: PublishState.Published,
       createdBy: userInfo._id,
     };
     await this.formModel.create(dataDTO);
@@ -398,6 +400,7 @@ export class UserService {
           user: checkUserName._id,
           time: time,
           templateEmail: templateEmail,
+          status: PublishState.Published,
           createdBy: userInfo._id,
           deletedAt: null,
           deletedBy: null,
@@ -411,6 +414,7 @@ export class UserService {
           user: userObj._id,
           time: time,
           templateEmail: templateEmail,
+          status: PublishState.Published,
           createdBy: userInfo._id,
         };
         await this.formModel.create(dataDTO);
