@@ -13,6 +13,7 @@ import {
   Body,
   Res,
   UseGuards,
+  Patch,
 } from "@nestjs/common";
 import { FormService } from "./form.service";
 import { Responser } from "@app/decorators/responser.decorator";
@@ -120,6 +121,17 @@ export class FormController {
       body.relationship,
       req.user
     );
+  }
+
+  // update status form
+  @Patch("/edit/:id")
+  @UseGuards(AdminOnlyGuard, PoliciesGuard)
+  @Responser.handle("Update form status")
+  updateStatus(
+    @Req() req: any,
+    @Param("id") formID: string
+  ): Promise<MongooseDoc<Form>> {
+    return this.formService.updateStatus(formID, req.user);
   }
 
   // export result statistic of form

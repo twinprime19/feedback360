@@ -5,7 +5,11 @@
 
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@app/transformers/model.transformer";
-import { MongooseDoc, MongooseModel } from "@app/interfaces/mongoose.interface";
+import {
+  MongooseDoc,
+  MongooseID,
+  MongooseModel,
+} from "@app/interfaces/mongoose.interface";
 import { Form } from "./form.model";
 import { UserService } from "../user/user.service";
 import {
@@ -316,6 +320,25 @@ export class FormService {
     };
 
     return data;
+  }
+
+  // update field status
+  public async updateStatus(
+    formID: MongooseID,
+    user: AuthPayload
+  ): Promise<MongooseDoc<Form>> {
+    let formInfo = await this.formModel.findById(formID);
+    if (!formInfo) throw `Biểu mẫu không được tìm thấy.`;
+
+    let status = PublishState.Draft;
+    if (formInfo.status === PublishState.Published) status = PublishState.Draft;
+    else status = PublishState.Published;
+
+    await this.formModel
+      .findByIdAndUpdate(formID, { status: status }, { new: true })
+      .exec();
+
+    return await this.findOne(String(formID));
   }
 
   // get relationship của form
